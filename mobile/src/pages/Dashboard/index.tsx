@@ -1,10 +1,10 @@
 import React from "react"
 import {View, Text} from "react-native"
 
-export default function SignIn(){
+export default function Dashboard(){
     return(
         <View>
-            <Text>Tela de Login</Text>
+            <Text>Tela Dashboard</Text>
         </View>
     )
 }
