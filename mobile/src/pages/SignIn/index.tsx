@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import {
     View, 
     Text, 
@@ -8,7 +8,12 @@ import {
     TouchableOpacity 
 } from "react-native"
 
+import { AuthContext } from "../../contexts/AuthContext"
+
+
 export default function SignIn(){
+    const {signIn} = useContext(AuthContext)
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -17,7 +22,8 @@ export default function SignIn(){
             return
         }
 
-        console.log("email digitado" + email)
+        // colocar await na frente do signIn
+        signIn({ email, password})
     }
     return(
         <View style={styles.container}>
@@ -25,6 +31,8 @@ export default function SignIn(){
                 style={styles.logo}
                 source={require('../../assents/logo.png')}
             />
+
+            
 
             <View style={styles.inputContainer}>
                 <TextInput
