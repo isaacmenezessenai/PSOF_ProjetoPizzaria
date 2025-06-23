@@ -3,14 +3,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import SignIn from "../pages/SignIn";
 
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
-function AuthRoutes(){
-    return(
-        <Stack.Navigator>
-            <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}}/>
+function AuthRoutes() {
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }}/>
         </Stack.Navigator>
-    )
+    );
 }
 
-export default AuthRoutes;
+export default AuthRoutes
