@@ -54,7 +54,7 @@ RF02 - Login com e-mail e senha
 Descrição: Autenticar a conta que foi criada do usuário.
 Regras relacionadas: RN02, RN05
 
-RF03 - Listamento dos itens
+RF03 - Lista dos itens
 Descrição: Demonstrações das diversas opções de itens para ser selecionado pelo usuário.
 Regras relacionadas: RN06, RN07, RN08
 
@@ -74,7 +74,7 @@ RF07 - Detalhamento do pedido
 Descrição: Demonstração de todos os detalhes dos itens que possui no pedido do cliente.
 Regras relacionadas: RN11, RN10
 
-RF08 - Listamento do pedido
+RF08 - Lista do pedido
 Descrição: Visualização do pedido completo do cliente, com todos o itens selecionados por ele.
 Regras relacionadas: RN11, RN10
 
