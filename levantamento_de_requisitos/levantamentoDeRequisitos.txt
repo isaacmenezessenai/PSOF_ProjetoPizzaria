@@ -121,4 +121,7 @@ A interface deve apresentar ícones, cores e elementos visuais padronizados para
 RNF09 — Atualização Automática
 A lista de pedidos deve ser atualizada automaticamente para refletir alterações em tempo real.
 
+RNF10 - Comunicação efetiva
+Descrição: A comunicação entre os aplicativos cozinha - garçom deve ocorrer de forma rápida e efetiva através de API
+
 ---
