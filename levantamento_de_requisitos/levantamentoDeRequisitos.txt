@@ -1,3 +1,47 @@
+ENGENHARIA REVERSA PROJETO PIZZARIA
+
+REGRAS DE NEGÓGIO
+
+RN01 — Existência de Cliente
+Descrição: Para que qualquer operação seja realizada no sistema, é necessário existir um cliente.
+RN Relacionadas: -
+
+RN02 — Login de Garçom
+Descrição: O garçom precisa realizar login no aplicativo mobile para registrar e receber pedidos.
+RN Relacionadas: -
+
+RN03 — Registro de Pedido
+Descrição: O garçom registra o pedido informado pelo cliente no sistema.
+RN Relacionadas: RN01, RN02
+
+RN04 — Encerramento por Pagamento
+Descrição: O pedido só é encerrado no sistema após o cliente efetuar o pagamento.
+RN Relacionadas: RN01, RN03
+
+RN05 — Escolha de Itens
+Descrição: O cliente escolhe itens do cardápio para compor o pedido.
+RN Relacionadas: RN01, RN02, RN10
+
+RN06 — Login da Gerência
+Descrição: Apenas usuários com credenciais de gerente podem acessar funções administrativas.
+RN Relacionadas: -
+
+RN07 — Gerenciamento do Catálogo
+Descrição: Apenas a gerência pode criar, editar ou remover itens do cardápio.
+RN Relacionadas: RN06
+
+RN08 — Organização do Cardápio
+Descrição: Os itens do cardápio devem estar organizados em categorias para melhor usabilidade.
+RN Relacionadas: RN11
+
+RN09 — Informações Obrigatórias dos Itens
+Descrição: Cada item do cardápio deve ter, no mínimo, nome e descrição.
+RN Relacionadas: —
+
+RN10 — Vinculação de Pedido à Mesa
+Descrição: Todo pedido deve estar vinculado a uma mesa, que, por sua vez, deve estar associada a um cliente.
+RN Relacionadas: RN01, RN03
+
 Requisitos Funcionais
 RF01 - Criação da conta
 Descrição: Cadastrar conta com e-mail e senha do usuário
