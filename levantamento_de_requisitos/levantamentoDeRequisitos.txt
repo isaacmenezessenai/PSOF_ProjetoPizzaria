@@ -70,15 +70,9 @@ RF06 - Finalização do pedido
 Descrição: Criação do pedido com itens selecionados pelo usuário.
 Regras relacionadas: RN04, RN10, RN12
 
-<<<<<<< HEAD
-RF06 — Finalizar Pedido
-Descrição: Criar e salvar o pedido com os itens selecionados pelo cliente.
-Regras Relacionadas: RN04, RN10, RN12
-=======
 RF07 - Detalhamento do pedido
 Descrição: Demonstração de todos os detalhes dos itens que possui no pedido do cliente.
 Regras relacionadas: RN11, RN10
->>>>>>> 66429d76a32d4cfb258eab43d5c89dd516697271
 
 RF08 - Listamento do pedido
 Descrição: Visualização do pedido completo do cliente, com todos o itens selecionados por ele.
