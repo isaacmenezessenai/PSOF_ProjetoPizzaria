@@ -88,19 +88,19 @@ Requisitos Não Funcionais
 
 RNF01 — Segurança
 A senha do usuário deve ser armazenada de forma criptografada para garantir segurança dos dados.
-Regras Relacionadas: RN01
+Regras Relacionadas: RN01, RN02, RN06
 
 RNF02 — Dependência de Internet
 O sistema necessita de conexão com a internet para funcionar corretamente.
-Regras Relacionadas: RN02, RN05
+Regras Relacionadas: RN02, RN03, RN04, RN05
 
 RNF03 — Autenticação Obrigatória
 O acesso ao sistema só será liberado após autenticação via login bem-sucedida.
-Regras Relacionadas: RN06, RN07, RN08
+Regras Relacionadas: RN06, RN06
 
 RNF04 — Interface Responsiva
 A interface deve se adaptar a diferentes resoluções de tela, garantindo usabilidade em dispositivos variados.
-Regras Relacionadas: 
+Regras Relacionadas: RN08
 
 RNF05 — Compatibilidade de Navegadores
 O sistema deve ser compatível com os principais navegadores utilizados no mercado.
@@ -108,7 +108,7 @@ Regras Relacionadas:
 
 RNF06 — Gerenciamento de Mídias
 As imagens e mídias do cardápio serão gerenciadas por meio da plataforma Cloudinary.
-Regras Relacionadas: 
+Regras Relacionadas: RN07, RN09
 
 RNF07 — Navegação Intuitiva
 A navegação do sistema deve ser clara e organizada, facilitando o uso pelos usuários.
@@ -116,11 +116,11 @@ Regras Relacionadas:
 
 RNF08 — Consistência Visual
 A interface deve apresentar ícones, cores e elementos visuais padronizados para manter a consistência.
-Regras Relacionadas:
+Regras Relacionadas: RN09, RN08
 
 RNF09 — Atualização Automática
 A lista de pedidos deve ser atualizada automaticamente para refletir alterações em tempo real.
-Regras Relacionadas: 
+Regras Relacionadas: RN10
 
 RNF10 - Comunicação efetiva
 Descrição: A comunicação entre os aplicativos cozinha - garçom deve ocorrer de forma rápida e efetiva através de API
