@@ -118,11 +118,8 @@ RNF08 — Consistência Visual
 A interface deve apresentar ícones, cores e elementos visuais padronizados para manter a consistência.
 Regras Relacionadas: RN09, RN08
 
-RNF09 — Atualização Automática
-A lista de pedidos deve ser atualizada automaticamente para refletir alterações em tempo real.
-Regras Relacionadas: RF08 
 
-RNF10 - Comunicação efetiva
+RNF09 - Comunicação efetiva
 Descrição: A comunicação entre os aplicativos cozinha - garçom deve ocorrer de forma rápida e efetiva através de API
 Regras Relacionadas: -
 
