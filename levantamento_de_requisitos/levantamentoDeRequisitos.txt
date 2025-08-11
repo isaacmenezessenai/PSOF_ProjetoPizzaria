@@ -32,7 +32,7 @@ RN Relacionadas: RN06
 
 RN08 — Organização do Cardápio
 Descrição: Os itens do cardápio devem estar organizados em categorias para melhor usabilidade.
-RN Relacionadas: RN11
+RN Relacionadas: -
 
 RN09 — Informações Obrigatórias dos Itens
 Descrição: Cada item do cardápio deve ter, no mínimo, nome e descrição.
