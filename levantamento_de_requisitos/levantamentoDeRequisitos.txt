@@ -46,41 +46,41 @@ RN Relacionadas: RN01, RN03
 
 Requisitos Funcionais
 
-RF01 — Criação de Conta
-Descrição: Permitir cadastro de conta utilizando e-mail e senha do usuário.
-Regras Relacionadas: RN01
+RF01 - Criação da conta
+Descrição: Cadastrar conta com e-mail e senha do usuário para a criação de conta.
+Regras relacionadas: RN01
+ 
+RF02 - Login com e-mail e senha
+Descrição: Autenticar a conta que foi criada do usuário.
+Regras relacionadas: RN02, RN05
 
-RF02 — Login com E-mail e Senha
-Descrição: Autenticar usuário para acesso ao sistema utilizando e-mail e senha cadastrados.
-Regras Relacionadas: RN02, RN06
+RF03 - Listamento dos itens
+Descrição: Demonstrações das diversas opções de itens para ser selecionado pelo usuário.
+Regras relacionadas: RN06, RN07, RN08
 
-RF03 — Listar Itens do Cardápio
-Descrição: Exibir ao usuário a lista de itens disponíveis no cardápio.
-Regras Relacionadas: RN06, RN07, RN08, RN09
+RF04 - Adicionamento de itens 
+Descrição: Adicionar mais produtos mostrados na categoria do pedido de acordo com o usuário.
+Regras relacionadas: RN03, RN09
 
-RF04 — Adicionar Itens ao Pedido
-Descrição: Permitir ao usuário adicionar produtos ao pedido em andamento.
-Regras Relacionadas: RN03, RN09
+RF05 - Remoção de itens 
+Descrição: Exclusão de itens no pedido do cliente.
+Regras relacionadas: RN03, RN09
 
-RF05 — Remover Itens do Pedido
-Descrição: Permitir ao usuário excluir itens previamente adicionados ao pedido.
-Regras Relacionadas: RN03, RN09
+RF06 - Finalização do pedido
+Descrição: Criação do pedido com itens selecionados pelo usuário.
+Regras relacionadas: RN04, RN10, RN12
 
-RF06 — Finalizar Pedido
-Descrição: Criar e salvar o pedido com os itens selecionados pelo cliente.
-Regras Relacionadas: RN04. RN09
+RF07 - Detalhamento do pedido
+Descrição: Demonstração de todos os detalhes dos itens que possui no pedido do cliente.
+Regras relacionadas: RN11, RN10
 
-RF07 — Visualizar Detalhes do Pedido
-Descrição: Exibir todos os detalhes relacionados ao pedido realizado.
-Regras Relacionadas: RN10
+RF08 - Listamento do pedido
+Descrição: Visualização do pedido completo do cliente, com todos o itens selecionados por ele.
+Regras relacionadas: RN11, RN10
 
-RF08 — Listar Pedidos
-Descrição: Permitir a visualização dos pedidos completos realizados no sistema.
-Regras Relacionadas: RN10
-
-RF09 — Remover Pedido
-Descrição: Permitir exclusão completa de um pedido registrado.
-Regras Relacionadas: RN10
+RF09 - Remoção do pedido
+Descrição: Exclusão de todo o pedido feito pelo cliente.
+Regras relacionadas: RN11, RN10
 
 ---
 
