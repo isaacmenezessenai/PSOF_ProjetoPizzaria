@@ -1,6 +1,11 @@
+=======
 ENGENHARIA REVERSA PROJETO PIZZARIA
 
+<<<<<<< HEAD
 -REGRAS DE NEGÓCIO
+=======
+REGRAS DE NEGÓCIO
+>>>>>>> 3af47a303ff4ac5655f3bd2e929562dfe6099081
 
 RN01 — Existência de Cliente
 Descrição: Para que qualquer operação seja realizada no sistema, é necessário existir um cliente.
@@ -68,35 +73,32 @@ RN relacionadas:
 RF relacionados: 
 RNF relacionados: 
 
-RF06 - Remover itens 
+RF05 - Remover itens 
 Descrição: Excluir itens do pedido
 RN relacionadas: 
 RF relacionados: 
 RNF relacionados:
 
-RF07 - Finalizar pedido
-Descrição: Fazer pedido ao garçom
+RF06 - Finalizar pedido
+Descrição: Criar pedido com itens selecionados
+RN relacionadas: 
+RF relacionados: 
+RNF relacionados:
+
+RF07 - Detalhes do pedido
+Descrição: Mostrar todos os detalhes do pedido
 RN relacionadas: 
 RF relacionados: 
 RNF relacionados:
 
 RF08 - Listar pedido
-Descrição: Visualizar itens e detalhes do pedido
+Descrição: Visualização do pedido completo
 RN relacionadas: 
 RF relacionados: 
 RNF relacionados:
-
 
 RF09 - Remover pedido
-Descrição: Excluir pedido
+Descrição: Exclusão de todo o pedido 
 RN relacionadas: 
 RF relacionados: 
 RNF relacionados:
-
-REQUISITOS NÃO FUNCIONAIS
-
-RNF01 - A senha do usuário deve ser criptografada
-RNF02 - O site só funciona após o login ser efetuado
-RNF03 - Interface responsiva para diferentes dispositivos
-RNF04 - Compatibilidade com os navegadores mais usados
-RNF05 - 
