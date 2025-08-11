@@ -2,53 +2,45 @@ Engenharia Reversa - Projeto Pizzaria
 
 Regras de Negócio
 
-RN01 — Cadastro e Existência de Cliente
-Descrição: Para que qualquer operação seja realizada no sistema, deve existir um cliente cadastrado e ativo, vinculado a uma mesa.
-Regras Relacionadas: RN10
+RN01 — Existência de Cliente
+Descrição: Para que qualquer operação seja realizada no sistema, é necessário existir um cliente.
+RN Relacionadas: -
 
-RN02 — Login do Garçom
-Descrição: O garçom deve realizar login no aplicativo móvel para registrar e gerenciar pedidos.
-Regras Relacionadas: —
+RN02 — Login de Garçom
+Descrição: O garçom precisa realizar login no aplicativo mobile para registrar e receber pedidos.
+RN Relacionadas: -
 
-RN03 — Registro de Pedido pelo Garçom
-Descrição: O garçom registra os pedidos no sistema, selecionando os itens do cardápio conforme a escolha do cliente para a mesa correspondente.
-Regras Relacionadas: RN01, RN02, RN10
+RN03 — Registro de Pedido
+Descrição: O garçom registra o pedido informado pelo cliente no sistema.
+RN Relacionadas: RN01, RN02
 
 RN04 — Encerramento por Pagamento
-Descrição: O pedido só pode ser encerrado após confirmação do pagamento pelo cliente.
-Regras Relacionadas: RN01, RN03
+Descrição: O pedido só é encerrado no sistema após o cliente efetuar o pagamento.
+RN Relacionadas: RN01, RN03
 
-RN05 — Login da Gerência
-Descrição: Apenas usuários com credenciais de gerente têm acesso às funções administrativas.
-Regras Relacionadas: —
+RN05 — Escolha de Itens
+Descrição: O cliente escolhe itens do cardápio para compor o pedido.
+RN Relacionadas: RN01, RN02, RN10
 
-RN06 — Gerenciamento do Cardápio
-Descrição: Somente a gerência pode criar, editar ou remover itens do cardápio e categorias.
-Regras Relacionadas: RN05, RN07
+RN06 — Login da Gerência
+Descrição: Apenas usuários com credenciais de gerente podem acessar funções administrativas.
+RN Relacionadas: -
 
-RN07 — Organização do Cardápio em Categorias
-Descrição: Os itens do cardápio devem ser organizados em categorias para facilitar a navegação.
-Regras Relacionadas: —
+RN07 — Gerenciamento do Catálogo
+Descrição: Apenas a gerência pode criar, editar ou remover itens do cardápio.
+RN Relacionadas: RN06
 
-RN08 — Informações Obrigatórias dos Itens
-Descrição: Cada item do cardápio deve conter, no mínimo, nome e descrição detalhada.
-Regras Relacionadas: —
+RN08 — Organização do Cardápio
+Descrição: Os itens do cardápio devem estar organizados em categorias para melhor usabilidade.
+RN Relacionadas: -
 
-RN09 — Vinculação de Pedido à Mesa
-Descrição: Todo pedido deve estar vinculado a uma mesa, que por sua vez está associada a um cliente.
-Regras Relacionadas: RN01, RN03
+RN09 — Informações Obrigatórias dos Itens
+Descrição: Cada item do cardápio deve ter, no mínimo, nome e descrição.
+RN Relacionadas: -
 
-RN10 — Status do Pedido
-Descrição: Cada pedido deve possuir um status que indica sua situação atual, como “aberto”, “fechado”, “aguardando pagamento”, “pago” ou “cancelado”.
-Regras Relacionadas: —
-
-RN11 — Visualização dos Pedidos pela Gerência
-Descrição: A gerência deve poder visualizar todos os pedidos, com filtros por mesa e status.
-Regras Relacionadas: —
-
-RN12 — Múltiplos Pedidos por Mesa
-Descrição: É permitido abrir múltiplos pedidos para uma mesma mesa, desde que não estejam simultaneamente no status “fechado” ou “aguardando pagamento”.
-Regras Relacionadas: —
+RN10 — Vinculação de Pedido à Mesa
+Descrição: Todo pedido deve estar vinculado a uma mesa, que, por sua vez, deve estar associada a um cliente.
+RN Relacionadas: RN01, RN03
 
 ---
 
