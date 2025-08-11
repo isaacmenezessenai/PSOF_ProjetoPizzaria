@@ -68,7 +68,7 @@ Regras Relacionadas: RN03, RN09
 
 RF06 — Finalizar Pedido
 Descrição: Criar e salvar o pedido com os itens selecionados pelo cliente.
-Regras Relacionadas: RN04. RN10, RN12
+Regras Relacionadas: RN04, RN10, RN12
 
 RF07 — Visualizar Detalhes do Pedido
 Descrição: Exibir todos os detalhes relacionados ao pedido realizado.
