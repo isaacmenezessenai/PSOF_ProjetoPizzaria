@@ -99,3 +99,15 @@ Descrição: Exclusão de todo o pedido
 RN relacionadas: 
 RF relacionados: 
 RNF relacionados:
+
+REQUISITOS NÃO FUNCIONAIS
+
+RNF01 - A senha do usuário deve ser criptografada
+RNF02 - O site não funciona se não tiver o acesso a internet
+RNF03 - O site só funciona após a autenticação do login ser efetuado
+RNF04 - Interface responsiva para diferentes resoluções de tela
+RNF05 - Compatibilidade com os navegadores mais usados
+RNF06 - Gerenciamento das mídias do cardápio através do Cloudinary
+RNF07 - Navegação intuitiva, com menus claros e organizados
+RNF08 - Interface consistente, com ícones e cores padronizadas
+RNF09 - Lista de pedidos atualizada automaticamente
