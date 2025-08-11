@@ -1,6 +1,6 @@
 ENGENHARIA REVERSA PROJETO PIZZARIA
 
--Regras de Negócio
+REGRAS DE NEGÓCIO
 
 RN01 — Existência de Cliente
 Descrição: Para que qualquer operação seja realizada no sistema, é necessário existir um cliente.
