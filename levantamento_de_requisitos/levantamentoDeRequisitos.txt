@@ -96,7 +96,7 @@ Regras Relacionadas: RN02, RN03, RN04, RN05
 
 RNF03 — Autenticação Obrigatória
 O acesso ao sistema só será liberado após autenticação via login bem-sucedida.
-Regras Relacionadas: RN06, RN06
+Regras Relacionadas: RN06, RN07, RN08
 
 RNF04 — Interface Responsiva
 A interface deve se adaptar a diferentes resoluções de tela, garantindo usabilidade em dispositivos variados.
