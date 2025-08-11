@@ -1,6 +1,6 @@
 ENGENHARIA REVERSA PROJETO PIZZARIA
 
-REGRAS DE NEGÓGIO
+-Regras de Negócio
 
 RN01 — Existência de Cliente
 Descrição: Para que qualquer operação seja realizada no sistema, é necessário existir um cliente.
@@ -36,13 +36,14 @@ RN Relacionadas: RN11
 
 RN09 — Informações Obrigatórias dos Itens
 Descrição: Cada item do cardápio deve ter, no mínimo, nome e descrição.
-RN Relacionadas: —
+RN Relacionadas: -
 
 RN10 — Vinculação de Pedido à Mesa
 Descrição: Todo pedido deve estar vinculado a uma mesa, que, por sua vez, deve estar associada a um cliente.
 RN Relacionadas: RN01, RN03
 
-Requisitos Funcionais
+REQUISITOS FUNCIONAIS
+
 RF01 - Criação da conta
 Descrição: Cadastrar conta com e-mail e senha do usuário
 RN relacionadas: 
