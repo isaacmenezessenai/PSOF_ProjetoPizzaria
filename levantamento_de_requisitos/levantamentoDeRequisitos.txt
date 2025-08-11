@@ -52,11 +52,11 @@ Regras Relacionadas: RN01
 
 RF02 — Login com E-mail e Senha
 Descrição: Autenticar usuário para acesso ao sistema utilizando e-mail e senha cadastrados.
-Regras Relacionadas: RN02, RN05
+Regras Relacionadas: RN02, RN06
 
 RF03 — Listar Itens do Cardápio
 Descrição: Exibir ao usuário a lista de itens disponíveis no cardápio.
-Regras Relacionadas: RN06, RN07, RN08
+Regras Relacionadas: RN06, RN07, RN08, RN09
 
 RF04 — Adicionar Itens ao Pedido
 Descrição: Permitir ao usuário adicionar produtos ao pedido em andamento.
@@ -68,19 +68,19 @@ Regras Relacionadas: RN03, RN09
 
 RF06 — Finalizar Pedido
 Descrição: Criar e salvar o pedido com os itens selecionados pelo cliente.
-Regras Relacionadas: RN04. RN10, RN12
+Regras Relacionadas: RN04. RN09
 
 RF07 — Visualizar Detalhes do Pedido
 Descrição: Exibir todos os detalhes relacionados ao pedido realizado.
-Regras Relacionadas: RN11, RN10
+Regras Relacionadas: RN10
 
 RF08 — Listar Pedidos
 Descrição: Permitir a visualização dos pedidos completos realizados no sistema.
-Regras Relacionadas: RN11, RN10
+Regras Relacionadas: RN10
 
 RF09 — Remover Pedido
 Descrição: Permitir exclusão completa de um pedido registrado.
-Regras Relacionadas: RN11, RN10
+Regras Relacionadas: RN10
 
 ---
 
@@ -100,30 +100,30 @@ Regras Relacionadas: RN06, RN07, RN08
 
 RNF04 — Interface Responsiva
 A interface deve se adaptar a diferentes resoluções de tela, garantindo usabilidade em dispositivos variados.
-Regras Relacionadas: RN01
+Regras Relacionadas: 
 
 RNF05 — Compatibilidade de Navegadores
 O sistema deve ser compatível com os principais navegadores utilizados no mercado.
-Regras Relacionadas: RN01
+Regras Relacionadas: 
 
 RNF06 — Gerenciamento de Mídias
 As imagens e mídias do cardápio serão gerenciadas por meio da plataforma Cloudinary.
-Regras Relacionadas: RN01
+Regras Relacionadas: 
 
 RNF07 — Navegação Intuitiva
 A navegação do sistema deve ser clara e organizada, facilitando o uso pelos usuários.
-Regras Relacionadas: RN01
+Regras Relacionadas: 
 
 RNF08 — Consistência Visual
 A interface deve apresentar ícones, cores e elementos visuais padronizados para manter a consistência.
-Regras Relacionadas: RN01
+Regras Relacionadas:
 
 RNF09 — Atualização Automática
 A lista de pedidos deve ser atualizada automaticamente para refletir alterações em tempo real.
-Regras Relacionadas: RN01
+Regras Relacionadas: 
 
 RNF10 - Comunicação efetiva
 Descrição: A comunicação entre os aplicativos cozinha - garçom deve ocorrer de forma rápida e efetiva através de API
-Regras Relacionadas: RN01
+Regras Relacionadas: 
 
 ---
