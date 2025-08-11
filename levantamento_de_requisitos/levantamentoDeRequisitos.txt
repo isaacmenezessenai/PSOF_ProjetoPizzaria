@@ -1,3 +1,53 @@
+Requisitos Funcionais
+RF01 - Criação da conta
+Descrição: Cadastrar conta com e-mail e senha do usuário
+RN relacionadas: 
+RF relacionados: 
+RNF relacionados: 
+
+RF02 - Login com e-mail e senha
+Descrição: Autenticar conta que foi criada
+RN relacionadas: 
+RF relacionados: 
+RNF relacionados: 
+
+RF03 - Listar itens
+Descrição: Mostrar itens do cardápio ao usuário
+RN relacionadas: 
+RF relacionados: 
+RNF relacionados: 
+
+RF04 - Adicionar itens 
+Descrição: Adicionar mais produtos no pedido
+RN relacionadas: 
+RF relacionados: 
+RNF relacionados: 
+
+RF06 - Remover itens 
+Descrição: Excluir itens do pedido
+RN relacionadas: 
+RF relacionados: 
+RNF relacionados:
+
+RF07 - Finalizar pedido
+Descrição: Fazer pedido ao garçom
+RN relacionadas: 
+RF relacionados: 
+RNF relacionados:
+
+RF08 - Listar pedido
+Descrição: Visualizar itens e detalhes do pedido
+RN relacionadas: 
+RF relacionados: 
+RNF relacionados:
+
+
+RF09 - Remover pedido
+Descrição: Excluir pedido
+RN relacionadas: 
+RF relacionados: 
+RNF relacionados:
+
 REQUISITOS NÃO FUNCIONAIS
 
 RNF01 - A senha do usuário deve ser criptografada
