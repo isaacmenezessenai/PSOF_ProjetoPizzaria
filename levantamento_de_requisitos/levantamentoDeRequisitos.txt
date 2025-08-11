@@ -1,113 +1,116 @@
-=======
-ENGENHARIA REVERSA PROJETO PIZZARIA
-=======
+Engenharia Reversa - Projeto Pizzaria
 
-REGRAS DE NEGÓCIO
+Regras de Negócio
 
 RN01 — Existência de Cliente
-Descrição: Para que qualquer operação seja realizada no sistema, é necessário existir um cliente.
-RN Relacionadas: -
+Descrição: Para que qualquer operação seja realizada no sistema, deve existir um cliente cadastrado.
+Regras Relacionadas: —
 
-RN02 — Login de Garçom
-Descrição: O garçom precisa realizar login no aplicativo mobile para registrar e receber pedidos.
-RN Relacionadas: -
+RN02 — Login do Garçom
+Descrição: O garçom deve realizar login no aplicativo móvel para registrar e gerenciar pedidos.
+Regras Relacionadas: —
 
 RN03 — Registro de Pedido
 Descrição: O garçom registra o pedido informado pelo cliente no sistema.
-RN Relacionadas: RN01, RN02
+Regras Relacionadas: RN01, RN02
 
 RN04 — Encerramento por Pagamento
-Descrição: O pedido só é encerrado no sistema após o cliente efetuar o pagamento.
-RN Relacionadas: RN01, RN03
+Descrição: O pedido só pode ser encerrado no sistema após a confirmação do pagamento pelo cliente.
+Regras Relacionadas: RN01, RN03
 
 RN05 — Escolha de Itens
-Descrição: O cliente escolhe itens do cardápio para compor o pedido.
-RN Relacionadas: RN01, RN02, RN10
+Descrição: O cliente deve escolher itens do cardápio para compor seu pedido.
+Regras Relacionadas: RN01, RN02, RN10
 
 RN06 — Login da Gerência
-Descrição: Apenas usuários com credenciais de gerente podem acessar funções administrativas.
-RN Relacionadas: -
+Descrição: Apenas usuários com credenciais de gerente têm acesso às funções administrativas.
+Regras Relacionadas: —
 
-RN07 — Gerenciamento do Catálogo
-Descrição: Apenas a gerência pode criar, editar ou remover itens do cardápio.
-RN Relacionadas: RN06
+RN07 — Gerenciamento do Cardápio
+Descrição: Somente a gerência pode criar, editar ou remover itens do cardápio.
+Regras Relacionadas: RN06
 
 RN08 — Organização do Cardápio
-Descrição: Os itens do cardápio devem estar organizados em categorias para melhor usabilidade.
-RN Relacionadas: -
+Descrição: Os itens do cardápio devem ser organizados em categorias para facilitar a navegação.
+Regras Relacionadas: —
 
 RN09 — Informações Obrigatórias dos Itens
-Descrição: Cada item do cardápio deve ter, no mínimo, nome e descrição.
-RN Relacionadas: -
+Descrição: Cada item do cardápio deve conter, no mínimo, nome e descrição.
+Regras Relacionadas: —
 
 RN10 — Vinculação de Pedido à Mesa
-Descrição: Todo pedido deve estar vinculado a uma mesa, que, por sua vez, deve estar associada a um cliente.
-RN Relacionadas: RN01, RN03
+Descrição: Todo pedido deve estar vinculado a uma mesa, que deve estar associada a um cliente.
+Regras Relacionadas: RN01, RN03
 
-REQUISITOS FUNCIONAIS
+---
 
-RF01 - Criação da conta
-Descrição: Cadastrar conta com e-mail e senha do usuário
-RN relacionadas: 
-RF relacionados: 
-RNF relacionados: 
+Requisitos Funcionais
 
-RF02 - Login com e-mail e senha
-Descrição: Autenticar conta que foi criada
-RN relacionadas: 
-RF relacionados: 
-RNF relacionados: 
+RF01 — Criação de Conta
+Descrição: Permitir cadastro de conta utilizando e-mail e senha do usuário.
+Regras Relacionadas: —
 
-RF03 - Listar itens
-Descrição: Mostrar itens do cardápio ao usuário
-RN relacionadas: 
-RF relacionados: 
-RNF relacionados: 
+RF02 — Login com E-mail e Senha
+Descrição: Autenticar usuário para acesso ao sistema utilizando e-mail e senha cadastrados.
+Regras Relacionadas: —
 
-RF04 - Adicionar itens 
-Descrição: Adicionar mais produtos no pedido
-RN relacionadas: 
-RF relacionados: 
-RNF relacionados: 
+RF03 — Listar Itens do Cardápio
+Descrição: Exibir ao usuário a lista de itens disponíveis no cardápio.
+Regras Relacionadas: —
 
-RF05 - Remover itens 
-Descrição: Excluir itens do pedido
-RN relacionadas: 
-RF relacionados: 
-RNF relacionados:
+RF04 — Adicionar Itens ao Pedido
+Descrição: Permitir ao usuário adicionar produtos ao pedido em andamento.
+Regras Relacionadas: —
 
-RF06 - Finalizar pedido
-Descrição: Criar pedido com itens selecionados
-RN relacionadas: 
-RF relacionados: 
-RNF relacionados:
+RF05 — Remover Itens do Pedido
+Descrição: Permitir ao usuário excluir itens previamente adicionados ao pedido.
+Regras Relacionadas: —
 
-RF07 - Detalhes do pedido
-Descrição: Mostrar todos os detalhes do pedido
-RN relacionadas: 
-RF relacionados: 
-RNF relacionados:
+RF06 — Finalizar Pedido
+Descrição: Criar e salvar o pedido com os itens selecionados pelo cliente.
+Regras Relacionadas: —
 
-RF08 - Listar pedido
-Descrição: Visualização do pedido completo
-RN relacionadas: 
-RF relacionados: 
-RNF relacionados:
+RF07 — Visualizar Detalhes do Pedido
+Descrição: Exibir todos os detalhes relacionados ao pedido realizado.
+Regras Relacionadas: —
 
-RF09 - Remover pedido
-Descrição: Exclusão de todo o pedido 
-RN relacionadas: 
-RF relacionados: 
-RNF relacionados:
+RF08 — Listar Pedidos
+Descrição: Permitir a visualização dos pedidos completos realizados no sistema.
+Regras Relacionadas: —
 
-REQUISITOS NÃO FUNCIONAIS
+RF09 — Remover Pedido
+Descrição: Permitir exclusão completa de um pedido registrado.
+Regras Relacionadas: —
 
-RNF01 - A senha do usuário deve ser criptografada
-RNF02 - O site não funciona se não tiver o acesso a internet
-RNF03 - O site só funciona após a autenticação do login ser efetuado
-RNF04 - Interface responsiva para diferentes resoluções de tela
-RNF05 - Compatibilidade com os navegadores mais usados
-RNF06 - Gerenciamento das mídias do cardápio através do Cloudinary
-RNF07 - Navegação intuitiva, com menus claros e organizados
-RNF08 - Interface consistente, com ícones e cores padronizadas
-RNF09 - Lista de pedidos atualizada automaticamente
+---
+
+Requisitos Não Funcionais
+
+RNF01 — Segurança
+A senha do usuário deve ser armazenada de forma criptografada para garantir segurança dos dados.
+
+RNF02 — Dependência de Internet
+O sistema necessita de conexão com a internet para funcionar corretamente.
+
+RNF03 — Autenticação Obrigatória
+O acesso ao sistema só será liberado após autenticação via login bem-sucedida.
+
+RNF04 — Interface Responsiva
+A interface deve se adaptar a diferentes resoluções de tela, garantindo usabilidade em dispositivos variados.
+
+RNF05 — Compatibilidade de Navegadores
+O sistema deve ser compatível com os principais navegadores utilizados no mercado.
+
+RNF06 — Gerenciamento de Mídias
+As imagens e mídias do cardápio serão gerenciadas por meio da plataforma Cloudinary.
+
+RNF07 — Navegação Intuitiva
+A navegação do sistema deve ser clara e organizada, facilitando o uso pelos usuários.
+
+RNF08 — Consistência Visual
+A interface deve apresentar ícones, cores e elementos visuais padronizados para manter a consistência.
+
+RNF09 — Atualização Automática
+A lista de pedidos deve ser atualizada automaticamente para refletir alterações em tempo real.
+
+---
