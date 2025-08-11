@@ -1,0 +1,7 @@
+REQUISITOS NÃO FUNCIONAIS
+
+RNF01 - A senha do usuário deve ser criptografada
+RNF02 - O site só funciona após o login ser efetuado
+RNF03 - Interface responsiva para diferentes dispositivos
+RNF04 - Compatibilidade com os navegadores mais usados
+RNF05 - 
