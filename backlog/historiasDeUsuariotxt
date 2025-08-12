@@ -25,7 +25,7 @@ Cadastro / Login - Alta Prioridade
 Como cliente, quero me cadastrar e fazer login no aplicativo para salvar minhas preferências e histórico de pedidos e dados de pagamento para facilitar meus outros pedidos.
 
 Login com o Google - Média Prioridade
-Como cliente, quero fazer login usando minha conta Google para agilizar o acesso ao aplicativo.
+Como cliente, quero fazer login usando minha conta Google para que o processo de autenticação se torne mais rápido e sem atritos.
 
 Favoritos - Baixa Prioridade
 Como cliente, quero salvar pedidos como favoritos para repeti-los de forma rápida no futuro.
@@ -40,7 +40,7 @@ Selecionar mesa via QR Code - Alta Prioridade
 Como cliente no restaurante, quero escanear o QR Code da mesa para que o pedido seja enviado diretamente para o local onde estou.
 
 Autenticação de Usuário - Alta Prioridade
-Como cliente, quero garantir que meu acesso ao aplicativo seja seguro, através de autenticação confiável, para proteger meus dados pessoais e pedidos.
+Como cliente, quero garantir que meu acesso ao aplicativo seja seguro, para que através de autenticação confiável, para proteger meus dados pessoais e pedidos, por meio de um código criptografado por email.
 
 Média de Tempo - Baixa Prioridade
 Como cliente e equipe do restaurante, queremos que o sistema informe uma média estimada do tempo para preparo e entrega dos pedidos, para melhor planejamento e satisfação do cliente.
@@ -48,8 +48,5 @@ Como cliente e equipe do restaurante, queremos que o sistema informe uma média 
 FAQ / Extra Info. - Baixa Prioridade
 Como cliente, quero ter acesso a informações adicionais e perguntas frequentes (FAQ) no aplicativo, para tirar dúvidas comuns e facilitar o uso do sistema sem precisar de atendimento.
 
-Perfil e Configurações do Usuário
-Como cliente, quero poder editar dados pessoais, preferências de notificações, método de pagamento etc.
-
-
-
+Perfil e Configurações do Usuário - Média Prioridade
+Como cliente, quero poder editar meus dados no aplicativo, para que o aplicativo tenha minhas informações atualizadas e preferidas, como, nome, preferências de notificações, métodos de pagamento etc.
