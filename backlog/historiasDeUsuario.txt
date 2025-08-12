@@ -1,60 +1,92 @@
 BACKLOG
 
 Pedidos Populares - Baixa Prioridade
-Como cliente, quero visualizar os pedidos mais populares para facilitar minha escolha.
+
+História de Usuário:
+Como cliente, quero saber quais são os pedidos mais vendidos como recomendação para o meu pedido.
 
 Cardápio - Alta Prioridade
+
+História de Usuário:
 Como cliente, quero acessar o cardápio digital para ver opções de pratos e bebidas.
 
 Integração de API de Pagamento – Média Prioridade
+
+História de Usuário:
 Como cliente, quero efetuar o pagamento diretamente pelo aplicativo, para agilizar o processo e evitar filas, garantindo também a segurança das minhas informações pessoais e financeiras por meio de um provedor confiável.
 
 Status do Pedido - Baixa Prioridade
-Como cliente, quero acompanhar o status do meu pedido para saber quando ele ficará pronto.
+
+História de Usuário:
+Como cliente, quero analisar o progresso do status do meu pedido em tempo real enquanto aguardo, para me manter informado de como está o andamento do pedido. 
 
 Retirada Programada por Localização - Baixa Prioridade
+
+História de Usuário:
 Como cliente, quero realizar o pedido e pagamento antecipadamente no aplicativo, e ser notificado para confirmar minha chegada na loja, para que o preparo comece apenas quando eu estiver próximo ou no local, garantindo que meu pedido esteja fresco e pronto no momento da retirada.
 
 Personalização do pedido - Média Prioridade
-Como cliente, quero personalizar meu pedido (ingredientes, tamanho, complementos) para que ele atenda às minhas preferências.
+
+História de Usuário:
+Como cliente, quero modificar ingredientes do meu pedido, por ser alérgico ou não gostar de algum, por exemplo.
 
 Criar pedido do zero - Média Prioridade
+
+História de Usuário:
 Como cliente, quero criar meu pedido manualmente para escolher exatamente o que desejo consumir, como ingredientes ou borda, além de poder salvar esse pedido para futuras visitas.
 
 Cadastro / Login - Alta Prioridade
-Como cliente, quero me cadastrar e fazer login no aplicativo para salvar minhas preferências e histórico de pedidos e dados de pagamento para facilitar meus outros pedidos.
+
+História de Usuário:
+Como um cliente não registrado, eu quero criar uma conta, para que eu possa salvar meus dados e histórico de pedidos para uso futuro.
+Como um cliente registrado, eu quero fazer login no sistema, para que eu possa finalizar meu pedido e acessar minhas informações de conta.
 
 Login com o Google - Média Prioridade
-Como cliente, quero fazer login usando minha conta Google para agilizar o acesso ao aplicativo.
+
+História de Usuário:
+Como cliente, quero fazer login usando minha conta Google para que o processo de autenticação se torne mais rápido e sem atritos.
 
 Favoritos - Baixa Prioridade
-Como cliente, quero salvar pedidos como favoritos para repeti-los de forma rápida no futuro.
+
+História de Usuário:
+Como cliente, quero favoritar itens do cardápio, para otimizar o tempo de realização do pedido. 
 
 Solicitar a Presença do garçom - Alta Prioridade
+
+História de Usuário:
 Como cliente no restaurante, quero solicitar a presença do garçom pelo aplicativo para receber atendimento na mesa.
 
 Carrinho - Alta Prioridade
-Como cliente, quero visualizar e editar meu carrinho de compras para confirmar meu pedido antes do pagamento.
+
+História de Usuário:
+Como um cliente, eu quero visualizar e gerenciar minha compra no carrinho, para que eu possa revisar os itens, ajustar as quantidades e saber o valor total antes de finalizar o pedido.
 
 Selecionar mesa via QR Code - Alta Prioridade
+
+História de Usuário:
 Como cliente no restaurante, quero escanear o QR Code da mesa para que o pedido seja enviado diretamente para o local onde estou.
 
 Autenticação de Usuário - Alta Prioridade
-Como cliente, quero garantir que meu acesso ao aplicativo seja seguro, através de autenticação confiável, para proteger meus dados pessoais e pedidos.
+
+História de Usuário:
+Como cliente, quero garantir que meu acesso ao aplicativo seja seguro, para que através de autenticação confiável, para proteger meus dados pessoais e pedidos, por meio de um código criptografado por email.
 
 Média de Tempo - Baixa Prioridade
-Como cliente e equipe do restaurante, queremos que o sistema informe uma média estimada do tempo para preparo e entrega dos pedidos, para melhor planejamento e satisfação do cliente.
+
+História de Usuário:
+Como cliente, quero que o sistema informe uma média estimada do tempo para preparo e entrega dos pedidos, antecipando a espera e diminuindo frustrações relacionadas ao tempo de preparo.
 
 FAQ / Perguntas Frequentes - Baixa Prioridade
-Como cliente, quero ter acesso a informações adicionais e perguntas frequentes (FAQ) no aplicativo, para tirar dúvidas comuns e facilitar o uso do sistema sem precisar de atendimento.
 
-Perfil e Configurações do Usuário - Baixa Prioridade
-Como cliente, quero poder editar dados pessoais, preferências de notificações, método de pagamento etc.
+História de Usuário:
+Como cliente, quero responder minhas dúvidas sem precisar contatar um suporte e precisar esperar pela resposta, por meio FAQ e uma seção de perguntas frequentes. 
 
-Histórico de Pedido - Alta Prioridade
-Como cliente, quero acessar um histórico com todos os meus pedidos anteriores no aplicativo, para consultar detalhes como forma de pagamento, valor total do pedido e entrega e ter um registro das minhas compras.
+Perfil e Configurações do Usuário
 
-Refazer Pedido - Baixa Prioridade
-Como cliente, quero poder refazer um pedido anterior com apenas um clique a partir do histórico, para repetir facilmente uma compra sem precisar selecionar todos os itens novamente.
+História de Usuário:
+Como cliente, quero poder editar meus dados no aplicativo, para que o aplicativo tenha minhas informações atualizadas e preferidas, como, nome, preferências de notificações, métodos de pagamento etc.
 
+Tipo de Pedido (Comer no local ou Levar)
 
+História de Usuário:
+Como um cliente, eu quero ter a opção de escolher se meu pedido é para comer na pizzaria ou levar a pizza, para que o restaurante prepare e embale meu pedido de acordo com minha preferência.
