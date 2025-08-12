@@ -45,11 +45,16 @@ Como cliente, quero garantir que meu acesso ao aplicativo seja seguro, através 
 Média de Tempo - Baixa Prioridade
 Como cliente e equipe do restaurante, queremos que o sistema informe uma média estimada do tempo para preparo e entrega dos pedidos, para melhor planejamento e satisfação do cliente.
 
-FAQ / Extra Info. - Baixa Prioridade
+FAQ / Perguntas Frequentes - Baixa Prioridade
 Como cliente, quero ter acesso a informações adicionais e perguntas frequentes (FAQ) no aplicativo, para tirar dúvidas comuns e facilitar o uso do sistema sem precisar de atendimento.
 
-Perfil e Configurações do Usuário
+Perfil e Configurações do Usuário - Baixa Prioridade
 Como cliente, quero poder editar dados pessoais, preferências de notificações, método de pagamento etc.
 
+Histórico de Pedido - Alta Prioridade
+Como cliente, quero acessar um histórico com todos os meus pedidos anteriores no aplicativo, para consultar detalhes como forma de pagamento, valor total do pedido e entrega e ter um registro das minhas compras.
+
+Refazer Pedido - Baixa Prioridade
+Como cliente, quero poder refazer um pedido anterior com apenas um clique a partir do histórico, para repetir facilmente uma compra sem precisar selecionar todos os itens novamente.
 
 
