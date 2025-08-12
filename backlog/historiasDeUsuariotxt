@@ -1,7 +1,7 @@
 BACKLOG
 
 Pedidos Populares - Baixa Prioridade
-Como cliente, quero visualizar os pedidos mais populares para facilitar minha escolha.
+Como cliente, quero saber quais são os pedidos mais vendidos como recomendação para o meu pedido.
 
 Cardápio - Alta Prioridade
 Como cliente, quero acessar o cardápio digital para ver opções de pratos e bebidas.
@@ -16,7 +16,7 @@ Retirada Programada por Localização - Baixa Prioridade
 Como cliente, quero realizar o pedido e pagamento antecipadamente no aplicativo, e ser notificado para confirmar minha chegada na loja, para que o preparo comece apenas quando eu estiver próximo ou no local, garantindo que meu pedido esteja fresco e pronto no momento da retirada.
 
 Personalização do pedido - Média Prioridade
-Como cliente, quero personalizar meu pedido (ingredientes, tamanho, complementos) para que ele atenda às minhas preferências.
+Como cliente, quero modificar ingredientes do meu pedido, por ser alérgico ou não gostar de algum, por exemplo.
 
 Criar pedido do zero - Média Prioridade
 Como cliente, quero criar meu pedido manualmente para escolher exatamente o que desejo consumir, como ingredientes ou borda, além de poder salvar esse pedido para futuras visitas.
@@ -46,7 +46,7 @@ Média de Tempo - Baixa Prioridade
 Como cliente, quero que o sistema informe uma média estimada do tempo para preparo e entrega dos pedidos, antecipando a espera e diminuindo frustrações relacionadas ao tempo de preparo.
 
 FAQ / Perguntas Frequentes - Baixa Prioridade
-Como cliente, quero ter acesso a informações adicionais e perguntas frequentes (FAQ) no aplicativo, para tirar dúvidas comuns e facilitar o uso do sistema sem precisar de atendimento. HUA
+Como cliente, quero responder minhas dúvidas sem precisar contatar um suporte e precisar esperar pela resposta, por meio FAQ e uma seção de perguntas frequentes. 
 
 Perfil e Configurações do Usuário
 Como cliente, quero poder editar meus dados no aplicativo, para que o aplicativo tenha minhas informações atualizadas e preferidas, como, nome, preferências de notificações, métodos de pagamento etc.
