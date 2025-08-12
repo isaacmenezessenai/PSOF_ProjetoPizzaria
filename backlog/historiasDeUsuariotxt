@@ -6,20 +6,20 @@ Como cliente, quero visualizar os pedidos mais populares para facilitar minha es
 Cardápio - Alta Prioridade
 Como cliente, quero acessar o cardápio digital para ver opções de pratos e bebidas.
 
-Integração de API de pagamento - Média Prioridade
-Como cliente, quero pagar meu pedido pelo aplicativo para agilizar o processo e evitar filas.
+Integração de API de Pagamento – Média Prioridade
+Como cliente, quero efetuar o pagamento diretamente pelo aplicativo, para agilizar o processo e evitar filas, garantindo também a segurança das minhas informações pessoais e financeiras por meio de um provedor confiável.
 
 Status do Pedido - Baixa Prioridade
 Como cliente, quero acompanhar o status do meu pedido para saber quando ele ficará pronto.
 
-Retirar pedido / Localização - Baixa Prioridade
-Como cliente, quero escolher retirar meu pedido na loja mais próxima para economizar tempo de espera.
+Retirada Programada por Localização - Baixa Prioridade
+Como cliente, quero realizar o pedido e pagamento antecipadamente no aplicativo, e ser notificado para confirmar minha chegada na loja, para que o preparo comece apenas quando eu estiver próximo ou no local, garantindo que meu pedido esteja fresco e pronto no momento da retirada.
 
 Personalização do pedido - Média Prioridade
 Como cliente, quero personalizar meu pedido (ingredientes, tamanho, complementos) para que ele atenda às minhas preferências.
 
 Criar pedido do zero - Média Prioridade
-Como cliente, quero criar meu pedido manualmente para escolher exatamente o que desejo consumir.
+Como cliente, quero criar meu pedido manualmente para escolher exatamente o que desejo consumir, como ingredientes ou borda, além de poder salvar esse pedido para futuras visitas.
 
 Cadastro / Login - Alta Prioridade
 Como cliente, quero me cadastrar e fazer login no aplicativo para salvar minhas preferências e histórico de pedidos e dados de pagamento para facilitar meus outros pedidos.
@@ -29,7 +29,7 @@ Como cliente, quero fazer login usando minha conta Google para agilizar o acesso
 
 Favoritos - Baixa Prioridade
 Como cliente, quero salvar pedidos como favoritos para repeti-los de forma rápida no futuro.
- 
+
 Solicitar a Presença do garçom - Alta Prioridade
 Como cliente no restaurante, quero solicitar a presença do garçom pelo aplicativo para receber atendimento na mesa.
 
