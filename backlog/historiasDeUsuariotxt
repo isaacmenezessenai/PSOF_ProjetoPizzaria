@@ -1,0 +1,55 @@
+BACKLOG
+
+Pedidos Populares - Baixa Prioridade
+Como cliente, quero visualizar os pedidos mais populares para facilitar minha escolha.
+
+Cardápio - Alta Prioridade
+Como cliente, quero acessar o cardápio digital para ver opções de pratos e bebidas.
+
+Integração de API de pagamento - Média Prioridade
+Como cliente, quero pagar meu pedido pelo aplicativo para agilizar o processo e evitar filas.
+
+Status do Pedido - Baixa Prioridade
+Como cliente, quero acompanhar o status do meu pedido para saber quando ele ficará pronto.
+
+Retirar pedido / Localização - Baixa Prioridade
+Como cliente, quero escolher retirar meu pedido na loja mais próxima para economizar tempo de espera.
+
+Personalização do pedido - Média Prioridade
+Como cliente, quero personalizar meu pedido (ingredientes, tamanho, complementos) para que ele atenda às minhas preferências.
+
+Criar pedido do zero - Média Prioridade
+Como cliente, quero criar meu pedido manualmente para escolher exatamente o que desejo consumir.
+
+Cadastro / Login - Alta Prioridade
+Como cliente, quero me cadastrar e fazer login no aplicativo para salvar minhas preferências e histórico de pedidos e dados de pagamento para facilitar meus outros pedidos.
+
+Login com o Google - Média Prioridade
+Como cliente, quero fazer login usando minha conta Google para agilizar o acesso ao aplicativo.
+
+Favoritos - Baixa Prioridade
+Como cliente, quero salvar pedidos como favoritos para repeti-los de forma rápida no futuro.
+ 
+Solicitar a Presença do garçom - Alta Prioridade
+Como cliente no restaurante, quero solicitar a presença do garçom pelo aplicativo para receber atendimento na mesa.
+
+Carrinho - Alta Prioridade
+Como cliente, quero visualizar e editar meu carrinho de compras para confirmar meu pedido antes do pagamento.
+
+Selecionar mesa via QR Code - Alta Prioridade
+Como cliente no restaurante, quero escanear o QR Code da mesa para que o pedido seja enviado diretamente para o local onde estou.
+
+Autenticação de Usuário - Alta Prioridade
+Como cliente, quero garantir que meu acesso ao aplicativo seja seguro, através de autenticação confiável, para proteger meus dados pessoais e pedidos.
+
+Média de Tempo - Baixa Prioridade
+Como cliente e equipe do restaurante, queremos que o sistema informe uma média estimada do tempo para preparo e entrega dos pedidos, para melhor planejamento e satisfação do cliente.
+
+FAQ / Extra Info. - Baixa Prioridade
+Como cliente, quero ter acesso a informações adicionais e perguntas frequentes (FAQ) no aplicativo, para tirar dúvidas comuns e facilitar o uso do sistema sem precisar de atendimento.
+
+Perfil e Configurações do Usuário
+Como cliente, quero poder editar dados pessoais, preferências de notificações, método de pagamento etc.
+
+
+
