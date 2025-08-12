@@ -10,7 +10,7 @@ Integração de API de Pagamento – Média Prioridade
 Como cliente, quero efetuar o pagamento diretamente pelo aplicativo, para agilizar o processo e evitar filas, garantindo também a segurança das minhas informações pessoais e financeiras por meio de um provedor confiável.
 
 Status do Pedido - Baixa Prioridade
-Como cliente, quero acompanhar o status do meu pedido para saber quando ele ficará pronto.
+Como cliente, quero analisar o progresso do status do meu pedido em tempo real enquanto aguardo, para me manter informado de como está o andamento do pedido. 
 
 Retirada Programada por Localização - Baixa Prioridade
 Como cliente, quero realizar o pedido e pagamento antecipadamente no aplicativo, e ser notificado para confirmar minha chegada na loja, para que o preparo comece apenas quando eu estiver próximo ou no local, garantindo que meu pedido esteja fresco e pronto no momento da retirada.
@@ -28,7 +28,7 @@ Login com o Google - Média Prioridade
 Como cliente, quero fazer login usando minha conta Google para que o processo de autenticação se torne mais rápido e sem atritos.
 
 Favoritos - Baixa Prioridade
-Como cliente, quero salvar pedidos como favoritos para repeti-los de forma rápida no futuro.
+Como cliente, quero favoritar itens do cardápio, para otimizar o tempo de realização do pedido. 
 
 Solicitar a Presença do garçom - Alta Prioridade
 Como cliente no restaurante, quero solicitar a presença do garçom pelo aplicativo para receber atendimento na mesa.
@@ -43,7 +43,7 @@ Autenticação de Usuário - Alta Prioridade
 Como cliente, quero garantir que meu acesso ao aplicativo seja seguro, para que através de autenticação confiável, para proteger meus dados pessoais e pedidos, por meio de um código criptografado por email.
 
 Média de Tempo - Baixa Prioridade
-Como cliente e equipe do restaurante, queremos que o sistema informe uma média estimada do tempo para preparo e entrega dos pedidos, para melhor planejamento e satisfação do cliente.
+Como cliente, quero que o sistema informe uma média estimada do tempo para preparo e entrega dos pedidos, antecipando a espera e diminuindo frustrações relacionadas ao tempo de preparo.
 
 FAQ / Perguntas Frequentes - Baixa Prioridade
 Como cliente, quero ter acesso a informações adicionais e perguntas frequentes (FAQ) no aplicativo, para tirar dúvidas comuns e facilitar o uso do sistema sem precisar de atendimento. HUA
