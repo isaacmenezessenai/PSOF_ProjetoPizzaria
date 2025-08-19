@@ -72,3 +72,13 @@ Como cliente, quero poder editar meus dados no aplicativo, para que o aplicativo
 Tipo de Pedido (Comer no local ou Levar)
 História de Usuário:
 Como um cliente, eu quero ter a opção de escolher se meu pedido é para comer na pizzaria ou levar a pizza, para que o restaurante prepare e embale meu pedido de acordo com minha preferência.
+
+Cancelar pedido
+
+História de Usuário:
+Como cliente, eu quero poder cancelar um pedido que fiz por engano, para que eu não receba algo que não desejo e o restaurante não desperdice comida.
+
+Retirar produto do Pedido
+
+História de Usuário:
+Como cliente, eu quero poder remover um item do meu carrinho antes de finalizar a compra, para que eu possa corrigir um pedido feito por engano ou desistir de um produto antes de pagá-lo.
