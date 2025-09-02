@@ -23,6 +23,7 @@ model User {
   update_at DateTime? @default(now())
 
   @@map("users")
+  favorites Favorites[]
 }
 
 model Category{
@@ -49,6 +50,8 @@ model Product{
   @@map("products")
   category_id String
   items Item[]
+  favorites Favorites[]
+  ingredients Ingredients[]
 }
 
 model Order{
@@ -59,6 +62,7 @@ model Order{
   name String?
   created_at DateTime? @default(now())
   update_at DateTime? @default(now())
+  observation String
 
   @@map("orders")
   items Item[]
@@ -75,5 +79,31 @@ model Item{
 
   @@map("items")
   order_id String
+  product_id String
+}
+
+model Favorites {
+  id String @id @default(uuid())
+  created_at DateTime? @default(now())
+  update_at  DateTime? @default(now())
+
+  product Product @relation(fields: [product_id], references: [id])
+  users User @relation(fields: [users_id], references: [id])
+
+  @@map("favorites")
+  product_id String
+  users_id String
+}
+
+model Ingredients {
+  id String @id @default(uuid())
+  name String
+  amount Int
+  created_at DateTime? @default(now())
+  update_at  DateTime? @default(now())
+
+  product Product @relation(fields: [product_id], references: [id])
+
+  @@map("ingredients")
   product_id String
 }
