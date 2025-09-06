@@ -15,12 +15,13 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
+  id         String      @id @default(uuid()) //16bytes
   name       String
   email      String
   password   String
-  created_at DateTime? @default(now())
-  update_at  DateTime? @default(now())
+  created_at DateTime?   @default(now())
+  update_at  DateTime?   @default(now())
+  favorites  Favorites[]
 
   @@map("users")
 }
@@ -44,22 +45,25 @@ model Product {
   created_at  DateTime? @default(now())
   update_at   DateTime? @default(now())
 
-  category    Category @relation(fields: [category_id], references: [id])
+  category    Category      @relation(fields: [category_id], references: [id])
   category_id String
   items       Item[]
+  favorites   Favorites[]
+  ingredients Ingredients[]
 
   @@map("products")
 }
 
 model Order {
-  id         String    @id @default(uuid())
-  table      Int
-  status     Boolean   @default(false)
-  draft      Boolean   @default(true)
-  name       String?
-  created_at DateTime? @default(now())
-  update_at  DateTime? @default(now())
-  items      Item[]
+  id          String    @id @default(uuid())
+  table       Int
+  status      Boolean   @default(false)
+  draft       Boolean   @default(true)
+  name        String?
+  observation String
+  created_at  DateTime? @default(now())
+  update_at   DateTime? @default(now())
+  items       Item[]
 
   @@map("orders")
 }
@@ -76,4 +80,30 @@ model Item {
   product_id String
 
   @@map("items")
+}
+
+model Favorites {
+  id         String    @id @default(uuid())
+  created_at DateTime? @default(now())
+  update_at  DateTime? @default(now())
+
+  product    Product @relation(fields: [product_id], references: [id])
+  users      User    @relation(fields: [users_id], references: [id])
+  product_id String
+  users_id   String
+
+  @@map("favorites")
+}
+
+model Ingredients {
+  id         String    @id @default(uuid())
+  name       String
+  amount     Int
+  created_at DateTime? @default(now())
+  update_at  DateTime? @default(now())
+
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id String
+
+  @@map("ingredients")
 }

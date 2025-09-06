@@ -25,20 +25,27 @@ class CreateUserService{
 
         const passwordHash = await hash(password, 8)
 
-        const user = await prismaClient.user.create({
-            data:{
-                name: name,
-                email: email,
-                password: passwordHash,
-            },
-            select:{
-                id: true,
-                name: true,
-                email: true,
-            }
-        })
+        try {
+            const user = await prismaClient.user.create({
+                data:{
+                    name: name,
+                    email: email,
+                    password: passwordHash,
+                    created_at: new Date(),
+                    update_at: new Date(),
+                },
+                select:{
+                    id: true,
+                    name: true,
+                    email: true,
+                }
+            })
 
-        return user;
+            return user;
+        } catch (error) {
+            console.error('Erro ao inserir usuário no banco de dados:', error);
+            throw new Error('Erro ao criar usuário.');
+        }
     }
 }
 
