@@ -66,6 +66,10 @@ https://trello.com/invite/b/6899d2ed03578d24b61cc5cc/ATTI7328772765621f981f9df7b
 ```bash
 https://drive.google.com/drive/folders/1drXdtO_6WGATiyN_OAckakWQ8f8SizQf?usp=sharing
 ```
+* DESIGN SPRINTS
+```bash
+https://g.co/gemini/share/7d01f2c32881
+```
 
 * INSTRUÇÕES SUPABASE
 ```bash
