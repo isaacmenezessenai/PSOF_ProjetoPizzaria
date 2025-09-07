@@ -12,6 +12,7 @@ A branch main é a nossa branch de produção. Ela representa a versão mais rec
 * As alterações da branch dev só devem ser mescladas na main quando um conjunto de funcionalidades estiver completo, testado e validado pela equipe.
 
 ## Guia de Execução do Projeto na Branch Main
+
 Este documento serve como um guia para a equipe Ártemis, explicando como configurar e rodar a aplicação no ambiente main.
 ---
 
