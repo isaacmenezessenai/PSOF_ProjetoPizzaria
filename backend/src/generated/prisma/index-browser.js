@@ -149,12 +149,13 @@ exports.Prisma.ProductScalarFieldEnum = {
 
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
-  table: 'table',
   status: 'status',
   draft: 'draft',
   name: 'name',
   created_at: 'created_at',
-  update_at: 'update_at'
+  update_at: 'update_at',
+  observation: 'observation',
+  table_id: 'table_id'
 };
 
 exports.Prisma.ItemScalarFieldEnum = {
@@ -164,6 +165,30 @@ exports.Prisma.ItemScalarFieldEnum = {
   update_at: 'update_at',
   order_id: 'order_id',
   product_id: 'product_id'
+};
+
+exports.Prisma.FavoritesScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  update_at: 'update_at',
+  product_id: 'product_id',
+  users_id: 'users_id'
+};
+
+exports.Prisma.IngredientsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  amount: 'amount',
+  created_at: 'created_at',
+  update_at: 'update_at',
+  product_id: 'product_id'
+};
+
+exports.Prisma.TableScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  created_at: 'created_at',
+  update_at: 'update_at'
 };
 
 exports.Prisma.SortOrder = {
@@ -187,7 +212,10 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   Product: 'Product',
   Order: 'Order',
-  Item: 'Item'
+  Item: 'Item',
+  Favorites: 'Favorites',
+  Ingredients: 'Ingredients',
+  Table: 'Table'
 };
 
 /**
