@@ -56,7 +56,6 @@ model Product{
 
 model Order{
   id String @id @default(uuid())
-  table Int
   status Boolean @default(false)
   draft Boolean @default(true)
   name String?
@@ -64,7 +63,10 @@ model Order{
   update_at DateTime? @default(now())
   observation String
 
+  table Table @relation(fields: [table_id], references: [id])
+
   @@map("orders")
+  table_id String
   items Item[]
 }
 
@@ -106,4 +108,14 @@ model Ingredients {
 
   @@map("ingredients")
   product_id String
+}
+
+model Table {
+  id String @id @default(uuid())
+  number Int
+  created_at DateTime? @default(now())
+  update_at  DateTime? @default(now())
+
+  @@map("table")
+  order Order[]
 }
