@@ -24,6 +24,7 @@ model User {
 
   @@map("users")
   favorites Favorites[]
+  table Table[]
 }
 
 model Category{
@@ -116,6 +117,9 @@ model Table {
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
+  users User @relation(fields: [users_id], references: [id])
+
   @@map("table")
+  users_id String
   order Order[]
 }
