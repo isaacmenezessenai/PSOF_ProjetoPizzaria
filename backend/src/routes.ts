@@ -23,6 +23,8 @@ import { ListOrderController } from "./controllers/order/ListOrderController";
 import { DetailOrderController } from "./controllers/order/DetailOrderController";
 import { FinishOrderController } from "./controllers/order/FinishOrderController";
 
+import { CreateTableController } from "./controllers/table/CreateTableController";
+
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 import uploadConfig from './config/multer'
@@ -62,4 +64,9 @@ router.get('/orders', isAuthenticated, new ListOrderController().handle)
 router.get('/orders/detail', isAuthenticated, new DetailOrderController().handle)
 
 router.put('/order/finish', isAuthenticated, new FinishOrderController().handle)
+
+// ROTAS TABLE
+
+router.post('/table', new CreateTableController().handle)
+
 export { router };  
