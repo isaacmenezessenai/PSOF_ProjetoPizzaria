@@ -1507,10 +1507,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     favorites: number
+    table: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     favorites?: boolean | UserCountOutputTypeCountFavoritesArgs
+    table?: boolean | UserCountOutputTypeCountTableArgs
   }
 
   // Custom InputTypes
@@ -1529,6 +1531,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FavoritesWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTableArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TableWhereInput
   }
 
 
@@ -1851,6 +1860,7 @@ export namespace Prisma {
     created_at?: boolean
     update_at?: boolean
     favorites?: boolean | User$favoritesArgs<ExtArgs>
+    table?: boolean | User$tableArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1884,6 +1894,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "created_at" | "update_at", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     favorites?: boolean | User$favoritesArgs<ExtArgs>
+    table?: boolean | User$tableArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1893,6 +1904,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       favorites: Prisma.$FavoritesPayload<ExtArgs>[]
+      table: Prisma.$TablePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2296,6 +2308,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     favorites<T extends User$favoritesArgs<ExtArgs> = {}>(args?: Subset<T, User$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoritesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    table<T extends User$tableArgs<ExtArgs> = {}>(args?: Subset<T, User$tableArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2740,6 +2753,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FavoritesScalarFieldEnum | FavoritesScalarFieldEnum[]
+  }
+
+  /**
+   * User.table
+   */
+  export type User$tableArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableInclude<ExtArgs> | null
+    where?: TableWhereInput
+    orderBy?: TableOrderByWithRelationInput | TableOrderByWithRelationInput[]
+    cursor?: TableWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TableScalarFieldEnum | TableScalarFieldEnum[]
   }
 
   /**
@@ -9437,6 +9474,7 @@ export namespace Prisma {
     number: number | null
     created_at: Date | null
     update_at: Date | null
+    users_id: string | null
   }
 
   export type TableMaxAggregateOutputType = {
@@ -9444,6 +9482,7 @@ export namespace Prisma {
     number: number | null
     created_at: Date | null
     update_at: Date | null
+    users_id: string | null
   }
 
   export type TableCountAggregateOutputType = {
@@ -9451,6 +9490,7 @@ export namespace Prisma {
     number: number
     created_at: number
     update_at: number
+    users_id: number
     _all: number
   }
 
@@ -9468,6 +9508,7 @@ export namespace Prisma {
     number?: true
     created_at?: true
     update_at?: true
+    users_id?: true
   }
 
   export type TableMaxAggregateInputType = {
@@ -9475,6 +9516,7 @@ export namespace Prisma {
     number?: true
     created_at?: true
     update_at?: true
+    users_id?: true
   }
 
   export type TableCountAggregateInputType = {
@@ -9482,6 +9524,7 @@ export namespace Prisma {
     number?: true
     created_at?: true
     update_at?: true
+    users_id?: true
     _all?: true
   }
 
@@ -9576,6 +9619,7 @@ export namespace Prisma {
     number: number
     created_at: Date | null
     update_at: Date | null
+    users_id: string
     _count: TableCountAggregateOutputType | null
     _avg: TableAvgAggregateOutputType | null
     _sum: TableSumAggregateOutputType | null
@@ -9602,6 +9646,8 @@ export namespace Prisma {
     number?: boolean
     created_at?: boolean
     update_at?: boolean
+    users_id?: boolean
+    users?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | Table$orderArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
@@ -9611,6 +9657,8 @@ export namespace Prisma {
     number?: boolean
     created_at?: boolean
     update_at?: boolean
+    users_id?: boolean
+    users?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
 
   export type TableSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9618,6 +9666,8 @@ export namespace Prisma {
     number?: boolean
     created_at?: boolean
     update_at?: boolean
+    users_id?: boolean
+    users?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
 
   export type TableSelectScalar = {
@@ -9625,19 +9675,26 @@ export namespace Prisma {
     number?: boolean
     created_at?: boolean
     update_at?: boolean
+    users_id?: boolean
   }
 
-  export type TableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "created_at" | "update_at", ExtArgs["result"]["table"]>
+  export type TableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "created_at" | "update_at" | "users_id", ExtArgs["result"]["table"]>
   export type TableInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | Table$orderArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type TableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type TableIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TableIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | UserDefaultArgs<ExtArgs>
+  }
 
   export type $TablePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Table"
     objects: {
+      users: Prisma.$UserPayload<ExtArgs>
       order: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -9645,6 +9702,7 @@ export namespace Prisma {
       number: number
       created_at: Date | null
       update_at: Date | null
+      users_id: string
     }, ExtArgs["result"]["table"]>
     composites: {}
   }
@@ -10039,6 +10097,7 @@ export namespace Prisma {
    */
   export interface Prisma__TableClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    users<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     order<T extends Table$orderArgs<ExtArgs> = {}>(args?: Subset<T, Table$orderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10073,6 +10132,7 @@ export namespace Prisma {
     readonly number: FieldRef<"Table", 'Int'>
     readonly created_at: FieldRef<"Table", 'DateTime'>
     readonly update_at: FieldRef<"Table", 'DateTime'>
+    readonly users_id: FieldRef<"Table", 'String'>
   }
     
 
@@ -10322,6 +10382,10 @@ export namespace Prisma {
      */
     data: TableCreateManyInput | TableCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10392,6 +10456,10 @@ export namespace Prisma {
      * Limit how many Tables to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10606,7 +10674,8 @@ export namespace Prisma {
     id: 'id',
     number: 'number',
     created_at: 'created_at',
-    update_at: 'update_at'
+    update_at: 'update_at',
+    users_id: 'users_id'
   };
 
   export type TableScalarFieldEnum = (typeof TableScalarFieldEnum)[keyof typeof TableScalarFieldEnum]
@@ -10718,6 +10787,7 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"User"> | Date | string | null
     update_at?: DateTimeNullableFilter<"User"> | Date | string | null
     favorites?: FavoritesListRelationFilter
+    table?: TableListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10728,6 +10798,7 @@ export namespace Prisma {
     created_at?: SortOrderInput | SortOrder
     update_at?: SortOrderInput | SortOrder
     favorites?: FavoritesOrderByRelationAggregateInput
+    table?: TableOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -10741,6 +10812,7 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"User"> | Date | string | null
     update_at?: DateTimeNullableFilter<"User"> | Date | string | null
     favorites?: FavoritesListRelationFilter
+    table?: TableListRelationFilter
   }, "id">
 
   export type UserOrderByWithAggregationInput = {
@@ -11162,6 +11234,8 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     created_at?: DateTimeNullableFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Table"> | Date | string | null
+    users_id?: StringFilter<"Table"> | string
+    users?: XOR<UserScalarRelationFilter, UserWhereInput>
     order?: OrderListRelationFilter
   }
 
@@ -11170,6 +11244,8 @@ export namespace Prisma {
     number?: SortOrder
     created_at?: SortOrderInput | SortOrder
     update_at?: SortOrderInput | SortOrder
+    users_id?: SortOrder
+    users?: UserOrderByWithRelationInput
     order?: OrderOrderByRelationAggregateInput
   }
 
@@ -11181,6 +11257,8 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     created_at?: DateTimeNullableFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Table"> | Date | string | null
+    users_id?: StringFilter<"Table"> | string
+    users?: XOR<UserScalarRelationFilter, UserWhereInput>
     order?: OrderListRelationFilter
   }, "id">
 
@@ -11189,6 +11267,7 @@ export namespace Prisma {
     number?: SortOrder
     created_at?: SortOrderInput | SortOrder
     update_at?: SortOrderInput | SortOrder
+    users_id?: SortOrder
     _count?: TableCountOrderByAggregateInput
     _avg?: TableAvgOrderByAggregateInput
     _max?: TableMaxOrderByAggregateInput
@@ -11204,6 +11283,7 @@ export namespace Prisma {
     number?: IntWithAggregatesFilter<"Table"> | number
     created_at?: DateTimeNullableWithAggregatesFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableWithAggregatesFilter<"Table"> | Date | string | null
+    users_id?: StringWithAggregatesFilter<"Table"> | string
   }
 
   export type UserCreateInput = {
@@ -11214,6 +11294,7 @@ export namespace Prisma {
     created_at?: Date | string | null
     update_at?: Date | string | null
     favorites?: FavoritesCreateNestedManyWithoutUsersInput
+    table?: TableCreateNestedManyWithoutUsersInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11224,6 +11305,7 @@ export namespace Prisma {
     created_at?: Date | string | null
     update_at?: Date | string | null
     favorites?: FavoritesUncheckedCreateNestedManyWithoutUsersInput
+    table?: TableUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type UserUpdateInput = {
@@ -11234,6 +11316,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     favorites?: FavoritesUpdateManyWithoutUsersNestedInput
+    table?: TableUpdateManyWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11244,6 +11327,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     favorites?: FavoritesUncheckedUpdateManyWithoutUsersNestedInput
+    table?: TableUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -11676,6 +11760,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
+    users: UserCreateNestedOneWithoutTableInput
     order?: OrderCreateNestedManyWithoutTableInput
   }
 
@@ -11684,6 +11769,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
+    users_id: string
     order?: OrderUncheckedCreateNestedManyWithoutTableInput
   }
 
@@ -11692,6 +11778,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users?: UserUpdateOneRequiredWithoutTableNestedInput
     order?: OrderUpdateManyWithoutTableNestedInput
   }
 
@@ -11700,6 +11787,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users_id?: StringFieldUpdateOperationsInput | string
     order?: OrderUncheckedUpdateManyWithoutTableNestedInput
   }
 
@@ -11708,6 +11796,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
+    users_id: string
   }
 
   export type TableUpdateManyMutationInput = {
@@ -11722,6 +11811,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -11756,12 +11846,22 @@ export namespace Prisma {
     none?: FavoritesWhereInput
   }
 
+  export type TableListRelationFilter = {
+    every?: TableWhereInput
+    some?: TableWhereInput
+    none?: TableWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type FavoritesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TableOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12148,6 +12248,7 @@ export namespace Prisma {
     number?: SortOrder
     created_at?: SortOrder
     update_at?: SortOrder
+    users_id?: SortOrder
   }
 
   export type TableAvgOrderByAggregateInput = {
@@ -12159,6 +12260,7 @@ export namespace Prisma {
     number?: SortOrder
     created_at?: SortOrder
     update_at?: SortOrder
+    users_id?: SortOrder
   }
 
   export type TableMinOrderByAggregateInput = {
@@ -12166,6 +12268,7 @@ export namespace Prisma {
     number?: SortOrder
     created_at?: SortOrder
     update_at?: SortOrder
+    users_id?: SortOrder
   }
 
   export type TableSumOrderByAggregateInput = {
@@ -12179,11 +12282,25 @@ export namespace Prisma {
     connect?: FavoritesWhereUniqueInput | FavoritesWhereUniqueInput[]
   }
 
+  export type TableCreateNestedManyWithoutUsersInput = {
+    create?: XOR<TableCreateWithoutUsersInput, TableUncheckedCreateWithoutUsersInput> | TableCreateWithoutUsersInput[] | TableUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: TableCreateOrConnectWithoutUsersInput | TableCreateOrConnectWithoutUsersInput[]
+    createMany?: TableCreateManyUsersInputEnvelope
+    connect?: TableWhereUniqueInput | TableWhereUniqueInput[]
+  }
+
   export type FavoritesUncheckedCreateNestedManyWithoutUsersInput = {
     create?: XOR<FavoritesCreateWithoutUsersInput, FavoritesUncheckedCreateWithoutUsersInput> | FavoritesCreateWithoutUsersInput[] | FavoritesUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: FavoritesCreateOrConnectWithoutUsersInput | FavoritesCreateOrConnectWithoutUsersInput[]
     createMany?: FavoritesCreateManyUsersInputEnvelope
     connect?: FavoritesWhereUniqueInput | FavoritesWhereUniqueInput[]
+  }
+
+  export type TableUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<TableCreateWithoutUsersInput, TableUncheckedCreateWithoutUsersInput> | TableCreateWithoutUsersInput[] | TableUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: TableCreateOrConnectWithoutUsersInput | TableCreateOrConnectWithoutUsersInput[]
+    createMany?: TableCreateManyUsersInputEnvelope
+    connect?: TableWhereUniqueInput | TableWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -12208,6 +12325,20 @@ export namespace Prisma {
     deleteMany?: FavoritesScalarWhereInput | FavoritesScalarWhereInput[]
   }
 
+  export type TableUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<TableCreateWithoutUsersInput, TableUncheckedCreateWithoutUsersInput> | TableCreateWithoutUsersInput[] | TableUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: TableCreateOrConnectWithoutUsersInput | TableCreateOrConnectWithoutUsersInput[]
+    upsert?: TableUpsertWithWhereUniqueWithoutUsersInput | TableUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: TableCreateManyUsersInputEnvelope
+    set?: TableWhereUniqueInput | TableWhereUniqueInput[]
+    disconnect?: TableWhereUniqueInput | TableWhereUniqueInput[]
+    delete?: TableWhereUniqueInput | TableWhereUniqueInput[]
+    connect?: TableWhereUniqueInput | TableWhereUniqueInput[]
+    update?: TableUpdateWithWhereUniqueWithoutUsersInput | TableUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: TableUpdateManyWithWhereWithoutUsersInput | TableUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: TableScalarWhereInput | TableScalarWhereInput[]
+  }
+
   export type FavoritesUncheckedUpdateManyWithoutUsersNestedInput = {
     create?: XOR<FavoritesCreateWithoutUsersInput, FavoritesUncheckedCreateWithoutUsersInput> | FavoritesCreateWithoutUsersInput[] | FavoritesUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: FavoritesCreateOrConnectWithoutUsersInput | FavoritesCreateOrConnectWithoutUsersInput[]
@@ -12220,6 +12351,20 @@ export namespace Prisma {
     update?: FavoritesUpdateWithWhereUniqueWithoutUsersInput | FavoritesUpdateWithWhereUniqueWithoutUsersInput[]
     updateMany?: FavoritesUpdateManyWithWhereWithoutUsersInput | FavoritesUpdateManyWithWhereWithoutUsersInput[]
     deleteMany?: FavoritesScalarWhereInput | FavoritesScalarWhereInput[]
+  }
+
+  export type TableUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<TableCreateWithoutUsersInput, TableUncheckedCreateWithoutUsersInput> | TableCreateWithoutUsersInput[] | TableUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: TableCreateOrConnectWithoutUsersInput | TableCreateOrConnectWithoutUsersInput[]
+    upsert?: TableUpsertWithWhereUniqueWithoutUsersInput | TableUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: TableCreateManyUsersInputEnvelope
+    set?: TableWhereUniqueInput | TableWhereUniqueInput[]
+    disconnect?: TableWhereUniqueInput | TableWhereUniqueInput[]
+    delete?: TableWhereUniqueInput | TableWhereUniqueInput[]
+    connect?: TableWhereUniqueInput | TableWhereUniqueInput[]
+    update?: TableUpdateWithWhereUniqueWithoutUsersInput | TableUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: TableUpdateManyWithWhereWithoutUsersInput | TableUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: TableScalarWhereInput | TableScalarWhereInput[]
   }
 
   export type ProductCreateNestedManyWithoutCategoryInput = {
@@ -12546,6 +12691,12 @@ export namespace Prisma {
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutIngredientsInput, ProductUpdateWithoutIngredientsInput>, ProductUncheckedUpdateWithoutIngredientsInput>
   }
 
+  export type UserCreateNestedOneWithoutTableInput = {
+    create?: XOR<UserCreateWithoutTableInput, UserUncheckedCreateWithoutTableInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTableInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type OrderCreateNestedManyWithoutTableInput = {
     create?: XOR<OrderCreateWithoutTableInput, OrderUncheckedCreateWithoutTableInput> | OrderCreateWithoutTableInput[] | OrderUncheckedCreateWithoutTableInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutTableInput | OrderCreateOrConnectWithoutTableInput[]
@@ -12558,6 +12709,14 @@ export namespace Prisma {
     connectOrCreate?: OrderCreateOrConnectWithoutTableInput | OrderCreateOrConnectWithoutTableInput[]
     createMany?: OrderCreateManyTableInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutTableNestedInput = {
+    create?: XOR<UserCreateWithoutTableInput, UserUncheckedCreateWithoutTableInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTableInput
+    upsert?: UserUpsertWithoutTableInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTableInput, UserUpdateWithoutTableInput>, UserUncheckedUpdateWithoutTableInput>
   }
 
   export type OrderUpdateManyWithoutTableNestedInput = {
@@ -12761,6 +12920,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TableCreateWithoutUsersInput = {
+    id?: string
+    number: number
+    created_at?: Date | string | null
+    update_at?: Date | string | null
+    order?: OrderCreateNestedManyWithoutTableInput
+  }
+
+  export type TableUncheckedCreateWithoutUsersInput = {
+    id?: string
+    number: number
+    created_at?: Date | string | null
+    update_at?: Date | string | null
+    order?: OrderUncheckedCreateNestedManyWithoutTableInput
+  }
+
+  export type TableCreateOrConnectWithoutUsersInput = {
+    where: TableWhereUniqueInput
+    create: XOR<TableCreateWithoutUsersInput, TableUncheckedCreateWithoutUsersInput>
+  }
+
+  export type TableCreateManyUsersInputEnvelope = {
+    data: TableCreateManyUsersInput | TableCreateManyUsersInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FavoritesUpsertWithWhereUniqueWithoutUsersInput = {
     where: FavoritesWhereUniqueInput
     update: XOR<FavoritesUpdateWithoutUsersInput, FavoritesUncheckedUpdateWithoutUsersInput>
@@ -12786,6 +12971,33 @@ export namespace Prisma {
     update_at?: DateTimeNullableFilter<"Favorites"> | Date | string | null
     product_id?: StringFilter<"Favorites"> | string
     users_id?: StringFilter<"Favorites"> | string
+  }
+
+  export type TableUpsertWithWhereUniqueWithoutUsersInput = {
+    where: TableWhereUniqueInput
+    update: XOR<TableUpdateWithoutUsersInput, TableUncheckedUpdateWithoutUsersInput>
+    create: XOR<TableCreateWithoutUsersInput, TableUncheckedCreateWithoutUsersInput>
+  }
+
+  export type TableUpdateWithWhereUniqueWithoutUsersInput = {
+    where: TableWhereUniqueInput
+    data: XOR<TableUpdateWithoutUsersInput, TableUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type TableUpdateManyWithWhereWithoutUsersInput = {
+    where: TableScalarWhereInput
+    data: XOR<TableUpdateManyMutationInput, TableUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type TableScalarWhereInput = {
+    AND?: TableScalarWhereInput | TableScalarWhereInput[]
+    OR?: TableScalarWhereInput[]
+    NOT?: TableScalarWhereInput | TableScalarWhereInput[]
+    id?: StringFilter<"Table"> | string
+    number?: IntFilter<"Table"> | number
+    created_at?: DateTimeNullableFilter<"Table"> | Date | string | null
+    update_at?: DateTimeNullableFilter<"Table"> | Date | string | null
+    users_id?: StringFilter<"Table"> | string
   }
 
   export type ProductCreateWithoutCategoryInput = {
@@ -13051,6 +13263,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
+    users: UserCreateNestedOneWithoutTableInput
   }
 
   export type TableUncheckedCreateWithoutOrderInput = {
@@ -13058,6 +13271,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
+    users_id: string
   }
 
   export type TableCreateOrConnectWithoutOrderInput = {
@@ -13107,6 +13321,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users?: UserUpdateOneRequiredWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutOrderInput = {
@@ -13114,6 +13329,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ItemUpsertWithWhereUniqueWithoutOrderInput = {
@@ -13298,6 +13514,7 @@ export namespace Prisma {
     password: string
     created_at?: Date | string | null
     update_at?: Date | string | null
+    table?: TableCreateNestedManyWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -13307,6 +13524,7 @@ export namespace Prisma {
     password: string
     created_at?: Date | string | null
     update_at?: Date | string | null
+    table?: TableUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -13369,6 +13587,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    table?: TableUpdateManyWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -13378,6 +13597,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    table?: TableUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type ProductCreateWithoutIngredientsInput = {
@@ -13448,6 +13668,31 @@ export namespace Prisma {
     favorites?: FavoritesUncheckedUpdateManyWithoutProductNestedInput
   }
 
+  export type UserCreateWithoutTableInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    created_at?: Date | string | null
+    update_at?: Date | string | null
+    favorites?: FavoritesCreateNestedManyWithoutUsersInput
+  }
+
+  export type UserUncheckedCreateWithoutTableInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    created_at?: Date | string | null
+    update_at?: Date | string | null
+    favorites?: FavoritesUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type UserCreateOrConnectWithoutTableInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTableInput, UserUncheckedCreateWithoutTableInput>
+  }
+
   export type OrderCreateWithoutTableInput = {
     id?: string
     status?: boolean
@@ -13478,6 +13723,37 @@ export namespace Prisma {
   export type OrderCreateManyTableInputEnvelope = {
     data: OrderCreateManyTableInput | OrderCreateManyTableInput[]
     skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutTableInput = {
+    update: XOR<UserUpdateWithoutTableInput, UserUncheckedUpdateWithoutTableInput>
+    create: XOR<UserCreateWithoutTableInput, UserUncheckedCreateWithoutTableInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTableInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTableInput, UserUncheckedUpdateWithoutTableInput>
+  }
+
+  export type UserUpdateWithoutTableInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    favorites?: FavoritesUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTableInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    favorites?: FavoritesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type OrderUpsertWithWhereUniqueWithoutTableInput = {
@@ -13517,6 +13793,13 @@ export namespace Prisma {
     product_id: string
   }
 
+  export type TableCreateManyUsersInput = {
+    id?: string
+    number: number
+    created_at?: Date | string | null
+    update_at?: Date | string | null
+  }
+
   export type FavoritesUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13536,6 +13819,29 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TableUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    order?: OrderUpdateManyWithoutTableNestedInput
+  }
+
+  export type TableUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    order?: OrderUncheckedUpdateManyWithoutTableNestedInput
+  }
+
+  export type TableUncheckedUpdateManyWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProductCreateManyCategoryInput = {
