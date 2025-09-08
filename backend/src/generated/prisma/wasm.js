@@ -188,7 +188,8 @@ exports.Prisma.TableScalarFieldEnum = {
   id: 'id',
   number: 'number',
   created_at: 'created_at',
-  update_at: 'update_at'
+  update_at: 'update_at',
+  users_id: 'users_id'
 };
 
 exports.Prisma.SortOrder = {
