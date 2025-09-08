@@ -70,11 +70,6 @@ https://drive.google.com/drive/folders/1drXdtO_6WGATiyN_OAckakWQ8f8SizQf?usp=sha
 https://gemini.google.com/share/239a013e4d29
 ```
 
-* SUPABASE LINK PizzariaDEV
-```bash
-https://supabase.com/dashboard/project/xrjnmkgwxfgokuzvbwfd/editor/18360?schema=public
-```
-
 * GUIA TERMINAL
 ```bash
 https://g.co/gemini/share/bed710356921
