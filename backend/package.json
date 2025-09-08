@@ -4,12 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "dotenv -e .env.dev -- ts-node-dev --transpile-only src/server.ts",
-    "main": "dotenv -e .env -- ts-node-dev --transpile-only src/server.ts",
-    "prisma:dev": "dotenv -e .env.dev -- npx prisma migrate dev",
-    "prisma:main": "dotenv -e .env -- npx prisma migrate deploy",
-    "generate:dev": "dotenv -e .env.dev -- npx prisma/client generate",
-    "generate:main": "dotenv -e .env -- npx prisma/client  generate",
+    "dev": "dotenv -e .env -- ts-node-dev --transpile-only src/server.ts",
+    "main": "dotenv -e .env.main -- ts-node-dev --transpile-only src/server.ts",
+    "release": "dotenv -e .env.release -- ts-node-dev --transpile-only src/server.ts",
+
+    "prisma:release": "dotenv -e .env.release -- npx prisma migrate deploy",
+    "prisma:main": "dotenv -e .env.main -- npx prisma migrate deploy",
+
+    "generate:release": "dotenv -e .env.release -- npx prisma/client generate",
+    "generate:main": "dotenv -e .env.prod -- npx prisma generate",
+
+    "db:release": "dotenv -e .env.release -- npx prisma db push",
+    "db:main": "dotenv -e .env.main -- npx prisma db push",
     "start": "node dist/server.js"
   },
   "devDependencies": {

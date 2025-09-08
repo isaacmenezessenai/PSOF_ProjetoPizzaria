@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict shwLdTH2MDmjlu0OgzdANaodUOcedvakhJ2ppavDF87sQ3eIstW1bfje8nuGeXl
+\restrict gp2CM59i2jCVg8RlJAoUoxnZ4ccVK1ORCkcsDbX9SkasYwPJzAI5mV8FbdbiK8b
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -339,5 +339,5 @@ ALTER TABLE ONLY public.products
 -- PostgreSQL database dump complete
 --
 
-\unrestrict shwLdTH2MDmjlu0OgzdANaodUOcedvakhJ2ppavDF87sQ3eIstW1bfje8nuGeXl
+\unrestrict gp2CM59i2jCVg8RlJAoUoxnZ4ccVK1ORCkcsDbX9SkasYwPJzAI5mV8FbdbiK8b
 

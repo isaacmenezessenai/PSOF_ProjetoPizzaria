@@ -200,7 +200,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\SENAI\\Desktop\\Pizzaria\\backend\\src\\generated\\prisma",
+      "value": "C:\\Users\\Bia\\Desktop\\TCC\\Release\\backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -214,7 +214,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\SENAI\\Desktop\\Pizzaria\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Bia\\Desktop\\TCC\\Release\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -228,11 +228,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:senai@localhost:5432/pizzaria?schema=public"
+        "value": null
       }
     }
   },
