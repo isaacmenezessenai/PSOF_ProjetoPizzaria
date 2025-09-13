@@ -7,13 +7,10 @@
     "dev": "dotenv -e .env -- ts-node-dev --transpile-only src/server.ts",
     "main": "dotenv -e .env.main -- ts-node-dev --transpile-only src/server.ts",
     "release": "dotenv -e .env.release -- ts-node-dev --transpile-only src/server.ts",
-
     "prisma:release": "dotenv -e .env.release -- npx prisma migrate deploy",
     "prisma:main": "dotenv -e .env.main -- npx prisma migrate deploy",
-
     "generate:release": "dotenv -e .env.release -- npx prisma/client generate",
     "generate:main": "dotenv -e .env.prod -- npx prisma generate",
-
     "db:release": "dotenv -e .env.release -- npx prisma db push",
     "db:main": "dotenv -e .env.main -- npx prisma db push",
     "start": "node dist/server.js"
@@ -30,7 +27,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@prisma/client": "^6.15.0",
+    "@prisma/client": "^6.16.1",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.6.1",
     "cors": "^2.8.5",

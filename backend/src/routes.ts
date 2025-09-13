@@ -29,6 +29,11 @@ import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 import uploadConfig from './config/multer'
 
+// -- Imports dos Controladores de Ingredientes --
+import { CreateIngredientController } from "./controllers/ingredients/CreateIngredientControler";
+import { ListIngredientController } from "./controllers/ingredients/ListIngredientController";
+import { UpdateIngredientController } from "./controllers/ingredients/UpdateIngredientController";
+
 const router = Router();
 
 const upload = multer(uploadConfig.upload("./tmp"))
@@ -68,5 +73,16 @@ router.put('/order/finish', isAuthenticated, new FinishOrderController().handle)
 // ROTAS TABLE
 
 router.post('/table', new CreateTableController().handle)
+
+
+
+
+// --- ROTAS INGREDIENTS ---
+const asyncWrapper = (fn) => (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+};
+router.post('/ingredient', isAuthenticated, asyncWrapper(new CreateIngredientController().handle));
+router.get('/ingredients', isAuthenticated, asyncWrapper(new ListIngredientController().handle));
+router.put('/ingredient', isAuthenticated, asyncWrapper(new UpdateIngredientController().handle));
 
 export { router };  

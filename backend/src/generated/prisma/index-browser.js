@@ -178,10 +178,14 @@ exports.Prisma.FavoritesScalarFieldEnum = {
 exports.Prisma.IngredientsScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  amount: 'amount',
   created_at: 'created_at',
-  update_at: 'update_at',
-  product_id: 'product_id'
+  update_at: 'update_at'
+};
+
+exports.Prisma.ProductIngredientScalarFieldEnum = {
+  productId: 'productId',
+  ingredientId: 'ingredientId',
+  amount: 'amount'
 };
 
 exports.Prisma.TableScalarFieldEnum = {
@@ -216,6 +220,7 @@ exports.Prisma.ModelName = {
   Item: 'Item',
   Favorites: 'Favorites',
   Ingredients: 'Ingredients',
+  ProductIngredient: 'ProductIngredient',
   Table: 'Table'
 };
 
