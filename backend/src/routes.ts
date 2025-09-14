@@ -11,6 +11,8 @@ import { ListCategoryController } from "./controllers/category/ListCategoryConto
 import { CreateProductController } from "./controllers/product/CreateProductController";
 import { ListByCategoryController } from "./controllers/product/ListByCategoryController";
 import { DetailsProductController } from "./controllers/product/DetailsProductController";
+import { AddOrUpdateIngredientToProductController } from "./controllers/product/AddOrUpdateIngredientToProductService";
+
 
 import { CreateOrderController } from "./controllers/order/CreateOrderController";
 import { RemoveOrderController } from "./controllers/order/RemoveOrderController";
@@ -32,11 +34,16 @@ import uploadConfig from './config/multer'
 // -- Imports dos Controladores de Ingredientes --
 import { CreateIngredientController } from "./controllers/ingredients/CreateIngredientControler";
 import { ListIngredientController } from "./controllers/ingredients/ListIngredientController";
-import { UpdateIngredientController } from "./controllers/ingredients/UpdateIngredientController";
+import { ListIngredientsByProductController } from "./controllers/ingredients/ListIngredientsByProductController";
 
 const router = Router();
 
 const upload = multer(uploadConfig.upload("./tmp"))
+
+
+const asyncWrapper = (fn) => (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+};
 
 // -- ROTAS USER -- 
 router.post('/users', new CreateUserController().handle)
@@ -76,13 +83,9 @@ router.post('/table', new CreateTableController().handle)
 
 
 
-
 // --- ROTAS INGREDIENTS ---
-const asyncWrapper = (fn) => (req, res, next) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
-};
-router.post('/ingredient', isAuthenticated, asyncWrapper(new CreateIngredientController().handle));
-router.get('/ingredients', isAuthenticated, asyncWrapper(new ListIngredientController().handle));
-router.put('/ingredient', isAuthenticated, asyncWrapper(new UpdateIngredientController().handle));
-
+router.post('/ingredient', isAuthenticated,asyncWrapper(new CreateIngredientController().handle));
+router.get('/ingredients', isAuthenticated,asyncWrapper(new ListIngredientController().handle));
+router.post('/product/ingredient', isAuthenticated,asyncWrapper(new AddOrUpdateIngredientToProductController().handle));
+router.get('/products/:product_id/ingredients', isAuthenticated,asyncWrapper(new ListIngredientsByProductController().handle) );
 export { router };  

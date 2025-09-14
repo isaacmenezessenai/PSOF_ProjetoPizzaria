@@ -6,7 +6,6 @@ class ListIngredientService {
             select: {
                 id: true,
                 name: true,
-                amount: true,
             }
         });
 
