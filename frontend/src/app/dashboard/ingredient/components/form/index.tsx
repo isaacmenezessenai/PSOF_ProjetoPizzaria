@@ -40,7 +40,6 @@ export function Form() {
         })
         .then(() => {
             toast.success("Ingrediente Registrado com Sucesso")
-            // Opcional: Limpar o estado para um novo cadastro
             setImage(undefined);
             setPreviewImage("");
         })
