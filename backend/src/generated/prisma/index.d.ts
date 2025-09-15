@@ -10818,7 +10818,7 @@ export namespace Prisma {
     number: number
     created_at: Date | null
     update_at: Date | null
-    users_id: string
+    users_id: string | null
     _count: TableCountAggregateOutputType | null
     _avg: TableAvgAggregateOutputType | null
     _sum: TableSumAggregateOutputType | null
@@ -10846,7 +10846,7 @@ export namespace Prisma {
     created_at?: boolean
     update_at?: boolean
     users_id?: boolean
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
     order?: boolean | Table$orderArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
@@ -10857,7 +10857,7 @@ export namespace Prisma {
     created_at?: boolean
     update_at?: boolean
     users_id?: boolean
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
 
   export type TableSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10866,7 +10866,7 @@ export namespace Prisma {
     created_at?: boolean
     update_at?: boolean
     users_id?: boolean
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
 
   export type TableSelectScalar = {
@@ -10879,21 +10879,21 @@ export namespace Prisma {
 
   export type TableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "created_at" | "update_at" | "users_id", ExtArgs["result"]["table"]>
   export type TableInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
     order?: boolean | Table$orderArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
   }
   export type TableIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
   }
 
   export type $TablePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Table"
     objects: {
-      users: Prisma.$UserPayload<ExtArgs>
+      users: Prisma.$UserPayload<ExtArgs> | null
       order: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -10901,7 +10901,7 @@ export namespace Prisma {
       number: number
       created_at: Date | null
       update_at: Date | null
-      users_id: string
+      users_id: string | null
     }, ExtArgs["result"]["table"]>
     composites: {}
   }
@@ -11296,7 +11296,7 @@ export namespace Prisma {
    */
   export interface Prisma__TableClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    users<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    users<T extends Table$usersArgs<ExtArgs> = {}>(args?: Subset<T, Table$usersArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     order<T extends Table$orderArgs<ExtArgs> = {}>(args?: Subset<T, Table$orderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11725,6 +11725,25 @@ export namespace Prisma {
      * Limit how many Tables to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Table.users
+   */
+  export type Table$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -12507,8 +12526,8 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     created_at?: DateTimeNullableFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Table"> | Date | string | null
-    users_id?: StringFilter<"Table"> | string
-    users?: XOR<UserScalarRelationFilter, UserWhereInput>
+    users_id?: StringNullableFilter<"Table"> | string | null
+    users?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     order?: OrderListRelationFilter
   }
 
@@ -12517,7 +12536,7 @@ export namespace Prisma {
     number?: SortOrder
     created_at?: SortOrderInput | SortOrder
     update_at?: SortOrderInput | SortOrder
-    users_id?: SortOrder
+    users_id?: SortOrderInput | SortOrder
     users?: UserOrderByWithRelationInput
     order?: OrderOrderByRelationAggregateInput
   }
@@ -12530,8 +12549,8 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     created_at?: DateTimeNullableFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Table"> | Date | string | null
-    users_id?: StringFilter<"Table"> | string
-    users?: XOR<UserScalarRelationFilter, UserWhereInput>
+    users_id?: StringNullableFilter<"Table"> | string | null
+    users?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     order?: OrderListRelationFilter
   }, "id">
 
@@ -12540,7 +12559,7 @@ export namespace Prisma {
     number?: SortOrder
     created_at?: SortOrderInput | SortOrder
     update_at?: SortOrderInput | SortOrder
-    users_id?: SortOrder
+    users_id?: SortOrderInput | SortOrder
     _count?: TableCountOrderByAggregateInput
     _avg?: TableAvgOrderByAggregateInput
     _max?: TableMaxOrderByAggregateInput
@@ -12556,7 +12575,7 @@ export namespace Prisma {
     number?: IntWithAggregatesFilter<"Table"> | number
     created_at?: DateTimeNullableWithAggregatesFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableWithAggregatesFilter<"Table"> | Date | string | null
-    users_id?: StringWithAggregatesFilter<"Table"> | string
+    users_id?: StringNullableWithAggregatesFilter<"Table"> | string | null
   }
 
   export type UserCreateInput = {
@@ -13078,7 +13097,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users: UserCreateNestedOneWithoutTableInput
+    users?: UserCreateNestedOneWithoutTableInput
     order?: OrderCreateNestedManyWithoutTableInput
   }
 
@@ -13087,7 +13106,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users_id: string
+    users_id?: string | null
     order?: OrderUncheckedCreateNestedManyWithoutTableInput
   }
 
@@ -13096,7 +13115,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users?: UserUpdateOneRequiredWithoutTableNestedInput
+    users?: UserUpdateOneWithoutTableNestedInput
     order?: OrderUpdateManyWithoutTableNestedInput
   }
 
@@ -13105,7 +13124,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users_id?: StringFieldUpdateOperationsInput | string
+    users_id?: NullableStringFieldUpdateOperationsInput | string | null
     order?: OrderUncheckedUpdateManyWithoutTableNestedInput
   }
 
@@ -13114,7 +13133,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users_id: string
+    users_id?: string | null
   }
 
   export type TableUpdateManyMutationInput = {
@@ -13129,7 +13148,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users_id?: StringFieldUpdateOperationsInput | string
+    users_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -13612,6 +13631,11 @@ export namespace Prisma {
 
   export type ProductIngredientSumOrderByAggregateInput = {
     amount?: SortOrder
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
   }
 
   export type OrderListRelationFilter = {
@@ -14156,10 +14180,12 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
-  export type UserUpdateOneRequiredWithoutTableNestedInput = {
+  export type UserUpdateOneWithoutTableNestedInput = {
     create?: XOR<UserCreateWithoutTableInput, UserUncheckedCreateWithoutTableInput>
     connectOrCreate?: UserCreateOrConnectWithoutTableInput
     upsert?: UserUpsertWithoutTableInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTableInput, UserUpdateWithoutTableInput>, UserUncheckedUpdateWithoutTableInput>
   }
@@ -14469,7 +14495,7 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     created_at?: DateTimeNullableFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Table"> | Date | string | null
-    users_id?: StringFilter<"Table"> | string
+    users_id?: StringNullableFilter<"Table"> | string | null
   }
 
   export type ProductCreateWithoutCategoryInput = {
@@ -14726,7 +14752,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users: UserCreateNestedOneWithoutTableInput
+    users?: UserCreateNestedOneWithoutTableInput
   }
 
   export type TableUncheckedCreateWithoutOrderInput = {
@@ -14734,7 +14760,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users_id: string
+    users_id?: string | null
   }
 
   export type TableCreateOrConnectWithoutOrderInput = {
@@ -14784,7 +14810,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users?: UserUpdateOneRequiredWithoutTableNestedInput
+    users?: UserUpdateOneWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutOrderInput = {
@@ -14792,7 +14818,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users_id?: StringFieldUpdateOperationsInput | string
+    users_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ItemUpsertWithWhereUniqueWithoutOrderInput = {

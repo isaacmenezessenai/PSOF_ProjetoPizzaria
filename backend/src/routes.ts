@@ -55,25 +55,25 @@ router.get('/me', isAuthenticated, new DetailUserController().handle)
 // -- ROTAS CATEGORY --
 router.post('/category', isAuthenticated, new CreateCategoryController().handle) 
 
-router.get('/category', isAuthenticated, new ListCategoryController().handle) 
+router.get('/category', new ListCategoryController().handle) 
 
 // -- ROTAS PRODUCT --
 // router.post('/product', isAuthenticated, upload.single('file'), new CreateProductController().handle)
 router.post('/product', isAuthenticated, new CreateProductController().handle)
-router.get('/category/product', isAuthenticated, new ListByCategoryController().handle)
-router.get('/details/product', isAuthenticated, new DetailsProductController().handle)
+router.get('/category/product', new ListByCategoryController().handle)
+router.get('/details/product', new DetailsProductController().handle)
 
 // ROTAS ORDER
 
-router.post('/order', isAuthenticated, new CreateOrderController().handle)
-router.delete('/order', isAuthenticated, new RemoveOrderController().handle)
+router.post('/order', new CreateOrderController().handle)
+router.delete('/order', new RemoveOrderController().handle)
 
-router.post('/order/add', isAuthenticated, new AddItemController().handle)
-router.delete('/order/remove', isAuthenticated, new RemoveItemController().handle)
-router.put('/order/send', isAuthenticated, new SendOrderController().handle)
+router.post('/order/add', new AddItemController().handle)
+router.delete('/order/remove', new RemoveItemController().handle)
+router.put('/order/send', new SendOrderController().handle)
 
-router.get('/orders', isAuthenticated, new ListOrderController().handle)
-router.get('/orders/detail', isAuthenticated, new DetailOrderController().handle)
+router.get('/order', isAuthenticated, new ListOrderController().handle)
+router.get('/order/detail', isAuthenticated, new DetailOrderController().handle)
 
 router.put('/order/finish', isAuthenticated, new FinishOrderController().handle)
 
@@ -85,7 +85,7 @@ router.post('/table', new CreateTableController().handle)
 
 // --- ROTAS INGREDIENTS ---
 router.post('/ingredient', isAuthenticated,asyncWrapper(new CreateIngredientController().handle));
-router.get('/ingredients', isAuthenticated,asyncWrapper(new ListIngredientController().handle));
-router.post('/product/ingredient', isAuthenticated,asyncWrapper(new AddOrUpdateIngredientToProductController().handle));
-router.get('/products/:product_id/ingredients', isAuthenticated,asyncWrapper(new ListIngredientsByProductController().handle) );
+router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
+router.post('/product/ingredient', asyncWrapper(new AddOrUpdateIngredientToProductController().handle));
+router.get('/products/:product_id/ingredients', asyncWrapper(new ListIngredientsByProductController().handle) );
 export { router };  
