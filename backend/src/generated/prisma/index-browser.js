@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.7.0
- * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+ * Prisma Client JS version: 6.16.1
+ * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
  */
 Prisma.prismaVersion = {
-  client: "6.7.0",
-  engine: "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed"
+  client: "6.16.1",
+  engine: "1c57fdcd7e44b29b9313256c76699e91c3ac3c43"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -178,10 +178,16 @@ exports.Prisma.FavoritesScalarFieldEnum = {
 exports.Prisma.IngredientsScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  amount: 'amount',
+  price: 'price',
+  banner: 'banner',
   created_at: 'created_at',
-  update_at: 'update_at',
-  product_id: 'product_id'
+  update_at: 'update_at'
+};
+
+exports.Prisma.ProductIngredientScalarFieldEnum = {
+  productId: 'productId',
+  ingredientId: 'ingredientId',
+  amount: 'amount'
 };
 
 exports.Prisma.TableScalarFieldEnum = {
@@ -216,6 +222,7 @@ exports.Prisma.ModelName = {
   Item: 'Item',
   Favorites: 'Favorites',
   Ingredients: 'Ingredients',
+  ProductIngredient: 'ProductIngredient',
   Table: 'Table'
 };
 

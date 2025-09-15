@@ -52,7 +52,7 @@ model Product{
   category_id String
   items Item[]
   favorites Favorites[]
-  ingredients Ingredients[]
+  ingredients ProductIngredient[]
 }
 
 model Order{
@@ -99,16 +99,26 @@ model Favorites {
 }
 
 model Ingredients {
-  id String @id @default(uuid())
-  name String
-  amount Int
+  id         String    @id @default(uuid())
+  name       String
+  price       Decimal @default(0.00)
+  banner      String?
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
-  product Product @relation(fields: [product_id], references: [id])
+  products ProductIngredient[]
 
   @@map("ingredients")
-  product_id String
+}
+
+model ProductIngredient {
+
+  productId    String
+  ingredientId String
+  amount       Int
+  product Product @relation(fields: [productId], references: [id])
+  ingredient   Ingredients @relation(fields: [ingredientId], references: [id])
+  @@id([productId, ingredientId])
 }
 
 model Table {
@@ -117,9 +127,9 @@ model Table {
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
-  users User @relation(fields: [users_id], references: [id])
+  users User? @relation(fields: [users_id], references: [id])
 
   @@map("table")
-  users_id String
+  users_id String?
   order Order[]
 }

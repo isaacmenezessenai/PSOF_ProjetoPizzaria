@@ -16,7 +16,7 @@ export default function Signup(){
         const password = formData.get("password")
 
         if( name === "" || email ==="" ||password === ""){
-             console.log("PREENCHA TODOS OS CAMPOS")
+            console.log("PREENCHA TODOS OS CAMPOS")
             return;
         }
 
@@ -28,6 +28,12 @@ export default function Signup(){
             })
 
         } catch(err){
+            console.log("Erro ao cadastrar usuário:")
+            if (err.response && err.response.data) {
+                console.log(err.response.data);
+            } else {
+                console.log(err);
+            }
             console.log("erro")
             console.log(err)
         }
