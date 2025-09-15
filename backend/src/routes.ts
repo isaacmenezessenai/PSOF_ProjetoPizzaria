@@ -85,7 +85,7 @@ router.post('/table', new CreateTableController().handle)
 
 // --- ROTAS INGREDIENTS ---
 router.post('/ingredient', isAuthenticated,asyncWrapper(new CreateIngredientController().handle));
-router.get('/ingredients', isAuthenticated,asyncWrapper(new ListIngredientController().handle));
-router.post('/product/ingredient', isAuthenticated,asyncWrapper(new AddOrUpdateIngredientToProductController().handle));
-router.get('/products/:product_id/ingredients', isAuthenticated,asyncWrapper(new ListIngredientsByProductController().handle) );
+router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
+router.post('/product/ingredient', asyncWrapper(new AddOrUpdateIngredientToProductController().handle));
+router.get('/products/:product_id/ingredients', asyncWrapper(new ListIngredientsByProductController().handle) );
 export { router };  
