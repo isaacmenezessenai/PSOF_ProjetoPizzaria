@@ -68,12 +68,12 @@ router.get('/details/product', new DetailsProductController().handle)
 router.post('/order', new CreateOrderController().handle)
 router.delete('/order', new RemoveOrderController().handle)
 
-router.post('/order/add', isAuthenticated, new AddItemController().handle)
-router.delete('/order/remove', isAuthenticated, new RemoveItemController().handle)
-router.put('/order/send', isAuthenticated, new SendOrderController().handle)
+router.post('/order/add', new AddItemController().handle)
+router.delete('/order/remove', new RemoveItemController().handle)
+router.put('/order/send', new SendOrderController().handle)
 
-router.get('/orders', isAuthenticated, new ListOrderController().handle)
-router.get('/orders/detail', isAuthenticated, new DetailOrderController().handle)
+router.get('/order', isAuthenticated, new ListOrderController().handle)
+router.get('/order/detail', isAuthenticated, new DetailOrderController().handle)
 
 router.put('/order/finish', isAuthenticated, new FinishOrderController().handle)
 
