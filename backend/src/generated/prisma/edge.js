@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.16.1
- * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
+ * Prisma Client JS version: 6.7.0
+ * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
  */
 Prisma.prismaVersion = {
-  client: "6.16.1",
-  engine: "1c57fdcd7e44b29b9313256c76699e91c3ac3c43"
+  client: "6.7.0",
+  engine: "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -208,7 +208,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Bia\\Desktop\\TCC\\Release\\backend\\src\\generated\\prisma",
+      "value": "C:\\Users\\SENAI\\Desktop\\Pizzaria\\backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -222,7 +222,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Bia\\Desktop\\TCC\\Release\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\SENAI\\Desktop\\Pizzaria\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -230,18 +230,17 @@ const config = {
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
-  "clientVersion": "6.16.1",
-  "engineVersion": "1c57fdcd7e44b29b9313256c76699e91c3ac3c43",
+  "clientVersion": "6.7.0",
+  "engineVersion": "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://postgres:senai@localhost:5432/pizzaria?schema=public"
       }
     }
   },
