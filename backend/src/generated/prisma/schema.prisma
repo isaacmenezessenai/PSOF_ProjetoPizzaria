@@ -127,8 +127,8 @@ model Table {
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
-  users    User    @relation(fields: [users_id], references: [id])
-  users_id String
+  users    User?   @relation(fields: [users_id], references: [id])
+  users_id String?
   order    Order[]
 
   @@map("table")

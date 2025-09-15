@@ -75,7 +75,7 @@ export type Table = $Result.DefaultSelection<Prisma.$TablePayload>
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -107,13 +107,6 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
-
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -331,8 +324,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.7.0
-   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+   * Prisma Client JS version: 6.16.1
+   * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
    */
   export type PrismaVersion = {
     client: string
@@ -1453,16 +1446,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -1477,6 +1478,10 @@ export namespace Prisma {
       timeout?: number
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
+    /**
+     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     */
+    adapter?: runtime.SqlDriverAdapterFactory | null
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -1512,10 +1517,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -1555,25 +1565,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -10827,7 +10818,7 @@ export namespace Prisma {
     number: number
     created_at: Date | null
     update_at: Date | null
-    users_id: string
+    users_id: string | null
     _count: TableCountAggregateOutputType | null
     _avg: TableAvgAggregateOutputType | null
     _sum: TableSumAggregateOutputType | null
@@ -10855,7 +10846,7 @@ export namespace Prisma {
     created_at?: boolean
     update_at?: boolean
     users_id?: boolean
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
     order?: boolean | Table$orderArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
@@ -10866,7 +10857,7 @@ export namespace Prisma {
     created_at?: boolean
     update_at?: boolean
     users_id?: boolean
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
 
   export type TableSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10875,7 +10866,7 @@ export namespace Prisma {
     created_at?: boolean
     update_at?: boolean
     users_id?: boolean
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
 
   export type TableSelectScalar = {
@@ -10888,21 +10879,21 @@ export namespace Prisma {
 
   export type TableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "created_at" | "update_at" | "users_id", ExtArgs["result"]["table"]>
   export type TableInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
     order?: boolean | Table$orderArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
   }
   export type TableIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | UserDefaultArgs<ExtArgs>
+    users?: boolean | Table$usersArgs<ExtArgs>
   }
 
   export type $TablePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Table"
     objects: {
-      users: Prisma.$UserPayload<ExtArgs>
+      users: Prisma.$UserPayload<ExtArgs> | null
       order: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -10910,7 +10901,7 @@ export namespace Prisma {
       number: number
       created_at: Date | null
       update_at: Date | null
-      users_id: string
+      users_id: string | null
     }, ExtArgs["result"]["table"]>
     composites: {}
   }
@@ -11305,7 +11296,7 @@ export namespace Prisma {
    */
   export interface Prisma__TableClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    users<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    users<T extends Table$usersArgs<ExtArgs> = {}>(args?: Subset<T, Table$usersArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     order<T extends Table$orderArgs<ExtArgs> = {}>(args?: Subset<T, Table$orderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11734,6 +11725,25 @@ export namespace Prisma {
      * Limit how many Tables to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Table.users
+   */
+  export type Table$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -12516,8 +12526,8 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     created_at?: DateTimeNullableFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Table"> | Date | string | null
-    users_id?: StringFilter<"Table"> | string
-    users?: XOR<UserScalarRelationFilter, UserWhereInput>
+    users_id?: StringNullableFilter<"Table"> | string | null
+    users?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     order?: OrderListRelationFilter
   }
 
@@ -12526,7 +12536,7 @@ export namespace Prisma {
     number?: SortOrder
     created_at?: SortOrderInput | SortOrder
     update_at?: SortOrderInput | SortOrder
-    users_id?: SortOrder
+    users_id?: SortOrderInput | SortOrder
     users?: UserOrderByWithRelationInput
     order?: OrderOrderByRelationAggregateInput
   }
@@ -12539,8 +12549,8 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     created_at?: DateTimeNullableFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Table"> | Date | string | null
-    users_id?: StringFilter<"Table"> | string
-    users?: XOR<UserScalarRelationFilter, UserWhereInput>
+    users_id?: StringNullableFilter<"Table"> | string | null
+    users?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     order?: OrderListRelationFilter
   }, "id">
 
@@ -12549,7 +12559,7 @@ export namespace Prisma {
     number?: SortOrder
     created_at?: SortOrderInput | SortOrder
     update_at?: SortOrderInput | SortOrder
-    users_id?: SortOrder
+    users_id?: SortOrderInput | SortOrder
     _count?: TableCountOrderByAggregateInput
     _avg?: TableAvgOrderByAggregateInput
     _max?: TableMaxOrderByAggregateInput
@@ -12565,7 +12575,7 @@ export namespace Prisma {
     number?: IntWithAggregatesFilter<"Table"> | number
     created_at?: DateTimeNullableWithAggregatesFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableWithAggregatesFilter<"Table"> | Date | string | null
-    users_id?: StringWithAggregatesFilter<"Table"> | string
+    users_id?: StringNullableWithAggregatesFilter<"Table"> | string | null
   }
 
   export type UserCreateInput = {
@@ -13087,7 +13097,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users: UserCreateNestedOneWithoutTableInput
+    users?: UserCreateNestedOneWithoutTableInput
     order?: OrderCreateNestedManyWithoutTableInput
   }
 
@@ -13096,7 +13106,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users_id: string
+    users_id?: string | null
     order?: OrderUncheckedCreateNestedManyWithoutTableInput
   }
 
@@ -13105,7 +13115,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users?: UserUpdateOneRequiredWithoutTableNestedInput
+    users?: UserUpdateOneWithoutTableNestedInput
     order?: OrderUpdateManyWithoutTableNestedInput
   }
 
@@ -13114,7 +13124,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users_id?: StringFieldUpdateOperationsInput | string
+    users_id?: NullableStringFieldUpdateOperationsInput | string | null
     order?: OrderUncheckedUpdateManyWithoutTableNestedInput
   }
 
@@ -13123,7 +13133,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users_id: string
+    users_id?: string | null
   }
 
   export type TableUpdateManyMutationInput = {
@@ -13138,7 +13148,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users_id?: StringFieldUpdateOperationsInput | string
+    users_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -13621,6 +13631,11 @@ export namespace Prisma {
 
   export type ProductIngredientSumOrderByAggregateInput = {
     amount?: SortOrder
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
   }
 
   export type OrderListRelationFilter = {
@@ -14165,10 +14180,12 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
-  export type UserUpdateOneRequiredWithoutTableNestedInput = {
+  export type UserUpdateOneWithoutTableNestedInput = {
     create?: XOR<UserCreateWithoutTableInput, UserUncheckedCreateWithoutTableInput>
     connectOrCreate?: UserCreateOrConnectWithoutTableInput
     upsert?: UserUpsertWithoutTableInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTableInput, UserUpdateWithoutTableInput>, UserUncheckedUpdateWithoutTableInput>
   }
@@ -14478,7 +14495,7 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     created_at?: DateTimeNullableFilter<"Table"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Table"> | Date | string | null
-    users_id?: StringFilter<"Table"> | string
+    users_id?: StringNullableFilter<"Table"> | string | null
   }
 
   export type ProductCreateWithoutCategoryInput = {
@@ -14735,7 +14752,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users: UserCreateNestedOneWithoutTableInput
+    users?: UserCreateNestedOneWithoutTableInput
   }
 
   export type TableUncheckedCreateWithoutOrderInput = {
@@ -14743,7 +14760,7 @@ export namespace Prisma {
     number: number
     created_at?: Date | string | null
     update_at?: Date | string | null
-    users_id: string
+    users_id?: string | null
   }
 
   export type TableCreateOrConnectWithoutOrderInput = {
@@ -14793,7 +14810,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users?: UserUpdateOneRequiredWithoutTableNestedInput
+    users?: UserUpdateOneWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutOrderInput = {
@@ -14801,7 +14818,7 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users_id?: StringFieldUpdateOperationsInput | string
+    users_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ItemUpsertWithWhereUniqueWithoutOrderInput = {
