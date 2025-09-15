@@ -19,9 +19,13 @@ class CreateProductController{
         if(!req.files || Object.keys(req.files).length === 0){
             throw new Error("error upload file image")
         } else {
-        
+
             const file:UploadedFile = req.files['file']
 
+            if (file.mimetype !== 'image/png') {
+                throw new Error("Formato de arquivo inválido. Apenas imagens PNG são permitidas.");
+            }
+            
             const resultFile: UploadApiResponse = await new Promise((resolve, reject) => {
                 cloudinary.uploader.upload_stream({}, function (error, result){
                     if(error){

@@ -178,6 +178,8 @@ exports.Prisma.FavoritesScalarFieldEnum = {
 exports.Prisma.IngredientsScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  price: 'price',
+  banner: 'banner',
   created_at: 'created_at',
   update_at: 'update_at'
 };

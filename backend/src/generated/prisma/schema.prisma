@@ -101,6 +101,8 @@ model Favorites {
 model Ingredients {
   id         String    @id @default(uuid())
   name       String
+  price      Decimal   @default(0.00)
+  banner     String?
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
