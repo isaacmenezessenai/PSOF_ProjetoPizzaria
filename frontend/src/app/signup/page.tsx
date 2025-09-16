@@ -1,33 +1,34 @@
 import Image from "next/image"
+import divisoriaImg from '../../../public/divider.svg'
 import Link from "next/link"
 import styles from "../page.module.scss"
 import logoImg from '../../../public/logo.svg'
-import {api} from '@/services/api'
+import { api } from '@/services/api'
 import { redirect } from "next/navigation"
 
 
-export default function Signup(){
+export default function Signup() {
 
-    async function handleRegister(formData: FormData){
+    async function handleRegister(formData: FormData) {
         "use server"
 
         const name = formData.get("name")
         const email = formData.get("email")
         const password = formData.get("password")
 
-        if( name === "" || email ==="" ||password === ""){
+        if (name === "" || email === "" || password === "") {
             console.log("PREENCHA TODOS OS CAMPOS")
             return;
         }
 
         try {
-            await api.post("/users",{
+            await api.post("/users", {
                 name,
                 email,
                 password
             })
 
-        } catch(err){
+        } catch (err) {
             console.log("Erro ao cadastrar usuário:")
             if (err.response && err.response.data) {
                 console.log(err.response.data);
@@ -38,56 +39,63 @@ export default function Signup(){
             console.log(err)
         }
 
-        redirect ("/")
+        redirect("/")
 
     }
 
-    return(
+    return (
         <>
-            <div className={styles.containerCenter}>
-            <Image 
-                src={logoImg}
-                alt="Logo da pizzaria"
-            />
-
-                <section className={styles.login}>
-                    <h1>Criando sua conta</h1>
-                    <form action={handleRegister}>
-                        <input
-                        type='text'
-                        required
-                        name='name'
-                        placeholder='Digite seu nome...'
-                        className={styles.input}
+            <div className={styles.container}>
+                <div className={styles.containerCenter}>
+                        <Image
+                            src={logoImg}
+                            alt="Logo da pizzaria"
                         />
 
-                        <input
-                        type='email'
-                        required
-                        name='email'
-                        placeholder='Digite seu email...'
-                        className={styles.input}
+                        <Image
+                            src={divisoriaImg}
+                            alt="Logo da pizzaria"
                         />
 
-                        <input
-                        type='password'
-                        required
-                        name='password'
-                        placeholder='***********'
-                        className={styles.input}
-                        />
+                    <section className={styles.login}>
 
-                        <button type='submit'>
-                        Cadastrar
-                        </button>
-                    </form>
+                        <form action={handleRegister}>
+                            <input
+                                type='text'
+                                required
+                                name='name'
+                                placeholder='Digite seu nome...'
+                                className={styles.input}
+                            />
 
-                    <Link href="/" className={styles.text}>
-                        Já possui uma conta? Faça o login
-                    </Link>
+                            <input
+                                type='email'
+                                required
+                                name='email'
+                                placeholder='Digite seu email...'
+                                className={styles.input}
+                            />
 
-                </section>
-            </div>        
+                            <input
+                                type='password'
+                                required
+                                name='password'
+                                placeholder='***********'
+                                className={styles.input}
+                            />
+
+                            <button type='submit'>
+                                Cadastrar
+                            </button>
+                        </form>
+
+                        <Link href="/" className={styles.text}>
+                            Já possui uma conta? Faça o login
+                        </Link>
+
+                    </section>
+                </div>
+            </div>
         </>
     )
 }

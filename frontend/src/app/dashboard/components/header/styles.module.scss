@@ -20,12 +20,12 @@
 
 
     a{
-        color: var(--white);
+        color: var(--dark);
         text-decoration: none;
         transition: color .8s;
 
         &:hover{
-            color: var(--red-900);
+            color: var(--highlight);
         }
     }
 

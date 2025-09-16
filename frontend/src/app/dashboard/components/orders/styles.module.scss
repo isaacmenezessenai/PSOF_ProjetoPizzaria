@@ -8,7 +8,7 @@
     flex-direction: column;
 
     h1{
-        color: var(--white);
+        color: var(--dark);
     }
 }
 
@@ -33,7 +33,7 @@
 
 .orderItem{
     display: flex;
-    background-color: var(--dark-900);
+    background-color: var(--white);
     align-items: center;
     border: 0;
     font-size: 18px;
@@ -49,11 +49,11 @@
 .tag{
     width: 9px;
     height: 60px;
-    background-color: var(--green-900);
+    background-color: var(--highlight);
     border-radius:6px 0 0 6px ;
     margin-right: 16px;
 }
 
 .emptyItem{
-    color: var(--gray-100);
+    color: var(--light);
 }

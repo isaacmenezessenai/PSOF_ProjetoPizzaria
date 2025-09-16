@@ -7,7 +7,8 @@
     flex-direction: column;
 
     h1{
-        color: var(--white);
+        color: var(--dark);
+        font-family: "factorA";
     }
 }
 
@@ -21,9 +22,9 @@
 .input{
     height: 40px;
     border: 0;
-    background-color: var(--dark-900);
+    background-color: var(--white);
     border-radius: 8px;
     padding: 0 16px;
-    color: var(--white);
-    border: 1px solid var(--gray-100)
+    color: var(--dark);
+    border: 1px solid var(--gray)
 }
