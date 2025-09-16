@@ -36,6 +36,7 @@ import uploadConfig from './config/multer'
 import { CreateIngredientController } from "./controllers/ingredients/CreateIngredientControler";
 import { ListIngredientController } from "./controllers/ingredients/ListIngredientController";
 import { ListIngredientsByProductController } from "./controllers/ingredients/ListIngredientsByProductController";
+import { SumOrderController } from "./controllers/order/SumOrderController";
 
 const router = Router();
 
@@ -77,6 +78,7 @@ router.get('/orders', isAuthenticated, new ListOrderController().handle)
 router.get('/order/detail', isAuthenticated, new DetailOrderController().handle)
 
 router.put('/order/finish', isAuthenticated, new FinishOrderController().handle)
+router.get('/order/sum', new SumOrderController().handle)
 
 // ROTAS TABLE
 
