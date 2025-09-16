@@ -73,7 +73,7 @@ router.post('/order/add', new AddItemController().handle)
 router.delete('/order/remove', new RemoveItemController().handle)
 router.put('/order/send', new SendOrderController().handle)
 
-router.get('/order', isAuthenticated, new ListOrderController().handle)
+router.get('/orders', isAuthenticated, new ListOrderController().handle)
 router.get('/order/detail', isAuthenticated, new DetailOrderController().handle)
 
 router.put('/order/finish', isAuthenticated, new FinishOrderController().handle)
