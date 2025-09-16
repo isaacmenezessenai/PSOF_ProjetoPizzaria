@@ -10,6 +10,7 @@ import { getCookieClient } from "@/lib/cookieClient"
 import { toast } from 'sonner'
 import { useRouter } from "next/navigation"
 
+
 interface CategoryProps {
     id: string;
     name: string;
@@ -145,7 +146,7 @@ export function Form({ categories }: Props) {
             <form className={styles.form} action={handleRegisterProduct}>
                 {/* Campos do produto */}
                 <label className={styles.labelImage}>
-                    <span><UploadCloud size={30} color="#FFF" /></span>
+                    <span><UploadCloud size={30} color="#8a8a8a" /></span>
                     <input type="file" accept="image/png,image/jpeg" required onChange={handleFile} />
                     {previewImage && (
                         <Image alt="Preview" src={previewImage} className={styles.preview} fill={true} quality={100} priority={true} />

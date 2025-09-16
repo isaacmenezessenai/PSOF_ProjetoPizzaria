@@ -6,7 +6,8 @@
     flex-direction: column;
 
     h1{
-        color: var(--white);
+        color: var(--dark);
+        font-family: "FactorA", sans-serif, 900;
     }
 }
 
@@ -20,10 +21,10 @@
         width: 100%;
         height: 40px;
         border-radius: 8px;
-        background-color: var(--dark-900);
-        color: var(--white);
-        padding:  0 8px;
-        border: 1px solid var(--gray-100);
+        background-color: var(--white);
+        color: var(--dark);
+        padding: 0 8px;
+        border: 1px solid #8A8A8A;
     }
 
     textarea{
@@ -39,7 +40,7 @@
     width: 100%;
     height: 280px;
     position: relative;
-    background-color: var(--dark-900);
+    background-color: var(--white);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -47,7 +48,7 @@
     cursor: pointer;
     flex-direction: column;
     margin-bottom: 16px;
-    border: 1px solid var(--gray-100);
+    border: 1px solid var(--gray);
 
     input{
         display: none;
@@ -75,11 +76,11 @@
 .input{
     border: 0;
     height: 40px;
-    background-color: var(--dark-900);
-    border: 1px solid var(--gray-100);
+    background-color: var(--white);
+    border: 1px solid var(--gray);
     border-radius: 8px;
     padding: 0 8px;
-    color: var(--white);
+    color: var(--dark);
 }
 
 .ingredientSection {
@@ -87,8 +88,8 @@
     flex-direction: column;
     gap: 16px;
     padding: 16px;
-    background-color: var(--dark-900);
-    border: 1px solid var(--gray-100);
+    background-color: var(--white);
+    border: 1px solid var(--gray);
     border-radius: 8px;
 }
 
@@ -99,20 +100,20 @@
     margin-bottom: 8px;
     
     h2 {
-        color: var(--white);
+        color: var(--dark);
     }
 
     button {
-        background-color: var(--dark-700);
+        background-color: var(--highlight);
         color: var(--white);
-        border: 1px solid var(--gray-100);
+        border: 1px solid var(--gray);
         border-radius: 8px;
         padding: 8px 12px;
         cursor: pointer;
         transition: background-color 0.2s;
 
         &:hover {
-            background-color: var(--dark-900);
+            background-color: var(--dark);
         }
     }
 }
@@ -131,9 +132,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px;
-    background-color: var(--dark-700);
+    background-color: var(--white);
     border-radius: 8px;
-    border: 1px solid var(--gray-100);
+    border: 1px solid var(--gray);
     transition: transform 0.2s;
 
     &:hover {
@@ -152,7 +153,7 @@
     }
 
     span {
-        color: var(--white);
+        color: var(--dark);
     }
 }
 
@@ -162,7 +163,7 @@
     gap: 8px;
 
     span {
-        color: var(--white);
+        color: var(--dark);
         font-weight: bold;
         width: 20px;
         text-align: center;
@@ -170,8 +171,8 @@
 
     button {
         background: transparent;
-        border: 1px solid var(--gray-100);
-        color: var(--white);
+        border: 1px solid #9b9b9b;
+        color: var(--dark);
         border-radius: 50%;
         width: 28px;
         height: 28px;

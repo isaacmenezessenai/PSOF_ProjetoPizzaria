@@ -11,7 +11,7 @@ class DetailsProductController {
             product_id
         });
 
-        return res.json(details);
+        res.json(details);
     }
 }
 

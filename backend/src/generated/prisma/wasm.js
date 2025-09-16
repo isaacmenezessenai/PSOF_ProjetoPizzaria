@@ -208,7 +208,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\SENAI\\Desktop\\Pizzaria\\backend\\src\\generated\\prisma",
+      "value": "C:\\Users\\SENAI\\Documents\\PSOF_ProjetoPizzaria\\backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -222,7 +222,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\SENAI\\Desktop\\Pizzaria\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\SENAI\\Documents\\PSOF_ProjetoPizzaria\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
