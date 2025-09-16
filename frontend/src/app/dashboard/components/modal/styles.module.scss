@@ -15,14 +15,15 @@
 }
 
 .dialogContent{
-    background-color: var(--dark-700);
+    background-color: var(--white);
     margin: auto;
     padding: 16px;
     border-radius: 8px;
     width: 100%;
     max-width: 600px;
     position: relative;
-    color: var(--white);
+    color: var(--dark);
+    font-family: "neue haas";
 
     h2{
         margin-bottom: 16px;
@@ -31,7 +32,7 @@
 }
 
 .table {
-    background-color: var(--dark-900);
+    background-color: var(--highlight-2);
     padding: 8px;
     border-radius: 4px;
 }
@@ -49,16 +50,16 @@
 }
 
 .description{
-    color: #CCC;
+    color: var(--gray);
     margin-top: 4px;
 }
 
 .buttonOrder{
-    background-color: var(--green-900);
+    background-color: var(--highlight);
+    color: var(--white);
     padding: 8px;
     border-radius: 4px;
     border: 0;
-    font-weight: bold;
 }
 
 .name{
