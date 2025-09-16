@@ -29,6 +29,7 @@ class DetailsProductService {
         });
 
         return product;
+        
     }
 }
 
