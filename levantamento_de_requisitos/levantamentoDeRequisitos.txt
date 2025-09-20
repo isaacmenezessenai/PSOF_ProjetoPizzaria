@@ -1,0 +1,129 @@
+Engenharia Reversa - Projeto Pizzaria
+
+Regras de Negócio
+
+RN01 — Existência de Cliente
+Descrição: Para que qualquer operação seja realizada no sistema, é necessário existir um cliente.
+RN Relacionadas: -
+
+RN02 — Login de Garçom
+Descrição: O garçom precisa realizar login no aplicativo mobile para registrar e receber pedidos.
+RN Relacionadas: -
+
+RN03 — Registro de Pedido
+Descrição: O garçom registra o pedido informado pelo cliente no sistema.
+RN Relacionadas: RN01, RN02
+
+RN04 — Encerramento por Pagamento
+Descrição: O pedido só é encerrado no sistema após o cliente efetuar o pagamento.
+RN Relacionadas: RN01, RN03
+
+RN05 — Escolha de Itens
+Descrição: O cliente escolhe itens do cardápio para compor o pedido.
+RN Relacionadas: RN01, RN02, RN10
+
+RN06 — Login da Gerência
+Descrição: Apenas usuários com credenciais de gerente podem acessar funções administrativas.
+RN Relacionadas: -
+
+RN07 — Gerenciamento do Catálogo
+Descrição: Apenas a gerência pode criar, editar ou remover itens do cardápio.
+RN Relacionadas: RN06
+
+RN08 — Organização do Cardápio
+Descrição: Os itens do cardápio devem estar organizados em categorias para melhor usabilidade.
+RN Relacionadas: -
+
+RN09 — Informações Obrigatórias dos Itens
+Descrição: Cada item do cardápio deve ter, no mínimo, nome e descrição.
+RN Relacionadas: -
+
+RN10 — Vinculação de Pedido à Mesa
+Descrição: Todo pedido deve estar vinculado a uma mesa, que, por sua vez, deve estar associada a um cliente.
+RN Relacionadas: RN01, RN03
+
+---
+
+Requisitos Funcionais
+
+RF01 - Criação da conta
+Descrição: Cadastrar conta com e-mail e senha do usuário para a criação de conta.
+Regras relacionadas: RN01
+ 
+RF02 - Login com e-mail e senha
+Descrição: Autenticar a conta que foi criada do usuário.
+Regras relacionadas: RN02, RN05
+
+RF03 - Listamento dos itens
+Descrição: Demonstrações das diversas opções de itens para ser selecionado pelo usuário.
+Regras relacionadas: RN06, RN07, RN08
+
+RF04 - Adicionamento de itens 
+Descrição: Adicionar mais produtos mostrados na categoria do pedido de acordo com o usuário.
+Regras relacionadas: RN03, RN09
+
+RF05 - Remoção de itens 
+Descrição: Exclusão de itens no pedido do cliente.
+Regras relacionadas: RN03, RN09
+
+RF06 - Finalização do pedido
+Descrição: Criação do pedido com itens selecionados pelo usuário.
+Regras relacionadas: RN04, RN10, RN12
+
+RF07 - Detalhamento do pedido
+Descrição: Demonstração de todos os detalhes dos itens que possui no pedido do cliente.
+Regras relacionadas: RN11, RN10
+
+RF08 - Listamento do pedido
+Descrição: Visualização do pedido completo do cliente, com todos o itens selecionados por ele.
+Regras relacionadas: RN11, RN10
+
+RF09 - Remoção do pedido
+Descrição: Exclusão de todo o pedido feito pelo cliente.
+Regras relacionadas: RN11, RN10
+
+---
+
+Requisitos Não Funcionais
+
+RNF01 — Segurança
+A senha do usuário deve ser armazenada de forma criptografada para garantir segurança dos dados.
+Regras Relacionadas: RN01, RN02, RN06
+
+RNF02 — Dependência de Internet
+O sistema necessita de conexão com a internet para funcionar corretamente.
+Regras Relacionadas: RN02, RN03, RN04, RN05
+
+RNF03 — Autenticação Obrigatória
+O acesso ao sistema só será liberado após autenticação via login bem-sucedida.
+Regras Relacionadas: RN06, RN06
+
+RNF04 — Interface Responsiva
+A interface deve se adaptar a diferentes resoluções de tela, garantindo usabilidade em dispositivos variados.
+Regras Relacionadas: RN08
+
+RNF05 — Compatibilidade de Navegadores
+O sistema deve ser compatível com os principais navegadores utilizados no mercado.
+Regras Relacionadas: 
+
+RNF06 — Gerenciamento de Mídias
+As imagens e mídias do cardápio serão gerenciadas por meio da plataforma Cloudinary.
+Regras Relacionadas: RN07, RN09
+
+RNF07 — Navegação Intuitiva
+A navegação do sistema deve ser clara e organizada, facilitando o uso pelos usuários.
+Regras Relacionadas: 
+
+RNF08 — Consistência Visual
+A interface deve apresentar ícones, cores e elementos visuais padronizados para manter a consistência.
+Regras Relacionadas: RN09, RN08
+
+RNF09 — Atualização Automática
+A lista de pedidos deve ser atualizada automaticamente para refletir alterações em tempo real.
+Regras Relacionadas: RN10
+
+RNF10 - Comunicação efetiva
+Descrição: A comunicação entre os aplicativos cozinha - garçom deve ocorrer de forma rápida e efetiva através de API
+Regras Relacionadas: 
+
+---
