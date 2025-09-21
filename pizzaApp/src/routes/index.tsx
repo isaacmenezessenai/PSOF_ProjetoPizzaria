@@ -2,10 +2,10 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "../screens/Home";
-import Favoritos from "../screens/favoritos";
-import Pedidos from "../screens/pedidos";
-import Ajuda from "../screens/ajuda";
-import Perfil from "../screens/perfil";
+import Favoritos from "../screens/Favoritos";
+import Pedidos from "../screens/Pedidos";
+import Ajuda from "../screens/Ajuda";
+import Perfil from "../screens/Perfil";
 
 const Stack = createNativeStackNavigator();
 
