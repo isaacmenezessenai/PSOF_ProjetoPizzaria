@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   title: {
+    fontFamily: "NeueHaas",
     fontSize: 24,
     fontWeight: "bold",
     color: "#000",
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   description: {
+    fontFamily: "NeueHaas",
     fontSize: 18,
     color: "#444",
     marginBottom: 12,
@@ -91,8 +93,8 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   buttonText: {
+    fontFamily: "NeueHaas",
     color: "#FFF",
     fontSize: 18,
-    fontWeight: "bold",
   },
 });
