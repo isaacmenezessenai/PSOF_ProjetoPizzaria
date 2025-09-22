@@ -26,7 +26,7 @@ export function Modalorder(){
                     <h2>Detalhes do pedido</h2>
 
                     <span className={styles.table}>
-                        Mesa <b>{order[0].order.table_id}</b>
+                        Mesa <b>{order[0].order.table.number}</b>
                     </span>
 
                     {order[0].order?.name && (
