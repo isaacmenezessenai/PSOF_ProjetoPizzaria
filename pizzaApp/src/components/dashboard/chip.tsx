@@ -26,16 +26,17 @@ export default function Chip({ title, image, navigateTo }: ChipProps) {
 
 const styles = StyleSheet.create({
   chip: {
-  height: 170,
+  height: 120,
   paddingTop: 15,
+  marginBottom: 15,
   backgroundColor: "#FFF",
   borderColor: "#C0C0C0",
   borderRadius: 8,
   borderWidth: 1,
   marginHorizontal: 4,
   alignItems: "center",
-  justifyContent: "flex-start", // <- faz o conteúdo começar no topo
-  paddingVertical: 10, // opcional, pra dar espaçamento
+  justifyContent: "flex-start", 
+  paddingVertical: 10, 
   shadowColor: "#000",
   shadowOpacity: 0.1,
   shadowOffset: { width: 0, height: 1 },
@@ -43,13 +44,13 @@ const styles = StyleSheet.create({
   elevation: 3,
 },
   image: {
-    width: 80,
-    height: 80,
+    width: 50,
+    height: 50,
     marginBottom: 8,
   },
   text: {
     fontFamily: "NeueHaas",
-    fontSize: 20,
+    fontSize: 14,
     color: "#000",
     textAlign: "center",
     paddingHorizontal: 10,

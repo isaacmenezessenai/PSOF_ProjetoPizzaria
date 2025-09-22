@@ -1,13 +1,42 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, Text, Image } from "react-native";
 import Chip from "../components/dashboard/chip";
 import Card from "../components/card"
 import Divider from "../components/divider";
+<<<<<<< HEAD
 import CategoryNav from "../components/dashboard/categoryList"
+=======
+import ImageButton from "../components/imageButton";
+import { Dimensions } from "react-native";
+
+const { width: screenWidth } = Dimensions.get("window");
+>>>>>>> 39a7b9600c097b1d73456510838531f4d4f7c50a
 
 export default function Home() {
   return (
-    <View style={styles.container}>
+    <ScrollView style={{ backgroundColor: "#FAF6ED"}}>
+      <View style={styles.container}>
+
+    <View style={{ alignItems: "flex-end", marginRight: 20, marginTop: 10 }}>
+      <ImageButton 
+  image={require("../../assets/img/sacola.png")} 
+  size={50} 
+  navigateTo="Sacola"
+/>
+    </View>
+
+<View style={{ alignItems: "flex-start" }}>
+  <Image
+    source={require("../../assets/img/header.png")}
+    style={{
+      width: screenWidth * 0.8,
+      resizeMode: "contain",
+      marginLeft: 20,
+      marginBottom: -120,
+      marginTop: -120,
+    }}
+  />
+</View>
 
       <Divider />
 
@@ -30,11 +59,16 @@ export default function Home() {
         <Chip
           title="Perfil"
           image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0x1aba14_expires_30_days.png"
-          navigateTo="Perfil"
+          navigateTo="Detalhes"
         />
       </View>
 
-      <Divider />
+      <Divider/>
+
+    <View style={{ marginHorizontal: 20, marginBottom: 30, alignItems: 'center',}}>
+      <Image source={require('../../assets/img/menu.png')} style={{ width: 150, height: 50, resizeMode: 'contain' }} />
+    </View>
+      
 
       <CategoryNav />
 
@@ -43,19 +77,36 @@ export default function Home() {
   description="Descrição da pizza"
   image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
   favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
-  onPress={() => alert("Pressed!")}
 />
 
-    </View>
+<Card
+  title="Pizza Tal"
+  description="Descrição da pizza"
+  image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
+  favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
+/>
+
+<Card
+  title="Pizza Tal"
+  description="Descrição da pizza"
+  image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
+  favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
+/>
+
+</View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FAF6ED",
     justifyContent: "center",
+<<<<<<< HEAD
     
+=======
+    marginVertical: 30,
+>>>>>>> 39a7b9600c097b1d73456510838531f4d4f7c50a
   },
   list: {
     flexDirection: "row",

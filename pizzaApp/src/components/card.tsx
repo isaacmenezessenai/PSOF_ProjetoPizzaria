@@ -1,20 +1,33 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 type CardProps = {
   title: string;
   description: string;
   image: string;
   favoriteIcon?: string;
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 export default function Card({ title, description, image, favoriteIcon, onPress }: CardProps) {
+  const navigation: any = useNavigation();
+
+  const handlePress = () => {
+    if (onPress) {
+      onPress();
+    } else {
+  navigation.navigate('Detalhes', {
+        title,
+        description,
+        image,
+      });
+    }
+  };
+
   return (
     <View style={styles.cardContainer}>
-
       <Image source={{ uri: image }} style={styles.productImage} resizeMode="cover" />
-
       <View style={styles.infoBox}>
         <View style={styles.headerRow}>
           <Text style={styles.title}>{title}</Text>
@@ -22,10 +35,8 @@ export default function Card({ title, description, image, favoriteIcon, onPress 
             <Image source={{ uri: favoriteIcon }} style={styles.favoriteIcon} resizeMode="contain" />
           )}
         </View>
-
         <Text style={styles.description}>{description}</Text>
-
-        <TouchableOpacity style={styles.button} onPress={onPress}>
+        <TouchableOpacity style={styles.button} onPress={handlePress}>
           <Text style={styles.buttonText}>Peça Agora</Text>
         </TouchableOpacity>
       </View>
@@ -41,7 +52,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     paddingRight: 24,
-    marginTop: 10,
     marginHorizontal: 16,
     marginBottom: 24,
     alignItems: "center",
@@ -52,8 +62,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   productImage: {
-    width: 180,
-    height: 180,
+    width: 150,
+    height: 150,
     borderRadius: 16,
     marginRight: 10,
     margin: 5
@@ -69,7 +79,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "NeueHaas",
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#000",
     flex: 1,
@@ -77,24 +87,26 @@ const styles = StyleSheet.create({
   },
   description: {
     fontFamily: "NeueHaas",
-    fontSize: 18,
+    fontSize: 14,
     color: "#444",
     marginBottom: 12,
   },
   favoriteIcon: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
   },
   button: {
     backgroundColor: "#9A1105",
+    marginTop: 10,
     borderRadius: 30,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     alignSelf: "flex-end",
   },
   buttonText: {
     fontFamily: "NeueHaas",
     color: "#FFF",
-    fontSize: 18,
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });
