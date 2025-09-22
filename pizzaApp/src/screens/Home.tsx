@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import Chip from "../components/dashboard/chip";
 import Card from "../components/card"
 import Divider from "../components/divider";
+import CategoryNav from "../components/dashboard/categoryList"
 
 export default function Home() {
   return (
@@ -35,6 +36,8 @@ export default function Home() {
 
       <Divider />
 
+      <CategoryNav />
+
       <Card
   title="Pizza Tal"
   description="Descrição da pizza"
@@ -52,6 +55,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FAF6ED",
     justifyContent: "center",
+    
   },
   list: {
     flexDirection: "row",
