@@ -16,7 +16,6 @@ export default function Divider() {
 const styles = StyleSheet.create({
   divisoria: {
     height: 30,
-    margin: 18,
-    marginHorizontal: 22,
+    marginBottom: 15,
   },
 });
