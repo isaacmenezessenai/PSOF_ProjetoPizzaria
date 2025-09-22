@@ -1,0 +1,24 @@
+const Routes = () => {
+    return (
+        // <NavigationContainer>
+            // <Stack.Navigator initialRouteName="SignIn">
+                //<Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
+                //<Stack.Screen name="SignUp" component={SignUp} />
+                //<Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+
+                {/* Telas Principais do App */}
+                //<Stack.Screen name="Dashboard" component={Dashboard} />
+                //<Stack.Screen name="Menu" component={Menu} />
+                //<Stack.Screen name="ProductDetails" component={ProductDetails} />
+                //<Stack.Screen name="Cart" component={Cart} />
+                //<Stack.Screen name="Checkout" component={Checkout} />
+                //<Stack.Screen name="FinishOrder" component={FinishOrder} />
+                //<Stack.Screen name="OrderHistory" component={OrderHistory} />
+                //<Stack.Screen name="OrderDetails" component={OrderDetails} />
+                //<Stack.Screen name="ProfileSettings" component={ProfileSettings} />
+                //<Stack.Screen name="Favorites" component={Favorites} />
+
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+};

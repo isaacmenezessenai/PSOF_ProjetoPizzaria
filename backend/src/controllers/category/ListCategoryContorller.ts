@@ -8,7 +8,7 @@ class ListCategoryController{
 
         const category = await listCategoryService.execute();
 
-        return res.json(category);
+        res.json(category);
     }
 }
 

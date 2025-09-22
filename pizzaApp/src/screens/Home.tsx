@@ -3,14 +3,6 @@ import { ScrollView, View, StyleSheet, Text, Image } from "react-native";
 import Chip from "../components/dashboard/chip";
 import Card from "../components/card"
 import Divider from "../components/divider";
-<<<<<<< HEAD
-import CategoryNav from "../components/dashboard/categoryList"
-=======
-import ImageButton from "../components/imageButton";
-import { Dimensions } from "react-native";
-
-const { width: screenWidth } = Dimensions.get("window");
->>>>>>> 39a7b9600c097b1d73456510838531f4d4f7c50a
 
 export default function Home() {
   return (
@@ -63,14 +55,7 @@ export default function Home() {
         />
       </View>
 
-      <Divider/>
-
-    <View style={{ marginHorizontal: 20, marginBottom: 30, alignItems: 'center',}}>
-      <Image source={require('../../assets/img/menu.png')} style={{ width: 150, height: 50, resizeMode: 'contain' }} />
-    </View>
-      
-
-      <CategoryNav />
+      <Divider />
 
       <Card
   title="Pizza Tal"
@@ -102,11 +87,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-<<<<<<< HEAD
-    
-=======
-    marginVertical: 30,
->>>>>>> 39a7b9600c097b1d73456510838531f4d4f7c50a
   },
   list: {
     flexDirection: "row",
