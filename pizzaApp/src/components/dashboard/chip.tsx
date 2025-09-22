@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "NeueHaas",
-    fontSize: 20,
+    fontSize: 14,
     color: "#000",
     textAlign: "center",
     paddingHorizontal: 10,
