@@ -26,8 +26,9 @@ export default function Chip({ title, image, navigateTo }: ChipProps) {
 
 const styles = StyleSheet.create({
   chip: {
-  height: 170,
+  height: 120,
   paddingTop: 15,
+  marginBottom: 15,
   backgroundColor: "#FFF",
   borderColor: "#C0C0C0",
   borderRadius: 8,
@@ -43,13 +44,13 @@ const styles = StyleSheet.create({
   elevation: 3,
 },
   image: {
-    width: 80,
-    height: 80,
+    width: 50,
+    height: 50,
     marginBottom: 8,
   },
   text: {
     fontFamily: "NeueHaas",
-    fontSize: 20,
+    fontSize: 14,
     color: "#000",
     textAlign: "center",
     paddingHorizontal: 10,
