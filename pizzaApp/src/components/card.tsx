@@ -1,20 +1,33 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 type CardProps = {
   title: string;
   description: string;
   image: string;
   favoriteIcon?: string;
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 export default function Card({ title, description, image, favoriteIcon, onPress }: CardProps) {
+  const navigation: any = useNavigation();
+
+  const handlePress = () => {
+    if (onPress) {
+      onPress();
+    } else {
+  navigation.navigate('Detalhes', {
+        title,
+        description,
+        image,
+      });
+    }
+  };
+
   return (
     <View style={styles.cardContainer}>
-
       <Image source={{ uri: image }} style={styles.productImage} resizeMode="cover" />
-
       <View style={styles.infoBox}>
         <View style={styles.headerRow}>
           <Text style={styles.title}>{title}</Text>
@@ -22,13 +35,9 @@ export default function Card({ title, description, image, favoriteIcon, onPress 
             <Image source={{ uri: favoriteIcon }} style={styles.favoriteIcon} resizeMode="contain" />
           )}
         </View>
-
         <Text style={styles.description}>{description}</Text>
-
-        <TouchableOpacity style={styles.button} onPress={onPress}>
-          <Text style={styles.buttonText} >Peça Agora 
-          
-          </Text>
+        <TouchableOpacity style={styles.button} onPress={handlePress}>
+          <Text style={styles.buttonText}>Peça Agora</Text>
         </TouchableOpacity>
       </View>
     </View>

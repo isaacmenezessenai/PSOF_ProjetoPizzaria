@@ -71,7 +71,6 @@ export default function Home() {
   description="Descrição da pizza"
   image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
   favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
-  onPress={() => alert("Pressed!")}
 />
 
 <Card
@@ -79,7 +78,6 @@ export default function Home() {
   description="Descrição da pizza"
   image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
   favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
-  onPress={() => alert("Pressed!")}
 />
 
 <Card
@@ -87,7 +85,6 @@ export default function Home() {
   description="Descrição da pizza"
   image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
   favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
-  onPress={() => alert("Pressed!")}
 />
 
 </View>
