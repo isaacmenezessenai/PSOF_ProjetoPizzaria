@@ -25,8 +25,6 @@ export function Modalorder(){
                 <article className={styles.container}>
                     <h2>Detalhes do pedido</h2>
 
-                    <Image src={divisoria} />
-
                     <span className={styles.table}>
                         Mesa <b>{order[0].order.table_id}</b>
                     </span>
