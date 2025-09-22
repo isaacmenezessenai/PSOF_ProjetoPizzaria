@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
   borderWidth: 1,
   marginHorizontal: 4,
   alignItems: "center",
-  justifyContent: "flex-start", // <- faz o conteúdo começar no topo
-  paddingVertical: 10, // opcional, pra dar espaçamento
+  justifyContent: "flex-start", 
+  paddingVertical: 10, 
   shadowColor: "#000",
   shadowOpacity: 0.1,
   shadowOffset: { width: 0, height: 1 },
