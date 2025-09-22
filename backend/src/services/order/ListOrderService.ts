@@ -10,7 +10,14 @@ class ListOrderService{
             },
             orderBy:{
                 created_at:'desc'
-            }
+            },
+                    include:{
+                        table: {
+                            select:{
+                                number: true,
+                            }
+                        }
+                    }
         })
 
         return orders;

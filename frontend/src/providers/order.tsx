@@ -23,10 +23,14 @@ export interface OrderItemProps{
     order:{
         id:string;
         table_id:string;
-        name:string | null;
+        name:string | null; 
         draft:boolean;
         status:boolean;
-    }
+        table:{
+        number: string;
+        }
+    };
+    
 }
 
 type OrderContextData = {

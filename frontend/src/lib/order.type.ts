@@ -4,4 +4,7 @@ export interface OrderProps{
     name: string;
     draft: boolean;
     status: boolean;
+    table: {
+        number: number;
+    }
 }
