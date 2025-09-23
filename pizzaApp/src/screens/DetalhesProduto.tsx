@@ -1,99 +1,169 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView } from "react-native";
-import axios from "axios";
+import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRoute } from "@react-navigation/native";
+import { ProductProps } from "../components/card"; 
+import Divider from "../components/divider";
+import { api } from "../services/api";
+import BackButton from "../components/backButton";
 
-export default function DetalhesProduto({ route }: any) {
-  const { productId } = route.params;
-  const [product, setProduct] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+export default function DetalhesProduto() {
+  const route = useRoute();
+  const { product } = route.params as { product: ProductProps };
+
+  const [ingredients, setIngredients] = useState<any[]>([]);
+  const [loadingIngredients, setLoadingIngredients] = useState(true);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3333/details/product/${productId}`)
-      .then((res) => {
-        setProduct(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [productId]);
+    async function fetchIngredients() {
+      try {
+        setLoadingIngredients(true);
+        const response = await api.get(`/products/${product.id}/ingredients`);
+        setIngredients(response.data);
+      } catch (err) {
+        setIngredients([]);
+      } finally {
+        setLoadingIngredients(false);
+      }
+    }
+    fetchIngredients();
+  }, [product.id]);
 
-  if (loading) {
-    return <ActivityIndicator size="large" color="#9A1105" style={{ flex: 1, justifyContent: "center" }} />;
+  const priceNumber = parseFloat(product.price.replace(",", "."));
+  const total = (isNaN(priceNumber) ? 0 : priceNumber) * quantity;
+
+  function handleAddToCart() {
   }
 
-  if (!product) {
-    return <Text>Produto não encontrado</Text>;
-  }
-
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image source={{ uri: product.banner }} style={styles.banner} resizeMode="cover" />
-      <Text style={styles.title}>{product.name}</Text>
-      <Text style={styles.price}>R$ {product.price}</Text>
-      <Text style={styles.description}>{product.description}</Text>
-
-      <Text style={styles.sectionTitle}>Ingredientes</Text>
-      {product.ingredients?.map((item: any, index: number) => (
-        <View key={index} style={styles.ingredientRow}>
-          <Image source={{ uri: item.ingredient.banner }} style={styles.ingredientImage} />
-          <Text style={styles.ingredientText}>{item.ingredient.name} (+R$ {item.ingredient.price})</Text>
+  return (  
+    <View style={{ flex: 1, backgroundColor: "#FAF6ED" }}>
+      <ScrollView>
+        <View style={styles.container}>
+          <BackButton style={{ marginTop: 20, alignSelf: "left" }}/>
+          <Image source={{ uri: product.banner }} style={styles.image} />
+          <Divider />
+          <Text style={styles.title}>{product.name}</Text>
+          {loadingIngredients ? (
+            <ActivityIndicator size="small" color="#BCA85C" style={{ marginVertical: 4 }} />
+          ) : ingredients.length > 0 ? (
+            <Text style={styles.ingredients} numberOfLines={2}>
+              {ingredients.map((ing) => ing.ingredient.name).join(", ")}
+            </Text>
+          ) : null}
+          <Text style={styles.description}>{product.description}</Text>
         </View>
-      ))}
-    </ScrollView>
+      </ScrollView>
+      <SafeAreaView edges={["bottom"]} style={{ backgroundColor: "#fff" }}>
+        <View style={styles.actionBar}>
+          <View style={styles.qtyBox}>
+            <TouchableOpacity
+              style={styles.qtyButton}
+              onPress={() => setQuantity((q) => Math.max(1, q - 1))}
+            >
+              <Text style={styles.qtyButtonText}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.qtyText}>{quantity}</Text>
+            <TouchableOpacity
+              style={styles.qtyButton}
+              onPress={() => setQuantity((q) => q + 1)}
+            >
+              <Text style={styles.qtyButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
+            <Text style={styles.addButtonText}>Adicionar</Text>
+            <Text style={styles.totalText}>{total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  
   container: {
-    padding: 16,
-    backgroundColor: "#fff",
+    flex: 1,
+    padding: 20,
+    alignItems: "center",
   },
-  banner: {
-    width: "100%",
-    height: 250,
-    borderRadius: 16,
-    marginBottom: 16,
+  image: {
+    width: 180,
+    height: 180,
+    resizeMode: "contain",
+    marginTop: 8,
+    marginBottom: 8,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
-    color: "#000",
-    marginBottom: 8,
+    marginTop: 8,
+    marginBottom: 2,
+    color: "#222",
+    textAlign: "center",
+    fontFamily: "Neue Haas",
   },
-  price: {
-    fontSize: 18,
-    color: "#9A1105",
-    fontWeight: "bold",
-    marginBottom: 8,
+  ingredients: {
+    fontSize: 15,
+    color: "#BCA85C",
+    textAlign: "center",
+    marginBottom: 2,
+    fontFamily: "Neue Haas",
   },
   description: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#444",
-    marginBottom: 16,
+    textAlign: "center",
+    marginBottom: 10,
+    fontFamily: "Neue Haas",
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginTop: 16,
-    marginBottom: 8,
+  actionBar: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginHorizontal: 12,
+    gap: 10,
+    paddingVertical: 12,
+    backgroundColor: "#fff",
   },
-  ingredientRow: {
+  qtyBox: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
-  },
-  ingredientImage: {
-    width: 40,
-    height: 40,
+    backgroundColor: "#000",
     borderRadius: 8,
-    marginRight: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
-  ingredientText: {
-    fontSize: 14,
-    color: "#333",
+  qtyButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+  },
+  qtyButtonText: {
+    color: "#fff",
+    fontSize: 22,
+  },
+  qtyText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginHorizontal: 8,
+  },
+  addButton: {
+    flexDirection: "row",
+    gap: 10,
+    backgroundColor: "#9A1105",
+    borderRadius: 8,
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  addButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  totalText: {
+    color: "#ffffffff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
