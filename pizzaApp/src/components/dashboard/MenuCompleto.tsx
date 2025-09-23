@@ -49,7 +49,6 @@ export default function MenuCompleto() {
 
 
     useEffect(() => {
-
         if (!selectedCategory) {
             return;
         }
@@ -62,7 +61,20 @@ export default function MenuCompleto() {
                         category_id: selectedCategory
                     }
                 });
-                setProducts(response.data);
+                const productsData = response.data;
+
+                // Buscar ingredientes de cada produto
+                const productsWithIngredients = await Promise.all(
+                    productsData.map(async (product: any) => {
+                        try {
+                            const ingRes = await api.get(`/products/${product.id}/ingredients`);
+                            return { ...product, ingredients: ingRes.data };
+                        } catch {
+                            return { ...product, ingredients: [] };
+                        }
+                    })
+                );
+                setProducts(productsWithIngredients);
             } catch (error) {
                 console.error("Erro ao buscar produtos:", error);
                 setProducts([]);

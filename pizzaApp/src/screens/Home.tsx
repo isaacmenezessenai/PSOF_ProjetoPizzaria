@@ -34,7 +34,8 @@ export default function Home() {
           />
         </View>
 
-        <Divider />
+        <Divider/>
+        
         <View style={styles.list}>
           <Chip
             title="Favoritos"
@@ -54,11 +55,11 @@ export default function Home() {
           <Chip
             title="Perfil"
             image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0x1aba14_expires_30_days.png"
-            navigateTo="Detalhes"
+            navigateTo="Perfil"
           />
         </View>
 
-        <Divider />
+        <Divider/>
 
         <View style={{ marginHorizontal: 20, marginBottom: 30, alignItems: 'center', }}>
           <Image source={require('../../assets/img/menu.png')} style={{ width: 150, height: 50, resizeMode: 'contain' }} />

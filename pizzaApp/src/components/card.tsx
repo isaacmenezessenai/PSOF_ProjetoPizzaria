@@ -2,19 +2,24 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-
-export interface ProductProps {
-  id: string
-  name: string
-  price: string
-  description: string
-  banner: string
+export interface Ingredient {
+  ingredient: {
+    name: string;
+  };
 }
 
+export interface ProductProps {
+  id: string;
+  name: string;
+  price: string;
+  description: string;
+  banner: string;
+  ingredients?: Ingredient[];
+}
 
 type CardProps = {
-  data: ProductProps
-  onPress?: () => void
+  data: ProductProps;
+  onPress?: () => void;
 };
 
 export default function Card({ data, onPress }: CardProps) {
@@ -22,34 +27,44 @@ export default function Card({ data, onPress }: CardProps) {
 
   const handlePress = () => {
     if (onPress) {
-      onPress()
+      onPress();
     } else {
-      navigation.navigate('Detalhes', { productId: data.id })
+      navigation.navigate("Detalhes", { product: data });
     }
   };
 
-  let formattedPrice = 'R$ --,--'
+  let formattedPrice = "R$ --,--";
 
   if (data.price) {
-    const priceAsNumber = parseFloat(data.price.replace(',', '.'))
+    const priceAsNumber = parseFloat(data.price.replace(",", "."));
 
     if (!isNaN(priceAsNumber)) {
-      formattedPrice = priceAsNumber.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-      })
+      formattedPrice = priceAsNumber.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
     }
   }
 
   return (
     <View style={styles.cardContainer}>
-      <Image source={{ uri: data.banner }} style={styles.productImage} resizeMode="cover" />
+      <Image
+        source={{ uri: data.banner }}
+        style={styles.productImage}
+        resizeMode="cover"
+      />
       <View style={styles.infoBox}>
         <View style={styles.headerRow}>
           <Text style={styles.title}>{data.name}</Text>
         </View>
 
-        <Text style={styles.description} numberOfLines={2}>{data.description}</Text>
+        {data.ingredients && data.ingredients.length > 0 ? (
+          <Text style={styles.ingredients} numberOfLines={2}>
+            {data.ingredients.map((ing) => ing.ingredient.name).join(", ")}
+          </Text>
+        ) : (
+          <Text style={styles.ingredientsEmpty}>Sem ingredientes</Text>
+        )}
 
         <View style={styles.footerRow}>
           <Text style={styles.price}>{formattedPrice}</Text>
@@ -61,7 +76,6 @@ export default function Card({ data, onPress }: CardProps) {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -78,14 +92,14 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: 140,
-    height: '100%',
+    height: "100%",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
   },
   infoBox: {
     flex: 1,
     padding: 16,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   headerRow: {
     flexDirection: "row",
@@ -97,34 +111,41 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
   },
-  description: {
+  ingredients: {
     fontFamily: "NeueHaas",
-    fontSize: 14,
+    fontSize: 13,
     color: "#666",
-    marginVertical: 8,
+    marginVertical: 6,
+  },
+  ingredientsEmpty: {
+    fontFamily: "NeueHaas",
+    fontSize: 13,
+    color: "#aaa",
+    marginVertical: 6,
+    fontStyle: "italic",
   },
   footerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 8,
   },
   price: {
     fontFamily: "NeueHaas",
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000",
   },
   button: {
     backgroundColor: "#9A1105",
     borderRadius: 30,
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 15,
   },
   buttonText: {
     fontFamily: "NeueHaas",
     color: "#FFF",
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: "bold",
   },
 });
