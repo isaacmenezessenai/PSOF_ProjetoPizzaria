@@ -57,7 +57,7 @@ router.get('/me', isAuthenticated, new DetailUserController().handle)
 // -- ROTAS CATEGORY --
 router.post('/category', isAuthenticated, new CreateCategoryController().handle) 
 
-router.get('/category', new ListCategoryController().handle) 
+router.get('/category', new ListCategoryController().handle.bind(new ListCategoryController()))
 
 // -- ROTAS PRODUCT --
 // router.post('/product', isAuthenticated, upload.single('file'), new CreateProductController().handle)
