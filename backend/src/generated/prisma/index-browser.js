@@ -153,7 +153,7 @@ exports.Prisma.OrderScalarFieldEnum = {
   draft: 'draft',
   name: 'name',
   created_at: 'created_at',
-  update_at: 'update_at',
+  updated_at: 'updated_at',
   observation: 'observation',
   table_id: 'table_id'
 };
@@ -198,6 +198,18 @@ exports.Prisma.TableScalarFieldEnum = {
   users_id: 'users_id'
 };
 
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  paymentType: 'paymentType',
+  amount: 'amount',
+  transactionId: 'transactionId',
+  pixCode: 'pixCode',
+  status: 'status',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -223,7 +235,8 @@ exports.Prisma.ModelName = {
   Favorites: 'Favorites',
   Ingredients: 'Ingredients',
   ProductIngredient: 'ProductIngredient',
-  Table: 'Table'
+  Table: 'Table',
+  Payment: 'Payment'
 };
 
 /**

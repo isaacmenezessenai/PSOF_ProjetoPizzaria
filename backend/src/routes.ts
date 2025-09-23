@@ -1,4 +1,5 @@
 import { Router} from "express";
+import { Request, Response } from 'express';
 import multer from "multer";
 
 import { CreateUserController } from "./controllers/user/CreateUserController";
@@ -37,7 +38,7 @@ import { CreateIngredientController } from "./controllers/ingredients/CreateIngr
 import { ListIngredientController } from "./controllers/ingredients/ListIngredientController";
 import { ListIngredientsByProductController } from "./controllers/ingredients/ListIngredientsByProductController";
 import { SumOrderController } from "./controllers/order/SumOrderController";
-
+import { Pix } from './services/payment/PixPayment'; 
 const router = Router();
 
 const upload = multer(uploadConfig.upload("./tmp"))
@@ -85,9 +86,11 @@ router.get('/order/sum', new SumOrderController().handle)
 router.get('/table/detail', new DetailTableController().handle)
 router.post('/table', new CreateTableController().handle)
 
-// --- ROTAS INGREDIENTS ---
+// ROTAS INGREDIENTS
 router.post('/ingredient', isAuthenticated,asyncWrapper(new CreateIngredientController().handle));
 router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
 router.post('/product/ingredient', asyncWrapper(new AddOrUpdateIngredientToProductController().handle));
 router.get('/products/:product_id/ingredients', asyncWrapper(new ListIngredientsByProductController().handle) );
 export { router };  
+
+// ROTAS PAYMENT
