@@ -1,84 +1,77 @@
 import React from "react";
-import { ScrollView, View, StyleSheet, Text, Image } from "react-native";
+import { ScrollView, View, StyleSheet, Text, Image, Dimensions, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { RootStackParamList } from "../routes";
 import Chip from "../components/dashboard/chip";
-import Card from "../components/card"
+import Card from "../components/card";
 import Divider from "../components/divider";
 
+const screenWidth = Dimensions.get("window").width;
+
+type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
+
 export default function Home() {
+  const navigation = useNavigation<HomeNavigationProp>();
+
   return (
-    <ScrollView style={{ backgroundColor: "#FAF6ED"}}>
+    <ScrollView style={{ backgroundColor: "#FAF6ED" }}>
       <View style={styles.container}>
 
-    <View style={{ alignItems: "flex-end", marginRight: 20, marginTop: 10 }}>
-      <ImageButton 
-  image={require("../../assets/img/sacola.png")} 
-  size={50} 
-  navigateTo="Sacola"
-/>
-    </View>
+        <View style={{ alignItems: "flex-end", marginRight: 20, marginTop: 10 }}>
+          <TouchableOpacity onPress={() => navigation.navigate("Sacola")}>
+            <Image
+              source={require("../../assets/img/sacola.png")}
+              style={{ width: 50, height: 50 }}
+            />
+          </TouchableOpacity>
+        </View>
 
-<View style={{ alignItems: "flex-start" }}>
-  <Image
-    source={require("../../assets/img/header.png")}
-    style={{
-      width: screenWidth * 0.8,
-      resizeMode: "contain",
-      marginLeft: 20,
-      marginBottom: -120,
-      marginTop: -120,
-    }}
-  />
-</View>
+        <View style={{ alignItems: "flex-start" }}>
+          <Image
+            source={require("../../assets/img/header.png")}
+            style={{
+              width: screenWidth * 0.8,
+              resizeMode: "contain",
+              marginLeft: 20,
+              marginBottom: -120,
+              marginTop: -120,
+            }}
+          />
+        </View>
 
-      <Divider />
+        <Divider />
 
-      <View style={styles.list}>
-        <Chip
-          title="Favoritos"
-          image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/o13ayzza_expires_30_days.png"
-          navigateTo="Favoritos"
+        <View style={styles.list}>
+          <Chip title="Favoritos" image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/o13ayzza_expires_30_days.png" navigateTo="Favoritos" />
+          <Chip title="Meus Pedidos" image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/ou3wlbab_expires_30_days.png" navigateTo="Pedidos" />
+          <Chip title="Chamar Ajuda" image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0ao7ngym_expires_30_days.png" navigateTo="Ajuda" />
+          <Chip title="Perfil" image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0x1aba14_expires_30_days.png" navigateTo="Perfil" />
+        </View>
+
+        <Divider />
+
+        <Card
+          title="Pizza Tal"
+          description="Descrição da pizza"
+          image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
+          favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
         />
-        <Chip
-          title="Meus Pedidos"
-          image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/ou3wlbab_expires_30_days.png"
-          navigateTo="Pedidos"
+
+        <Card
+          title="Pizza Tal"
+          description="Descrição da pizza"
+          image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
+          favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
         />
-        <Chip
-          title="Chamar Ajuda"
-          image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0ao7ngym_expires_30_days.png"
-          navigateTo="Ajuda"
-        />
-        <Chip
-          title="Perfil"
-          image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0x1aba14_expires_30_days.png"
-          navigateTo="Detalhes"
+
+        <Card
+          title="Pizza Tal"
+          description="Descrição da pizza"
+          image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
+          favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
         />
       </View>
-
-      <Divider />
-
-      <Card
-  title="Pizza Tal"
-  description="Descrição da pizza"
-  image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
-  favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
-/>
-
-<Card
-  title="Pizza Tal"
-  description="Descrição da pizza"
-  image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
-  favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
-/>
-
-<Card
-  title="Pizza Tal"
-  description="Descrição da pizza"
-  image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/8iff846e_expires_30_days.png"
-  favoriteIcon="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/q4smvm6w_expires_30_days.png"
-/>
-
-</View>
     </ScrollView>
   );
 }

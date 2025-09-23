@@ -1,139 +1,158 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'; // Certifique-se de ter @expo/vector-icons instalado
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { RootStackParamList } from "../routes";
 
-// Dados mockados para simular a lista de pizzas
-const pizzaItems = [
-  { id: '1', name: 'Pizza Tal', description: 'Molho de tomate, Queijo...', extra: 'Adicional Queijo 1x', quantity: 1, image: require('./assets/pizza1.png') },
-  { id: '2', name: 'Pizza Tal', description: 'Molho de tomate, Queijo...', extra: 'Adicional Queijo 1x', quantity: 1, image: require('./assets/pizza1.png') },
-  { id: '3', name: 'Pizza Tal', description: 'Molho de tomate, Queijo...', extra: 'Adicional Queijo 1x', quantity: 1, image: require('./assets/pizza1.png') },
-  { id: '4', name: 'Pizza Tal', description: 'Molho de tomate, Queijo...', extra: 'Adicional Queijo 1x', quantity: 1, image: require('./assets/pizza1.png') },
-];
 
-// Componente para um item da pizza
-const CartItem = ({ item }: { item: any }) => (
-  <View style={styles.cartItem}>
-    <Image source={item.image} style={styles.itemImage} />
-    <View style={styles.itemDetails}>
-      <Text style={styles.itemName}>{item.name}</Text>
-      <Text style={styles.itemDescription}>{item.description}</Text>
-      <Text style={styles.itemExtra}>{item.extra}</Text>
-      <TouchableOpacity style={styles.editButtonContainer}>
-        <Text style={styles.editButton}>Editar</Text>
-        <AntDesign name="arrow-right" size={12} color="orange" style={{ marginLeft: 5 }} />
-      </TouchableOpacity>
-    </View>
-    <View style={styles.quantityControl}>
-      <TouchableOpacity>
-        <Text style={styles.quantityButton}>-</Text>
-      </TouchableOpacity>
-      <Text style={styles.quantityText}>{item.quantity}</Text>
-      <TouchableOpacity>
-        <Text style={styles.quantityButton}>+</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-);
+type SacolaNavigationProp = NativeStackNavigationProp<RootStackParamList, "Sacola">;
 
-// Componente principal da tela
-const CartScreen = () => {
+
+const divisorImage = require("../../assets/img/divider.png"); 
+const pizzaImage = require("../../assets/img/pizza.png");
+
+export default function Sacola() {
+  const navigation = useNavigation<SacolaNavigationProp>();
+
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate("Home")}
+        >
           <AntDesign name="arrow-left" size={24} color="#000" />
         </TouchableOpacity>
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerTitle}>Sacola</Text>
         </View>
       </View>
-      
-      {/* Onda decorativa */}
-      <Image source={require('./assets/wave.png')} style={styles.wave} />
+      <Image source={divisorImage} style={styles.divisorImage} />
+      <ScrollView style={{ flex: 1, marginTop: 20 }}>
+        <View style={styles.cartItem}>
+          <Image source={pizzaImage} style={styles.itemImage} />
+          <View style={styles.itemDetails}>
+            <Text style={styles.itemName}>Pizza Calabresa</Text>
+            <Text style={styles.itemDescription}>Molho de tomate, queijo, calabresa</Text>
+            <TouchableOpacity>
+              <Text style={styles.itemEdit}>Editar</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.quantityContainer}>
+            <TouchableOpacity style={styles.quantityButton}>
+              <Text style={styles.quantityButtonText}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.quantityText}>1</Text>
+            <TouchableOpacity style={styles.quantityButton}>
+              <Text style={styles.quantityButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      {/* Lista de itens */}
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {pizzaItems.map(item => (
-          <CartItem key={item.id} item={item} />
-        ))}
+        <View style={styles.cartItem}>
+          <Image source={pizzaImage} style={styles.itemImage} />
+          <View style={styles.itemDetails}>
+            <Text style={styles.itemName}>Pizza Calabresa</Text>
+            <Text style={styles.itemDescription}>Molho de tomate, queijo, calabresa</Text>
+            <TouchableOpacity>
+              <Text style={styles.itemEdit}>Editar</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.quantityContainer}>
+            <TouchableOpacity style={styles.quantityButton}>
+              <Text style={styles.quantityButtonText}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.quantityText}>1</Text>
+            <TouchableOpacity style={styles.quantityButton}>
+              <Text style={styles.quantityButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.cartItem}>
+          <Image source={pizzaImage} style={styles.itemImage} />
+          <View style={styles.itemDetails}>
+            <Text style={styles.itemName}>Pizza Calabresa</Text>
+            <Text style={styles.itemDescription}>Molho de tomate, queijo, calabresa</Text>
+            <TouchableOpacity>
+              <Text style={styles.itemEdit}>Editar</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.quantityContainer}>
+            <TouchableOpacity style={styles.quantityButton}>
+              <Text style={styles.quantityButtonText}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.quantityText}>1</Text>
+            <TouchableOpacity style={styles.quantityButton}>
+              <Text style={styles.quantityButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
 
-      {/* Resumo */}
+
       <View style={styles.summaryContainer}>
-        <Image source={require('./assets/wave.png')} style={styles.waveAboveSummaryTitle} />
+        <Image source={divisorImage} style={styles.divisorImage} />
         <Text style={styles.summaryTitle}>Resumo</Text>
-        
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Subtotal</Text>
-          <Text style={styles.summaryValue}>R$ 13.23</Text>
+        <View style={styles.summaryDetails}>
+          <Text style={styles.summaryText}>Subtotal</Text>
+          <Text style={styles.summaryValue}>R$40,00</Text>
         </View>
-        <View style={styles.summaryRow}>
-          <Text style={[styles.summaryLabel, styles.summaryTotalLabel]}>Total</Text>
-          <Text style={[styles.summaryValue, styles.summaryTotalValue]}>R$ 13.23</Text>
+        <View style={styles.summaryDetails}>
+          <Text style={[styles.summaryText, styles.totalText]}>Total</Text>
+          <Text style={[styles.summaryValue, styles.totalValue]}>R$40,00</Text>
         </View>
       </View>
-
-      {/* Botão de pagamento */}
       <TouchableOpacity style={styles.payButton}>
         <Text style={styles.payButtonText}>Pagar Agora</Text>
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF', // Cor de fundo branca
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    backgroundColor: "#F2F2F2", 
+    paddingTop: 60,
+    paddingHorizontal: 25,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   backButton: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
   },
   headerTitleContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   headerTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    fontFamily: "Roboto_700Bold", 
   },
-  wave: {
-    width: '100%',
-    height: 10,
-    resizeMode: 'contain',
+  divisorImage: {
+    width: "100%",
+    height: 10, 
+    resizeMode: "stretch",
     marginVertical: 10,
   },
-  waveAboveSummaryTitle: {
-    width: '100%',
-    height: 10,
-    resizeMode: 'contain',
-    marginBottom: 10,
-  },
-  scrollContent: {
-    paddingBottom: 20,
-  },
   cartItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderRadius: 20,
-    padding: 10,
+    padding: 15,
     marginBottom: 15,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 6,
   },
   itemImage: {
     width: 80,
@@ -146,88 +165,90 @@ const styles = StyleSheet.create({
   },
   itemName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    fontFamily: "Roboto_700Bold",
   },
   itemDescription: {
     fontSize: 14,
-    color: '#888',
-  },
-  itemExtra: {
-    fontSize: 12,
-    color: '#555',
+    color: "#888",
+    fontFamily: "Roboto_400Regular",
     marginTop: 5,
   },
-  editButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  itemEdit: {
+    fontSize: 14,
+    color: "#A0A0A0",
+    textDecorationLine: "underline",
     marginTop: 5,
   },
-  editButton: {
-    color: 'orange',
-  },
-  quantityControl: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingRight: 10,
+  quantityContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   quantityButton: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#888',
-    paddingHorizontal: 10,
+    backgroundColor: "#E0E0E0",
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  quantityButtonText: {
+    fontSize: 18,
+    color: "#000",
   },
   quantityText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginHorizontal: 10,
   },
   summaryContainer: {
-    paddingHorizontal: 10,
-    marginTop: 20,
+    paddingVertical: 10,
+    alignItems: "center",
   },
   summaryTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 15,
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 10,
   },
-  summaryRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 5,
+  summaryDetails: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 10,
   },
-  summaryLabel: {
+  summaryText: {
     fontSize: 16,
-    color: '#555',
-  },
-  summaryTotalLabel: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: '#000',
+    color: "#555",
   },
   summaryValue: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-  summaryTotalValue: {
-    fontSize: 18,
+  totalText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  totalValue: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000",
   },
   payButton: {
-    backgroundColor: '#E59B30',
-    paddingVertical: 15,
+    backgroundColor: "#E59B30",
+    paddingVertical: 18,
+    paddingHorizontal: 40,
     borderRadius: 30,
-    marginHorizontal: 30,
+    alignSelf: "center",
+    width: "80%",
     marginTop: 20,
     marginBottom: 20,
-    alignItems: 'center',
   },
   payButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
-
-export default CartScreen;
-
