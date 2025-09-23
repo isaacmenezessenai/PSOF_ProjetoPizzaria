@@ -25,6 +25,7 @@ export default function Home() {
               style={{ width: 50, height: 50 }}
             />
           </TouchableOpacity>
+      
         </View>
 
         <View style={{ alignItems: "flex-start" }}>
@@ -41,6 +42,7 @@ export default function Home() {
         </View>
 
         <Divider />
+
 
         <View style={styles.list}>
           <Chip title="Favoritos" image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/o13ayzza_expires_30_days.png" navigateTo="Favoritos" />
