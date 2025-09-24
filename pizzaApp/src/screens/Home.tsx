@@ -12,7 +12,6 @@ export default function Home() {
   return (
     <ScrollView style={{ backgroundColor: "#FAF6ED" }}>
       <View style={styles.container}>
-
         <View style={{ alignItems: "flex-end", marginRight: 20, marginTop: 10 }}>
           <ImageButton
             image={require("../../assets/img/sacola.png")}
@@ -77,6 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    marginTop: 25,
   },
   list: {
     flexDirection: "row",

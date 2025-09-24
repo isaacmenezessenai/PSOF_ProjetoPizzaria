@@ -3,7 +3,6 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from "react
 import { api } from "../../services/api"
 import Card from "../card";
 
-
 type Category = {
     id: string;
     name: string;
@@ -96,10 +95,7 @@ export default function MenuCompleto() {
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
                         <TouchableOpacity
-                            style={[
-                                styles.categoryButton,
-                                item.id === selectedCategory && styles.categoryButtonActive,
-                            ]}
+                            style={styles.categoryButton}
                             onPress={() => setSelectedCategory(item.id)}
                         >
                             <Text
@@ -110,7 +106,9 @@ export default function MenuCompleto() {
                             >
                                 {item.name}
                             </Text>
+                            {item.id === selectedCategory && <View style={styles.textUnderline} />}
                         </TouchableOpacity>
+
                     )}
                 />
             </View>
@@ -131,20 +129,16 @@ export default function MenuCompleto() {
     );
 }
 
-
 const styles = StyleSheet.create({
     categoryNavContainer: {
-        height: 60, // Ajustado
+        height: 30,
         paddingLeft: 10,
+        marginTop: -15,
     },
     categoryButton: {
         paddingHorizontal: 16,
         justifyContent: 'center',
-        borderBottomWidth: 3,
-        borderBottomColor: "transparent",
-    },
-    categoryButtonActive: {
-        borderBottomColor: "#9A1105",
+        alignItems: 'center',
     },
     categoryText: {
         fontSize: 16,
@@ -153,6 +147,13 @@ const styles = StyleSheet.create({
     categoryTextActive: {
         fontWeight: "bold",
         color: "#000",
+    },
+    textUnderline: {
+        height: 2,
+        backgroundColor: "#9A1105",
+        alignSelf: "flex-start",
+        width: "100%",
+        marginTop: 2,
     },
     productListContainer: {
         marginTop: 20,

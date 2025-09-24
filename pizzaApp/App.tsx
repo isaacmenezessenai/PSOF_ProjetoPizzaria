@@ -5,7 +5,7 @@ import { useFonts } from "expo-font";
 export default function App() {
   const [fontsLoaded] = useFonts({
     "NeueHaas": require("./assets/fonts/Neue Haas Grotesk Display Pro.ttf"),
-    "FactorA": require("./assets/fonts/TRIAL Factor A 35.otf"),
+    "FactorA": require("./assets/fonts/TRIAL Factor A.otf"),
     "Chunko": require("./assets/fonts/Chunko Bold Demo.ttf"),
   });
 
