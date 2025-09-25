@@ -15,94 +15,96 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid()) //16bytes
-  name String
-  email String
-  password String
-  created_at DateTime? @default(now())
-  update_at DateTime? @default(now())
+  id         String      @id @default(uuid()) 
+  name       String
+  email      String
+  password   String
+  created_at DateTime?   @default(now())
+  update_at  DateTime?   @default(now())
+  favorites  Favorites[]
+  table      Table[]
 
   @@map("users")
-  favorites Favorites[]
-  table Table[]
 }
 
-model Category{
-  id String @id @default(uuid())
-  name String
+model Category {
+  id         String    @id @default(uuid())
+  name       String
   created_at DateTime? @default(now())
-  update_at DateTime? @default(now())
+  update_at  DateTime? @default(now())
+  products   Product[]
 
   @@map("categories")
-  products Product[]
 }
 
-model Product{
-  id String @id @default(uuid())
-  name String
-  price String
+model Product {
+  id          String    @id @default(uuid())
+  name        String
+  price       String
   description String
-  banner String
-  created_at DateTime? @default(now())
-  update_at DateTime? @default(now())
+  banner      String
+  created_at  DateTime? @default(now())
+  update_at   DateTime? @default(now())
 
-  category Category @relation(fields: [category_id], references: [id])
+  category    Category            @relation(fields: [category_id], references: [id])
+  category_id String
+  items       Item[]
+  favorites   Favorites[]
+  ingredients ProductIngredient[]
 
   @@map("products")
-  category_id String
-  items Item[]
-  favorites Favorites[]
-  ingredients ProductIngredient[]
 }
 
-model Order{
-  id String @id @default(uuid())
-  status Boolean @default(false)
-  draft Boolean @default(true)
-  name String?
-  created_at DateTime? @default(now())
-  update_at DateTime? @default(now())
-  observation String @default("")
+model Order {
+  id          String    @id @default(uuid())
+  status      String    @default("pending")
+  draft       Boolean   @default(true)
+  name        String?
+  created_at  DateTime? @default(now())
+  updated_at  DateTime? @default(now())
+  observation String    @default("")
 
-  table Table @relation(fields: [table_id], references: [id])
+  table    Table  @relation(fields: [table_id], references: [id])
+  table_id String
+  items    Item[]
+
+  payments Payment[]
 
   @@map("orders")
-  table_id String
-  items Item[]
 }
 
-model Item{
-  id String @id @default(uuid())
-  amount Int
-  created_at DateTime? @default(now())
-  update_at DateTime? @default(now())
-
-  order Order @relation(fields: [order_id], references: [id])
-  product Product @relation(fields: [product_id], references: [id])
-
-  @@map("items")
-  order_id String
-  product_id String
-}
-
-model Favorites {
-  id String @id @default(uuid())
+model Item {
+  id         String    @id @default(uuid())
+  amount     Int
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
-  product Product @relation(fields: [product_id], references: [id])
-  users User @relation(fields: [users_id], references: [id])
+  order      Order   @relation(fields: [order_id], references: [id])
+  product    Product @relation(fields: [product_id], references: [id])
+  order_id   String
+  product_id String
+
+  @@map("items")
+}
+
+model Favorites {
+  id         String    @id @default(uuid())
+  created_at DateTime? @default(now())
+  update_at  DateTime? @default(now())
+
+  product    Product @relation(fields: [product_id], references: [id])
+  users      User    @relation(fields: [users_id], references: [id])
+  product_id String
+  users_id   String
 
   @@map("favorites")
-  product_id String
-  users_id String
 }
 
 model Ingredients {
   id         String    @id @default(uuid())
   name       String
-  price       Decimal @default(0.00)
-  banner      String?
+  price      Decimal   @default(0.00)
+  banner     String?
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
@@ -112,24 +114,40 @@ model Ingredients {
 }
 
 model ProductIngredient {
-
   productId    String
   ingredientId String
   amount       Int
-  product Product @relation(fields: [productId], references: [id])
+  product      Product     @relation(fields: [productId], references: [id])
   ingredient   Ingredients @relation(fields: [ingredientId], references: [id])
+
   @@id([productId, ingredientId])
 }
 
 model Table {
-  id String @id @default(uuid())
-  number Int
+  id         String    @id @default(uuid())
+  number     Int
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
-  users User? @relation(fields: [users_id], references: [id])
+  users    User?   @relation(fields: [users_id], references: [id])
+  users_id String?
+  order    Order[]
 
   @@map("table")
-  users_id String?
-  order Order[]
+}
+
+model Payment {
+  id            String    @id @default(uuid())
+  orderId       String
+  paymentType   Int
+  amount        Decimal
+  transactionId String? @unique
+  pixCode       String?
+  status        String    @default("pending")
+  created_at    DateTime? @default(now())
+  updated_at    DateTime? @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("payments")
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import divisoria from '../../../../../public/divider.svg'
 import styles from "./styles.module.scss"
 import {Import, X} from 'lucide-react'
 import {use} from 'react'
@@ -18,14 +19,14 @@ export function Modalorder(){
             
             <section className={styles.dialogContent}>
                 <button className={styles.dialogBack} onClick={onRequestClose}>
-                    <X size={40} color="#FF3f4b"/>
+                    <X size={40} color="#000000"/>
                 </button>
 
                 <article className={styles.container}>
                     <h2>Detalhes do pedido</h2>
 
                     <span className={styles.table}>
-                        Mesa <b>{order[0].order.table}</b>
+                        Mesa <b>{order[0].order.table.number}</b>
                     </span>
 
                     {order[0].order?.name && (

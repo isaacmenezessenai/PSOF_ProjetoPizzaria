@@ -15,7 +15,7 @@ datasource db {
 }
 
 model User {
-  id         String      @id @default(uuid()) //16bytes
+  id         String      @id @default(uuid())
   name       String
   email      String
   password   String
@@ -57,16 +57,18 @@ model Product {
 
 model Order {
   id          String    @id @default(uuid())
-  status      Boolean   @default(false)
+  status      String    @default("pending")
   draft       Boolean   @default(true)
   name        String?
   created_at  DateTime? @default(now())
-  update_at   DateTime? @default(now())
+  updated_at  DateTime? @default(now())
   observation String    @default("")
 
   table    Table  @relation(fields: [table_id], references: [id])
   table_id String
   items    Item[]
+
+  payments Payment[]
 
   @@map("orders")
 }
@@ -132,4 +134,20 @@ model Table {
   order    Order[]
 
   @@map("table")
+}
+
+model Payment {
+  id            String    @id @default(uuid())
+  orderId       String
+  paymentType   Int
+  amount        Decimal
+  transactionId String?   @unique
+  pixCode       String?
+  status        String    @default("pending")
+  created_at    DateTime? @default(now())
+  updated_at    DateTime? @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("payments")
 }

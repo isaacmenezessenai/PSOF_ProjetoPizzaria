@@ -52,7 +52,7 @@ export function Orders({orders}: Props){
                     onClick={() => handleDetailOrder(order.id)}
                     >
                     <div className={styles.tag}></div>
-                    <span>Mesa {order.table}</span>
+                    <span>Mesa {order.table.number}</span>
                     </button>
                 ))}
 

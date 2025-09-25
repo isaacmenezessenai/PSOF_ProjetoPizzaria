@@ -49,7 +49,8 @@ export default function Category(){
                 className={styles.input} 
                 />
 
-                <Button name="Cadastrar"/>
+                <Button 
+                name="Cadastrar"/>
             </form>
         </main>
     )

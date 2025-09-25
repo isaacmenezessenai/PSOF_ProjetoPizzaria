@@ -1,4 +1,5 @@
 import { Router} from "express";
+import { Request, Response } from 'express';
 import multer from "multer";
 
 import { CreateUserController } from "./controllers/user/CreateUserController";
@@ -25,6 +26,7 @@ import { ListOrderController } from "./controllers/order/ListOrderController";
 import { DetailOrderController } from "./controllers/order/DetailOrderController";
 import { FinishOrderController } from "./controllers/order/FinishOrderController";
 
+import { DetailTableController } from "./controllers/table/DetailTableController";
 import { CreateTableController } from "./controllers/table/CreateTableController";
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
@@ -35,7 +37,8 @@ import uploadConfig from './config/multer'
 import { CreateIngredientController } from "./controllers/ingredients/CreateIngredientControler";
 import { ListIngredientController } from "./controllers/ingredients/ListIngredientController";
 import { ListIngredientsByProductController } from "./controllers/ingredients/ListIngredientsByProductController";
-
+import { SumOrderController } from "./controllers/order/SumOrderController";
+import { Pix } from './services/payment/PixPayment'; 
 const router = Router();
 
 const upload = multer(uploadConfig.upload("./tmp"))
@@ -55,7 +58,7 @@ router.get('/me', isAuthenticated, new DetailUserController().handle)
 // -- ROTAS CATEGORY --
 router.post('/category', isAuthenticated, new CreateCategoryController().handle) 
 
-router.get('/category', new ListCategoryController().handle) 
+router.get('/category', new ListCategoryController().handle.bind(new ListCategoryController()))
 
 // -- ROTAS PRODUCT --
 // router.post('/product', isAuthenticated, upload.single('file'), new CreateProductController().handle)
@@ -72,20 +75,22 @@ router.post('/order/add', new AddItemController().handle)
 router.delete('/order/remove', new RemoveItemController().handle)
 router.put('/order/send', new SendOrderController().handle)
 
-router.get('/order', isAuthenticated, new ListOrderController().handle)
+router.get('/orders', isAuthenticated, new ListOrderController().handle)
 router.get('/order/detail', isAuthenticated, new DetailOrderController().handle)
 
 router.put('/order/finish', isAuthenticated, new FinishOrderController().handle)
+router.get('/order/sum', new SumOrderController().handle)
 
 // ROTAS TABLE
 
+router.get('/table/detail', new DetailTableController().handle)
 router.post('/table', new CreateTableController().handle)
 
-
-
-// --- ROTAS INGREDIENTS ---
+// ROTAS INGREDIENTS
 router.post('/ingredient', isAuthenticated,asyncWrapper(new CreateIngredientController().handle));
 router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
 router.post('/product/ingredient', asyncWrapper(new AddOrUpdateIngredientToProductController().handle));
 router.get('/products/:product_id/ingredients', asyncWrapper(new ListIngredientsByProductController().handle) );
 export { router };  
+
+// ROTAS PAYMENT

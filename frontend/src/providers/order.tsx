@@ -22,11 +22,15 @@ export interface OrderItemProps{
     };
     order:{
         id:string;
-        table:number;
-        name:string | null;
+        table_id:string;
+        name:string | null; 
         draft:boolean;
         status:boolean;
-    }
+        table:{
+        number: string;
+        }
+    };
+    
 }
 
 type OrderContextData = {
@@ -53,7 +57,7 @@ export function OrderProvider({children}: OrderProviderProps){
 
         const token = getCookieClient();
 
-        const response = await api.get("/orders/detail", {
+        const response = await api.get("/order/detail", {
             headers:{
                 Authorization: `Bearer ${token}`
             },
