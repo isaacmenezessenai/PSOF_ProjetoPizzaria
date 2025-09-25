@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { api } from "../../services/api"
-import Card from "../card";
+import Card from "./card";
 
 type Category = {
     id: string;

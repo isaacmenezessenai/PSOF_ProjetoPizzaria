@@ -1,23 +1,27 @@
-import React from "react";
-import { ScrollView, View, StyleSheet, Text, Image } from "react-native";
-import Chip from "../components/dashboard/chip";
+// ! Required Imports
 
-import Divider from "../components/divider";
-import ImageButton from "../components/imageButton";
+import React from "react";
+import { ScrollView, View, StyleSheet, Image } from "react-native";
 import { Dimensions } from "react-native";
+
+// ! Components
+
+import Chip from "../components/dashboard/chip";
+import Divider from "../components/divider";
 import MenuCompleto from "../components/dashboard/MenuCompleto"
+import ImageButton from "../components/imageButton";
+
+// ! Constants
+
 const { width: screenWidth } = Dimensions.get("window");
 
 export default function Home() {
   return (
     <ScrollView style={{ backgroundColor: "#FAF6ED" }}>
       <View style={styles.container}>
-        <View style={{ alignItems: "flex-end", marginRight: 20, marginTop: 10 }}>
-          <ImageButton
-            image={require("../../assets/img/sacola.png")}
-            size={50}
-            navigateTo="Sacola"
-          />
+
+        <View style={styles.header}>
+          <ImageButton name="bag-handle-outline" size={55} navigateTo="Sacola" />
         </View>
 
         <View style={{ alignItems: "flex-start" }}>
@@ -33,8 +37,8 @@ export default function Home() {
           />
         </View>
 
-        <Divider/>
-        
+        <Divider />
+
         <View style={styles.list}>
           <Chip
             title="Favoritos"
@@ -58,17 +62,18 @@ export default function Home() {
           />
         </View>
 
-        <Divider/>
+        <Divider />
 
         <View style={{ marginHorizontal: 20, marginBottom: 30, alignItems: 'center', }}>
           <Image source={require('../../assets/img/menu.png')} style={{ width: 150, height: 50, resizeMode: 'contain' }} />
         </View>
 
         <MenuCompleto />
-        
+
       </View>
 
     </ScrollView>
+
   );
 }
 
@@ -76,11 +81,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginTop: 25,
+    marginTop: 30,
   },
   list: {
     flexDirection: "row",
     justifyContent: "space-around",
     paddingHorizontal: 16,
   },
+  header: {
+    alignItems: "flex-end",
+    marginVertical: 10
+  }
 });

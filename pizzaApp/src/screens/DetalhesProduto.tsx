@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRoute } from "@react-navigation/native";
-import { ProductProps } from "../components/card"; 
+import { ProductProps } from "../components/dashboard/card"; 
 import Divider from "../components/divider";
 import { api } from "../services/api";
 import BackButton from "../components/backButton";

@@ -1,14 +1,15 @@
 import React from "react";
-import { TouchableOpacity, Image, StyleSheet, ImageSourcePropType } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
 
 type ImageButtonProps = {
-  image: ImageSourcePropType; 
-  size?: number; 
-  navigateTo: string; 
+  name: keyof typeof Ionicons.glyphMap;
+  size: number; 
+  navigateTo: string;
 };
 
-export default function ImageButton({ image, size = 50, navigateTo }: ImageButtonProps) {
+export default function ImageButton({ name, size, navigateTo }: ImageButtonProps) {
   const navigation = useNavigation();
 
   return (
@@ -16,10 +17,8 @@ export default function ImageButton({ image, size = 50, navigateTo }: ImageButto
       style={[styles.button, { width: size, height: size, borderRadius: size / 2 }]}
       onPress={() => navigation.navigate(navigateTo as never)}
     >
-      <Image
-        source={image}
-        style={{ width: size * 0.6, height: size * 0.6, resizeMode: "contain" }}
-      />
+      <Ionicons name={name} size={size * 0.6}></Ionicons>
+
     </TouchableOpacity>
   );
 }
@@ -28,5 +27,6 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
+    marginRight: 10,
   },
 });

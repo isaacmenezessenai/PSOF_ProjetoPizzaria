@@ -8,7 +8,7 @@ const BackButton = ({ style }: { style?: any }) => {
   return (
     <View style={[styles.headerRow, style]}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={28} color="#222" />
+        <Ionicons name="chevron-back" size={28} color="#222" />
       </TouchableOpacity>
     </View>
   );
