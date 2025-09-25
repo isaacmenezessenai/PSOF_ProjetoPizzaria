@@ -1,98 +1,103 @@
 import React, { ReactElement } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export interface TabBarItem {
-  label: string;
-  icon: ReactElement;
-  screen: string;
+    label: string;
+    icon: ReactElement;
+    screen: string;
 }
 
 const TABS: TabBarItem[] = [
-  { label: "Favorites", icon: <Ionicons name="star" size={24} color="#888" />, screen: "FavoritesScreen" },
-  { label: "List", icon: <FontAwesome5 name="clipboard-list" size={24} color="#888" />, screen: "ListScreen" },
-  { label: "QR", icon: <Ionicons name="qr-code-outline" size={30} color="#888" />, screen: "QrCodeScreen" },
-  { label: "Hat", icon: <FontAwesome5 name="hat-wizard" size={24} color="#888" />, screen: "HatScreen" },
-  { label: "Profile", icon: <Ionicons name="person-outline" size={24} color="#888" />, screen: "ProfileScreen" },
+    { label: "Home", icon: <Ionicons name="home-outline" size={20} color="#888" />, screen: "Home" },
+    { label: "Favoritos", icon: <Ionicons name="star-outline" size={20} color="#888" />, screen: "Favoritos" },
+    { label: "", icon: <Ionicons name="qr-code-outline" size={30} color="#fff" />, screen: "QrCode" },
+    { label: "Ajuda", icon: <Ionicons name="help-buoy-outline" size={20} color="#888" />, screen: "Ajuda" },
+    { label: "Perfil", icon: <Ionicons name="person-outline" size={20} color="#888" />, screen: "Perfil" },
 ];
 
-export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
-  return (
-    <View style={styles.tabBarContainer}>
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key]; // 👈 corrigido aqui
-        const isFocused = state.index === index;
-        const isMiddleButton = index === Math.floor(state.routes.length / 2);
+const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+    return (
+        <SafeAreaView edges={["bottom"]} style={styles.tabBarContainer}>
+            {state.routes.map((route, index) => {
+                const { options } = descriptors[route.key];
+                const isFocused = state.index === index;
+                const isMiddleButton = index === Math.floor(state.routes.length / 2);
 
-        const item = TABS.find((tab) => tab.screen === route.name);
-        if (!item) return null;
+                const item = TABS.find((tab) => tab.screen === route.name);
+                if (!item) return null;
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: "tabPress",
-            target: route.key,
-            canPreventDefault: true,
-          });
+                const onPress = () => {
+                    const event = navigation.emit({
+                        type: "tabPress",
+                        target: route.key,
+                        canPreventDefault: true,
+                    });
 
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
-          }
-        };
+                    if (!isFocused && !event.defaultPrevented) {
+                        navigation.navigate(route.name);
+                    }
+                };
 
-        const iconColor = isFocused ? "#fff" : "#888";
-        const labelStyle = [styles.label, isFocused && styles.activeLabel];
+                const iconColor = isFocused ? "#fff" : "#888";
+                const labelStyle = [styles.label, isFocused && styles.activeLabel];
 
-        // 👇 aqui o cast resolve o erro do TS
-        const renderIcon = React.cloneElement(item.icon as ReactElement<any>, {
-          color: iconColor,
-        });
+                const renderIcon = React.cloneElement(item.icon as ReactElement<any>, {
+                    color: item.screen === "QrCode" ? "#fff" : iconColor,
+                });
 
-        return (
-          <TouchableOpacity
-            key={index}
-            accessibilityRole="button"
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            onPress={onPress}
-            style={styles.tabBarItem}
-          >
-            <View style={isMiddleButton && styles.tabBarButton}>{renderIcon}</View>
-            {!isMiddleButton && <Text style={labelStyle}>{item.label}</Text>}
-          </TouchableOpacity>
-        );
-      })}
-    </View>
-  );
+                return (
+                    <TouchableOpacity
+                        key={index}
+                        accessibilityRole="button"
+                        accessibilityState={isFocused ? { selected: true } : {}}
+                        accessibilityLabel={options.tabBarAccessibilityLabel}
+                        onPress={onPress}
+                        style={styles.tabBarItem}
+                    >
+                        <View style={isMiddleButton && styles.tabBarButton}>{renderIcon}</View>
+                        {!isMiddleButton && <Text style={labelStyle}>{item.label}</Text>}
+                    </TouchableOpacity>
+                );
+            })}
+        </SafeAreaView>
+    );
 };
 
+export default TabBar;
+
 const styles = StyleSheet.create({
-  tabBarContainer: {
-    flexDirection: "row",
-    backgroundColor: "#000",
-    height: 60,
-    borderTopWidth: 0,
-  },
-  tabBarItem: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  tabBarButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: "#DAA520",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: -20,
-  },
-  label: {
-    fontSize: 12,
-    color: "#888",
-    marginTop: 4,
-  },
-  activeLabel: {
-    color: "#fff",
-  },
+    tabBarContainer: {
+        flexDirection: "row",
+        backgroundColor: "#07091aff",
+        height: "15%",
+        borderTopWidth: 0,
+        paddingHorizontal: 10,
+    },
+    tabBarItem: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    tabBarButton: {
+        width: 65,
+        height: 65,
+        borderRadius: 1000,
+        color: "#FFF",
+        backgroundColor: "#DAA520",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: -80,
+    },
+    label: {
+        fontSize: 12,
+        fontFamily: "NeueHaas",
+        color: "#888",
+        marginTop: 4,
+    },
+    activeLabel: {
+        color: "#fff",
+    },
 });
