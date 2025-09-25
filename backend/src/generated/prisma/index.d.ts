@@ -80,7 +80,7 @@ export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -112,6 +112,13 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
+
+  /**
+   * Add a middleware
+   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
+   * @see https://pris.ly/d/extensions
+   */
+  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -339,8 +346,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.16.1
-   * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
+   * Prisma Client JS version: 6.7.0
+   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
    */
   export type PrismaVersion = {
     client: string
@@ -1536,24 +1543,16 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Shorthand for `emit: 'stdout'`
+     * // Defaults to stdout
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events only
+     * // Emit as events
      * log: [
-     *   { emit: 'event', level: 'query' },
-     *   { emit: 'event', level: 'info' },
-     *   { emit: 'event', level: 'warn' }
-     *   { emit: 'event', level: 'error' }
+     *   { emit: 'stdout', level: 'query' },
+     *   { emit: 'stdout', level: 'info' },
+     *   { emit: 'stdout', level: 'warn' }
+     *   { emit: 'stdout', level: 'error' }
      * ]
-     * 
-     * / Emit as events and log to stdout
-     * og: [
-     *  { emit: 'stdout', level: 'query' },
-     *  { emit: 'stdout', level: 'info' },
-     *  { emit: 'stdout', level: 'warn' }
-     *  { emit: 'stdout', level: 'error' }
-     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -1568,10 +1567,6 @@ export namespace Prisma {
       timeout?: number
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
-    /**
-     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
-     */
-    adapter?: runtime.SqlDriverAdapterFactory | null
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -1608,15 +1603,10 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
-
-  export type GetLogType<T> = CheckIsLogLevel<
-    T extends LogDefinition ? T['level'] : T
-  >;
-
-  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
-    ? GetLogType<T[number]>
-    : never;
+  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
+  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
+    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
+    : never
 
   export type QueryEvent = {
     timestamp: Date
@@ -1656,6 +1646,25 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
+
+  /**
+   * These options are being passed into the middleware as "params"
+   */
+  export type MiddlewareParams = {
+    model?: ModelName
+    action: PrismaAction
+    args: any
+    dataPath: string[]
+    runInTransaction: boolean
+  }
+
+  /**
+   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
+   */
+  export type Middleware<T = any> = (
+    params: MiddlewareParams,
+    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
+  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -8610,6 +8619,7 @@ export namespace Prisma {
     name: string | null
     price: Decimal | null
     banner: string | null
+    extra: boolean | null
     created_at: Date | null
     update_at: Date | null
   }
@@ -8619,6 +8629,7 @@ export namespace Prisma {
     name: string | null
     price: Decimal | null
     banner: string | null
+    extra: boolean | null
     created_at: Date | null
     update_at: Date | null
   }
@@ -8628,6 +8639,7 @@ export namespace Prisma {
     name: number
     price: number
     banner: number
+    extra: number
     created_at: number
     update_at: number
     _all: number
@@ -8647,6 +8659,7 @@ export namespace Prisma {
     name?: true
     price?: true
     banner?: true
+    extra?: true
     created_at?: true
     update_at?: true
   }
@@ -8656,6 +8669,7 @@ export namespace Prisma {
     name?: true
     price?: true
     banner?: true
+    extra?: true
     created_at?: true
     update_at?: true
   }
@@ -8665,6 +8679,7 @@ export namespace Prisma {
     name?: true
     price?: true
     banner?: true
+    extra?: true
     created_at?: true
     update_at?: true
     _all?: true
@@ -8761,6 +8776,7 @@ export namespace Prisma {
     name: string
     price: Decimal
     banner: string | null
+    extra: boolean
     created_at: Date | null
     update_at: Date | null
     _count: IngredientsCountAggregateOutputType | null
@@ -8789,6 +8805,7 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     banner?: boolean
+    extra?: boolean
     created_at?: boolean
     update_at?: boolean
     products?: boolean | Ingredients$productsArgs<ExtArgs>
@@ -8800,6 +8817,7 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     banner?: boolean
+    extra?: boolean
     created_at?: boolean
     update_at?: boolean
   }, ExtArgs["result"]["ingredients"]>
@@ -8809,6 +8827,7 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     banner?: boolean
+    extra?: boolean
     created_at?: boolean
     update_at?: boolean
   }, ExtArgs["result"]["ingredients"]>
@@ -8818,11 +8837,12 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     banner?: boolean
+    extra?: boolean
     created_at?: boolean
     update_at?: boolean
   }
 
-  export type IngredientsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "banner" | "created_at" | "update_at", ExtArgs["result"]["ingredients"]>
+  export type IngredientsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "banner" | "extra" | "created_at" | "update_at", ExtArgs["result"]["ingredients"]>
   export type IngredientsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     products?: boolean | Ingredients$productsArgs<ExtArgs>
     _count?: boolean | IngredientsCountOutputTypeDefaultArgs<ExtArgs>
@@ -8840,6 +8860,7 @@ export namespace Prisma {
       name: string
       price: Prisma.Decimal
       banner: string | null
+      extra: boolean
       created_at: Date | null
       update_at: Date | null
     }, ExtArgs["result"]["ingredients"]>
@@ -9270,6 +9291,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Ingredients", 'String'>
     readonly price: FieldRef<"Ingredients", 'Decimal'>
     readonly banner: FieldRef<"Ingredients", 'String'>
+    readonly extra: FieldRef<"Ingredients", 'Boolean'>
     readonly created_at: FieldRef<"Ingredients", 'DateTime'>
     readonly update_at: FieldRef<"Ingredients", 'DateTime'>
   }
@@ -13157,6 +13179,7 @@ export namespace Prisma {
     name: 'name',
     price: 'price',
     banner: 'banner',
+    extra: 'extra',
     created_at: 'created_at',
     update_at: 'update_at'
   };
@@ -13707,6 +13730,7 @@ export namespace Prisma {
     name?: StringFilter<"Ingredients"> | string
     price?: DecimalFilter<"Ingredients"> | Decimal | DecimalJsLike | number | string
     banner?: StringNullableFilter<"Ingredients"> | string | null
+    extra?: BoolFilter<"Ingredients"> | boolean
     created_at?: DateTimeNullableFilter<"Ingredients"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Ingredients"> | Date | string | null
     products?: ProductIngredientListRelationFilter
@@ -13717,6 +13741,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     banner?: SortOrderInput | SortOrder
+    extra?: SortOrder
     created_at?: SortOrderInput | SortOrder
     update_at?: SortOrderInput | SortOrder
     products?: ProductIngredientOrderByRelationAggregateInput
@@ -13730,6 +13755,7 @@ export namespace Prisma {
     name?: StringFilter<"Ingredients"> | string
     price?: DecimalFilter<"Ingredients"> | Decimal | DecimalJsLike | number | string
     banner?: StringNullableFilter<"Ingredients"> | string | null
+    extra?: BoolFilter<"Ingredients"> | boolean
     created_at?: DateTimeNullableFilter<"Ingredients"> | Date | string | null
     update_at?: DateTimeNullableFilter<"Ingredients"> | Date | string | null
     products?: ProductIngredientListRelationFilter
@@ -13740,6 +13766,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     banner?: SortOrderInput | SortOrder
+    extra?: SortOrder
     created_at?: SortOrderInput | SortOrder
     update_at?: SortOrderInput | SortOrder
     _count?: IngredientsCountOrderByAggregateInput
@@ -13757,6 +13784,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Ingredients"> | string
     price?: DecimalWithAggregatesFilter<"Ingredients"> | Decimal | DecimalJsLike | number | string
     banner?: StringNullableWithAggregatesFilter<"Ingredients"> | string | null
+    extra?: BoolWithAggregatesFilter<"Ingredients"> | boolean
     created_at?: DateTimeNullableWithAggregatesFilter<"Ingredients"> | Date | string | null
     update_at?: DateTimeNullableWithAggregatesFilter<"Ingredients"> | Date | string | null
   }
@@ -14365,6 +14393,7 @@ export namespace Prisma {
     name: string
     price?: Decimal | DecimalJsLike | number | string
     banner?: string | null
+    extra?: boolean
     created_at?: Date | string | null
     update_at?: Date | string | null
     products?: ProductIngredientCreateNestedManyWithoutIngredientInput
@@ -14375,6 +14404,7 @@ export namespace Prisma {
     name: string
     price?: Decimal | DecimalJsLike | number | string
     banner?: string | null
+    extra?: boolean
     created_at?: Date | string | null
     update_at?: Date | string | null
     products?: ProductIngredientUncheckedCreateNestedManyWithoutIngredientInput
@@ -14385,6 +14415,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    extra?: BoolFieldUpdateOperationsInput | boolean
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     products?: ProductIngredientUpdateManyWithoutIngredientNestedInput
@@ -14395,6 +14426,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    extra?: BoolFieldUpdateOperationsInput | boolean
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     products?: ProductIngredientUncheckedUpdateManyWithoutIngredientNestedInput
@@ -14405,6 +14437,7 @@ export namespace Prisma {
     name: string
     price?: Decimal | DecimalJsLike | number | string
     banner?: string | null
+    extra?: boolean
     created_at?: Date | string | null
     update_at?: Date | string | null
   }
@@ -14414,6 +14447,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    extra?: BoolFieldUpdateOperationsInput | boolean
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -14423,6 +14457,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    extra?: BoolFieldUpdateOperationsInput | boolean
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -15019,6 +15054,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     banner?: SortOrder
+    extra?: SortOrder
     created_at?: SortOrder
     update_at?: SortOrder
   }
@@ -15032,6 +15068,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     banner?: SortOrder
+    extra?: SortOrder
     created_at?: SortOrder
     update_at?: SortOrder
   }
@@ -15041,6 +15078,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     banner?: SortOrder
+    extra?: SortOrder
     created_at?: SortOrder
     update_at?: SortOrder
   }
@@ -16798,6 +16836,7 @@ export namespace Prisma {
     name: string
     price?: Decimal | DecimalJsLike | number | string
     banner?: string | null
+    extra?: boolean
     created_at?: Date | string | null
     update_at?: Date | string | null
   }
@@ -16807,6 +16846,7 @@ export namespace Prisma {
     name: string
     price?: Decimal | DecimalJsLike | number | string
     banner?: string | null
+    extra?: boolean
     created_at?: Date | string | null
     update_at?: Date | string | null
   }
@@ -16869,6 +16909,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    extra?: BoolFieldUpdateOperationsInput | boolean
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -16878,6 +16919,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    extra?: BoolFieldUpdateOperationsInput | boolean
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     update_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
