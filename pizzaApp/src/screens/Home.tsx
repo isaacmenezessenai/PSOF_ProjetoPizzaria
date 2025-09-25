@@ -2,7 +2,6 @@
 
 import React from "react";
 import { ScrollView, View, StyleSheet, Image } from "react-native";
-import { Dimensions } from "react-native";
 
 // ! Components
 
@@ -10,10 +9,8 @@ import Chip from "../components/dashboard/chip";
 import Divider from "../components/divider";
 import MenuCompleto from "../components/dashboard/MenuCompleto"
 import ImageButton from "../components/imageButton";
+import Header from "../components/dashboard/header";
 
-// ! Constants
-
-const { width: screenWidth } = Dimensions.get("window");
 
 export default function Home() {
   return (
@@ -24,20 +21,7 @@ export default function Home() {
           <ImageButton name="bag-handle-outline" size={55} navigateTo="Sacola" />
         </View>
 
-        <View style={{ alignItems: "flex-start" }}>
-          <Image
-            source={require("../../assets/img/header.png")}
-            style={{
-              width: screenWidth * 0.8,
-              resizeMode: "contain",
-              marginLeft: 20,
-              marginBottom: -120,
-              marginTop: -120,
-            }}
-          />
-        </View>
-
-        <Divider />
+        <Header />
 
         <View style={styles.list}>
           <Chip
@@ -87,6 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     paddingHorizontal: 16,
+    marginTop: 5,
   },
   header: {
     alignItems: "flex-end",

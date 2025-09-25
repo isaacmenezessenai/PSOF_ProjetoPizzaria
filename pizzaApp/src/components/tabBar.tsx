@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     tabBarContainer: {
         flexDirection: "row",
         backgroundColor: "#07091aff",
-        height: "15%",
+        height: 70,
         borderTopWidth: 0,
         paddingHorizontal: 10,
     },
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#DAA520",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: -80,
+        position: "absolute",
     },
     label: {
         fontSize: 12,

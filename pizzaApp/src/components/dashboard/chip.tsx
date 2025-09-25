@@ -11,7 +11,7 @@ type ChipProps = {
 export default function Chip({ title, image, navigateTo }: ChipProps) {
   const { width } = useWindowDimensions();
   const navigation = useNavigation();
-  const CHIP_WIDTH = (width - 60) / 4;
+  const CHIP_WIDTH = (width - 75) / 4;
 
   return (
     <TouchableOpacity
@@ -26,31 +26,30 @@ export default function Chip({ title, image, navigateTo }: ChipProps) {
 
 const styles = StyleSheet.create({
   chip: {
-  height: 120,
+  height: 110,
   paddingTop: 15,
   marginBottom: 15,
   backgroundColor: "#FFF",
   borderColor: "#C0C0C0",
   borderRadius: 8,
   borderWidth: 1,
-  marginHorizontal: 4,
   alignItems: "center",
   justifyContent: "flex-start", 
   paddingVertical: 10, 
-  shadowColor: "#000",
-  shadowOpacity: 0.1,
+  shadowColor: "#7e7e7eff",
+  shadowOpacity: 0.05,
   shadowOffset: { width: 0, height: 1 },
-  shadowRadius: 5,
-  elevation: 3,
+  shadowRadius: 3,
+  elevation: 2,
 },
   image: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     marginBottom: 8,
   },
   text: {
     fontFamily: "NeueHaas",
-    fontSize: 14,
+    fontSize: 12,
     color: "#000",
     textAlign: "center",
     paddingHorizontal: 10,
