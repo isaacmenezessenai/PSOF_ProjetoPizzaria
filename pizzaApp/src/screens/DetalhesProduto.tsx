@@ -1,19 +1,55 @@
 import React, { useEffect, useState } from "react";
+import { useFocusEffect, useRoute, useNavigation } from "@react-navigation/native";
 import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRoute } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack"; 
 import { ProductProps } from "../components/dashboard/card"; 
+import { useTable } from "../contexts/TableContext";
+import { useCart } from "../contexts/CartContext";
 import Divider from "../components/divider";
 import { api } from "../services/api";
 import BackButton from "../components/backButton";
 
+type RootStackParamList = {
+  QRCode: undefined;
+  Sacola: undefined;
+  Detalhes: { product: ProductProps; index?: number };
+};
+
+type DetalhesProdutoScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "Detalhes"
+>;
+
 export default function DetalhesProduto() {
   const route = useRoute();
-  const { product } = route.params as { product: ProductProps };
+  const navigation = useNavigation<DetalhesProdutoScreenProp>();
+  const { tableNumber } = useTable();
+  const { setItems, items, setPendingProduct } = useCart();
+  const { product, index } = route.params as { product: ProductProps; index?: number };
 
   const [ingredients, setIngredients] = useState<any[]>([]);
   const [loadingIngredients, setLoadingIngredients] = useState(true);
-  const [quantity, setQuantity] = useState(1);
+
+  const initialQty = (() => {
+    if (typeof index === "number" && items[index]) {
+      return items[index].quantity;
+    }
+    const existing = items.find(i => i.product.id === product.id);
+    return existing ? existing.quantity : 1;
+  })();
+  const [quantity, setQuantity] = useState(initialQty);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (typeof index === "number" && items[index]) {
+        setQuantity(items[index].quantity);
+      } else {
+        const existing = items.find(i => i.product.id === product.id);
+        setQuantity(existing ? existing.quantity : 1);
+      }
+    }, [product.id, index, items])
+  );
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -34,13 +70,41 @@ export default function DetalhesProduto() {
   const total = (isNaN(priceNumber) ? 0 : priceNumber) * quantity;
 
   function handleAddToCart() {
+    if (!tableNumber) {
+      setPendingProduct({ product, quantity });
+      navigation.navigate("QRCode");
+      return;
+    }
+
+    // Caso seja edição de item existente
+    if (typeof index === "number" && items[index]) {
+      const newItems = [...items];
+      newItems[index] = { product, quantity }; // sobrescreve ao editar
+      setItems(newItems);
+    } else {
+      // Adição normal
+      const idx = items.findIndex(i => i.product.id === product.id);
+
+      if (idx !== -1) {
+        const newItems = [...items];
+        newItems[idx] = { 
+          product, 
+          quantity: items[idx].quantity + quantity 
+        };
+        setItems(newItems);
+      } else {
+        setItems([...items, { product, quantity }]);
+      }
+    }
+
+    navigation.navigate("Sacola");
   }
 
   return (  
     <View style={{ flex: 1, backgroundColor: "#FAF6ED" }}>
       <ScrollView>
         <View style={styles.container}>
-          <BackButton style={{ marginTop: 20, alignSelf: "left" }}/>
+          <BackButton style={{ marginTop: 20, alignSelf: "flex-start" }}/>
           <Image source={{ uri: product.banner }} style={styles.image} />
           <Divider />
           <Text style={styles.title}>{product.name}</Text>
@@ -71,9 +135,14 @@ export default function DetalhesProduto() {
               <Text style={styles.qtyButtonText}>+</Text>
             </TouchableOpacity>
           </View>
+
           <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
-            <Text style={styles.addButtonText}>Adicionar</Text>
-            <Text style={styles.totalText}>{total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</Text>
+            <Text style={styles.addButtonText}>
+              {typeof index === "number" ? "Atualizar" : "Adicionar"}
+            </Text>
+            <Text style={styles.totalText}>
+              {total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+            </Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -82,7 +151,6 @@ export default function DetalhesProduto() {
 }
 
 const styles = StyleSheet.create({
-  
   container: {
     flex: 1,
     padding: 20,

@@ -1,6 +1,8 @@
 import React from "react";
 import Routes from "./src/routes";
 import { useFonts } from "expo-font";
+import { TableProvider } from "./src/contexts/TableContext";
+import { CartProvider } from "./src/contexts/CartContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -13,5 +15,11 @@ export default function App() {
     return null;
   }
 
-  return <Routes />;
+  return (
+    <TableProvider>
+      <CartProvider>
+        <Routes />
+      </CartProvider>
+    </TableProvider>
+  );
 }

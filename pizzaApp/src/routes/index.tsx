@@ -6,8 +6,10 @@ import Favoritos from "../screens/Favoritos";
 import Pedidos from "../screens/Pedidos";
 import Ajuda from "../screens/Ajuda";
 import Perfil from "../screens/Perfil";
+
 import Sacola from "../screens/Sacola";
 import Detalhes from "../screens/DetalhesProduto";
+import QRCode from "../screens/QRCode";
 
 
 const Stack = createNativeStackNavigator();
@@ -21,8 +23,9 @@ export default function Routes() {
         <Stack.Screen name="Pedidos" component={Pedidos} />
         <Stack.Screen name="Ajuda" component={Ajuda} />
         <Stack.Screen name="Perfil" component={Perfil} />
-        <Stack.Screen name="Sacola" component={Sacola} />
-        <Stack.Screen name="Detalhes" component={Detalhes} />
+  <Stack.Screen name="Sacola" component={Sacola} />
+  <Stack.Screen name="Detalhes" component={Detalhes} />
+  <Stack.Screen name="QRCode" component={QRCode} />
       </Stack.Navigator>
     </NavigationContainer>
   );
