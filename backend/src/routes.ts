@@ -14,7 +14,6 @@ import { ListByCategoryController } from "./controllers/product/ListByCategoryCo
 import { DetailsProductController } from "./controllers/product/DetailsProductController";
 import { AddOrUpdateIngredientToProductController } from "./controllers/product/AddOrUpdateIngredientToProductService";
 
-
 import { CreateOrderController } from "./controllers/order/CreateOrderController";
 import { RemoveOrderController } from "./controllers/order/RemoveOrderController";
 
@@ -42,7 +41,6 @@ import { Pix } from './services/payment/PixPayment';
 const router = Router();
 
 const upload = multer(uploadConfig.upload("./tmp"))
-
 
 const asyncWrapper = (fn) => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
