@@ -1,4 +1,4 @@
-# 👨‍💻BRANCH RELEASE
+# 👨‍💻BRANCH DEV
 ---
   Este documento serve como um guia para a equipe Ártemis, explicando o propósito da branch release e como preparar o projeto para uma nova versão.
   A branch release é criada a partir da branch dev quando um conjunto de funcionalidades está completo, testado e pronto para o lançamento. Ela é usada para testes finais, correções de bugs de última hora e preparação para a implantação em produção.
