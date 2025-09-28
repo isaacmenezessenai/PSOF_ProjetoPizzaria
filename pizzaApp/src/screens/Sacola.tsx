@@ -1,10 +1,12 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from "react-native";
 import BackButton from "../components/cart/backButton";
+import Divider from "../components/divider";
 import { useCart } from "../contexts/CartContext";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProductProps } from "../components/dashboard/card";
+import Card from "../components/cart/card";
 
 type RootStackParamList = {
   Sacola: undefined;
@@ -35,78 +37,79 @@ export default function Sacola() {
   }
 
   function handleChangeQty(index: number, delta: number) {
-    setItems(items => {
-      const newItems = [...items];
-      const item = newItems[index];
-      const newQty = item.quantity + delta;
-      if (newQty <= 0) {
-        newItems.splice(index, 1);
-      } else {
-        newItems[index] = { ...item, quantity: newQty };
-      }
+  setItems(items => {
+    const newItems = [...items];
+    const item = newItems[index];
+    const newQty = item.quantity + delta;
+
+    if (newQty <= 0) {
+      Alert.alert(
+        "Remover",
+        "Deseja remover este item?",
+        [
+          { text: "Cancelar", style: "cancel" },
+          {
+            text: "Remover",
+            style: "destructive",
+            onPress: () => {
+              const updated = [...newItems];
+              updated.splice(index, 1);
+              setItems(updated);
+            },
+          },
+        ]
+      );
+      return items; // não aplica nada até o usuário confirmar
+    } else {
+      newItems[index] = { ...item, quantity: newQty };
       return newItems;
-    });
-  }
+    }
+  });
+}
 
   return (
     <View style={{ flex: 1, backgroundColor: "#FAF6ED" }}>
-      <BackButton />
+
+      <View style={{ marginTop: 40, marginLeft: 20, alignSelf: "flex-start" }}>
+        <BackButton />
+      </View>
+
       <Text style={styles.title}>Sacola</Text>
+
+      <Divider />
+
       <FlatList
         data={items}
         keyExtractor={(_, i) => i.toString()}
         contentContainerStyle={{ padding: 16 }}
         renderItem={({ item, index }) => (
-          <View style={styles.itemBox}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.itemName}>{item.product.name}</Text>
-              <Text style={styles.itemDesc}>Qtd: {item.quantity}</Text>
-            </View>
-            <View style={styles.qtyBox}>
-              <TouchableOpacity
-                onPress={() => handleChangeQty(index, -1)}
-                style={styles.qtyBtn}
-              >
-                <Text style={styles.qtyBtnText}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.qtyText}>{item.quantity}</Text>
-              <TouchableOpacity
-                onPress={() => handleChangeQty(index, 1)}
-                style={styles.qtyBtn}
-              >
-                <Text style={styles.qtyBtnText}>+</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity
-              onPress={() => handleEdit(item, index)}
-              style={styles.editBtn}
-            >
-              <Text>Editar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handleRemove(index)}
-              style={styles.removeBtn}
-            >
-              <Text>Remover</Text>
-            </TouchableOpacity>
-          </View>
+          <Card
+            product={item.product}
+            quantity={item.quantity}
+            onEdit={() => handleEdit(item, index)}
+            onRemove={() => handleRemove(index)}
+            onChangeQty={(delta) => handleChangeQty(index, delta)}
+          />
         )}
-        ListEmptyComponent={
-          <Text style={{ textAlign: "center", marginTop: 40 }}>
-            Sua sacola está vazia.
-          </Text>
-        }
+
+      ListEmptyComponent={
+        <Text style={{ textAlign: "center", fontSize: 16, color: "#888", alignSelf: "center" }}>
+          Sua sacola está vazia.
+        </Text>
+      }
       />
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 16,
+    fontFamily: "NeueHaas",
   },
   itemBox: {
     flexDirection: "row",

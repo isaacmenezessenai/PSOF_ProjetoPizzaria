@@ -18,14 +18,14 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-  <Stack.Screen name="Home" component={MainTabs} />
+        <Stack.Screen name="Home" component={MainTabs} />
         <Stack.Screen name="Favoritos" component={Favoritos} />
         <Stack.Screen name="Pedidos" component={Pedidos} />
         <Stack.Screen name="Ajuda" component={Ajuda} />
         <Stack.Screen name="Perfil" component={Perfil} />
-  <Stack.Screen name="Sacola" component={Sacola} />
-  <Stack.Screen name="Detalhes" component={Detalhes} />
-  <Stack.Screen name="QRCode" component={QRCode} />
+        <Stack.Screen name="Sacola" component={Sacola} />
+        <Stack.Screen name="Detalhes" component={Detalhes} />
+        <Stack.Screen name="QRCode" component={QRCode} />
       </Stack.Navigator>
     </NavigationContainer>
   );

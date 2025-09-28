@@ -12,6 +12,7 @@ type RootStackParamList = {
   Sacola: undefined;
   DetalhesProduto: { product: any };
 };
+
 type QRCodeScreenProp = StackNavigationProp<RootStackParamList, "QRCode">;
 
 export default function QRCode() {
@@ -44,7 +45,8 @@ export default function QRCode() {
     setScanned(true);
 
     try {
-      const parsed = JSON.parse(data); // ! { tableId: "uuid" }
+      // ! tenta transformar em JSON
+      const parsed = JSON.parse(data); // ? { tableId: "uuid" }
       if (!parsed?.tableId) {
         Alert.alert("QR inválido", "Não contém um ID de mesa válido.");
         setScanned(false);
@@ -114,7 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FAF6ED",
   },
   background: {
     width: 280,
