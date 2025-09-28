@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     categoryText: {
+        fontFamily: "NeueHaas",
         fontSize: 16,
         color: "#444",
     },

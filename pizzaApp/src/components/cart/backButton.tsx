@@ -6,10 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 export default function BackButton() {
 
     const navigation = useNavigation();
-    
+
     return (
         <View style={[styles.headerRow]}>
-            <TouchableOpacity
+            <TouchableOpacity style={styles.backButton}
                 onPress={() => navigation.navigate("Home" as never)}
             >
                 <Ionicons name="chevron-back" size={28} color="#222" />
