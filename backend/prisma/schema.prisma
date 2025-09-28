@@ -115,13 +115,17 @@ model Ingredients {
 }
 
 model ProductIngredient {
-  productId    String
-  ingredientId String
+  id           String      @id @default(uuid())
   amount       Int
-  product      Product     @relation(fields: [productId], references: [id])
-  ingredient   Ingredients @relation(fields: [ingredientId], references: [id])
+  created_at   DateTime?   @default(now())
+  update_at    DateTime?   @default(now())
 
-  @@id([productId, ingredientId])
+  product      Product     @relation(fields: [product_id], references: [id])
+  ingredient   Ingredients @relation(fields: [ingredient_id], references: [id])
+  product_id    String
+  ingredient_id String
+
+  @@map("ProductIngredient")
 }
 
 model Table {

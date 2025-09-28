@@ -12,7 +12,7 @@ import { ListCategoryController } from "./controllers/category/ListCategoryConto
 import { CreateProductController } from "./controllers/product/CreateProductController";
 import { ListByCategoryController } from "./controllers/product/ListByCategoryController";
 import { DetailsProductController } from "./controllers/product/DetailsProductController";
-import { AddOrUpdateIngredientToProductController } from "./controllers/product/AddOrUpdateIngredientToProductService";
+import { AddIngredientToProductController } from "./controllers/product/AddIngredientToProductController";
 
 
 import { CreateOrderController } from "./controllers/order/CreateOrderController";
@@ -93,7 +93,7 @@ router.post('/table', new CreateTableController().handle)
 // ROTAS INGREDIENTS
 router.post('/ingredient', isAuthenticated, asyncWrapper(new CreateIngredientController().handle));
 router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
-router.post('/product/ingredient', asyncWrapper(new AddOrUpdateIngredientToProductController().handle));
+router.post('/product/ingredient', asyncWrapper(new AddIngredientToProductController().handle));
 router.get('/products/:product_id/ingredients', asyncWrapper(new ListIngredientsByProductController().handle) );
 router.get('/ingredients/extra', new ListExtraIngredientController().handle);
 router.put('/ingredient/extra' , new SetExtraIngredientController().handle);
