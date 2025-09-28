@@ -13,14 +13,15 @@ export interface TabBarItem {
 const TABS: TabBarItem[] = [
     { label: "Home", icon: <Ionicons name="home-outline" size={20} color="#888" />, screen: "Home" },
     { label: "Favoritos", icon: <Ionicons name="star-outline" size={20} color="#888" />, screen: "Favoritos" },
-    { label: "", icon: <Ionicons name="qr-code-outline" size={30} color="#fff" />, screen: "QrCode" },
+    { label: "", icon: <Ionicons name="qr-code-outline" size={30} color="#fff" />, screen: "QRCode" },
     { label: "Ajuda", icon: <Ionicons name="help-buoy-outline" size={20} color="#888" />, screen: "Ajuda" },
     { label: "Perfil", icon: <Ionicons name="person-outline" size={20} color="#888" />, screen: "Perfil" },
 ];
 
 const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
     return (
-        <SafeAreaView edges={["bottom"]} style={styles.tabBarContainer}>
+        <SafeAreaView edges={["bottom"]}>
+        <View style={styles.tabBarContainer}>
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
                 const isFocused = state.index === index;
@@ -45,7 +46,7 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
                 const labelStyle = [styles.label, isFocused && styles.activeLabel];
 
                 const renderIcon = React.cloneElement(item.icon as ReactElement<any>, {
-                    color: item.screen === "QrCode" ? "#fff" : iconColor,
+                    color: item.screen === "QRCode" ? "#fff" : iconColor,
                 });
 
                 return (
@@ -62,6 +63,7 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
                     </TouchableOpacity>
                 );
             })}
+        </View>
         </SafeAreaView>
     );
 };
@@ -73,8 +75,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: "#07091aff",
         height: 70,
-        borderTopWidth: 0,
         paddingHorizontal: 10,
+        marginHorizontal: "5%",
+        marginBottom: 10,
+        borderRadius: 50,
     },
     tabBarItem: {
         flex: 1,
@@ -89,6 +93,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#DAA520",
         justifyContent: "center",
         alignItems: "center",
+        marginTop: -40,
         position: "absolute",
     },
     label: {

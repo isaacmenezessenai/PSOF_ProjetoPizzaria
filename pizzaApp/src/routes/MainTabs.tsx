@@ -5,7 +5,7 @@ import Favoritos from "../screens/Favoritos";
 import Ajuda from "../screens/Ajuda";
 import Perfil from "../screens/Perfil";
 import Home from "../screens/Home";
-import QRCode from "../screens/QRCodeScreen";
+import QRCode from "../screens/QRCode";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +16,7 @@ export default function MainTabs() {
     >
   <Tab.Screen name="Home" component={Home} />
   <Tab.Screen name="Favoritos" component={Favoritos} />
-  <Tab.Screen name="QrCode" component={QRCode} />
+  <Tab.Screen name="QRCode" component={QRCode} />
   <Tab.Screen name="Ajuda" component={Ajuda} />
   <Tab.Screen name="Perfil" component={Perfil} />
     </Tab.Navigator>

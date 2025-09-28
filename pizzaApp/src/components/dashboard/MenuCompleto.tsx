@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { api } from "../../services/api"
-import Card from "./card";
+import Card from "../dashboard/card";
 
 type Category = {
     id: string;
@@ -62,7 +62,6 @@ export default function MenuCompleto() {
                 });
                 const productsData = response.data;
 
-                // Buscar ingredientes de cada produto
                 const productsWithIngredients = await Promise.all(
                     productsData.map(async (product: any) => {
                         try {
@@ -141,6 +140,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     categoryText: {
+        fontFamily: "NeueHaas",
         fontSize: 16,
         color: "#444",
     },
