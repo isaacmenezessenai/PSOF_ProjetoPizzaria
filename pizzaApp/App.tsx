@@ -6,9 +6,9 @@ import { CartProvider } from "./src/contexts/CartContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    "NeueHaas": require("./assets/fonts/Neue Haas Grotesk Display Pro.ttf"),
-    "FactorA": require("./assets/fonts/TRIAL Factor A.otf"),
-    "Chunko": require("./assets/fonts/Chunko Bold Demo.ttf"),
+    "NeueHaas": require("./assets/fonts/NeueHaasGroteskDisplayPro.ttf"),
+    "FactorA": require("./assets/fonts/FactorA.otf"),
+    "Chunko": require("./assets/fonts/ChunkoBoldDemo.ttf"),
   });
 
   if (!fontsLoaded) {
