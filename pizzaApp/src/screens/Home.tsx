@@ -1,5 +1,3 @@
-// ! Required Imports
-
 import React from "react";
 import { ScrollView, View, StyleSheet, Image } from "react-native";
 
