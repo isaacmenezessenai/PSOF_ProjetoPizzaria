@@ -94,7 +94,7 @@ router.post('/ingredient', isAuthenticated, asyncWrapper(new CreateIngredientCon
 router.delete('/product/ingredient/remove', isAuthenticated, new RemoveIngredientFromProductController().handle)
 router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
 router.post('/product/ingredient', asyncWrapper(new AddIngredientToProductController().handle));
-router.get('/products/:product_id/ingredients', asyncWrapper(new ListIngredientsByProductController().handle) );
+router.get('/ingredients/product', asyncWrapper(new ListIngredientsByProductController().handle) );
 router.get('/ingredients/extra', new ListExtraIngredientController().handle);
 router.put('/ingredient/extra' , new SetExtraIngredientController().handle);
   

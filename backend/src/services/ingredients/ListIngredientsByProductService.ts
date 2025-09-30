@@ -6,13 +6,13 @@ interface ListIngredientsByProductRequest {
 
 class ListIngredientsByProductService {
     async execute({ productId }: ListIngredientsByProductRequest) {
-        if (!productId) {
-            throw new Error('Product ID is required.');
-        }
+        // if (!productId) {
+        //     throw new Error('Product ID is required.');
+        // }
 
         const productIngredients = await prismaClient.productIngredient.findMany({
             where: {
-                productId: productId,
+                product_id: productId,
             },
             select: {
                 amount: true,
@@ -28,6 +28,7 @@ class ListIngredientsByProductService {
         });
 
         return productIngredients;
+        
     }
 }
 
