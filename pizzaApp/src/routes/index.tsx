@@ -10,6 +10,7 @@ import Sacola from "../screens/Sacola";
 import Detalhes from "../screens/DetalhesProduto";
 import QRCode from "../screens/QRCode";
 import Checkout from "../screens/Checkout";
+import StatusPedido from "../screens/StatusPedido";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ export default function Routes() {
         <Stack.Screen name="Detalhes" component={Detalhes} />
         <Stack.Screen name="QRCode" component={QRCode} />
         <Stack.Screen name="Checkout" component={Checkout} />
+        <Stack.Screen name="StatusPedido" component={StatusPedido} />
       </Stack.Navigator>
     </NavigationContainer>
   );
