@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useTable } from "../contexts/TableContext";
 import { useCart } from "../contexts/CartContext";
+import BackButton from "../components/backButton";
 import { api } from "../services/api";
 
 type RootStackParamList = {
@@ -97,6 +98,7 @@ export default function QRCode() {
       />
 
       <View style={styles.overlay}>
+        <BackButton style={styles.backButton} />
         <View style={styles.background}>
           <Text style={styles.title}>Escaneie o QRCode da mesa para fazer o seu pedido</Text>
           <Text style={styles.subtitle}>Levaremos ele até você!</Text>
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: "center",
-    marginTop: 80,
+    marginTop: -50,
   },
   title: {
     color: "#000",
@@ -160,5 +162,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     fontFamily: "NeueHaas",
+  },
+  backButton: {
+    alignSelf: "flex-start",
   },
 });

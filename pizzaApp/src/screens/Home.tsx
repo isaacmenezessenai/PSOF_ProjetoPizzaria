@@ -27,7 +27,7 @@ export default function Home() {
           <Chip
             title="Favoritos"
             image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/o13ayzza_expires_30_days.png"
-            navigateTo="Favoritos"
+            navigateTo="StatusPedido"
           />
           <Chip
             title="Meus Pedidos"
