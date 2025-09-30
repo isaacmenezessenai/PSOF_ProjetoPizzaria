@@ -7,17 +7,63 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProductProps } from "../components/dashboard/card";
 import Card from "../components/cart/card";
+import { api } from "../services/api";
+import { useTable } from "../contexts/TableContext";
 
-type RootStackParamList = {
+export type RootStackParamList = {
   Sacola: undefined;
   Detalhes: { product: ProductProps; index?: number };
+  Checkout: { orderId: string };
+  Pedidos: undefined; 
 };
 
 type SacolaScreenProp = StackNavigationProp<RootStackParamList, "Sacola">;
 
 export default function Sacola() {
   const { items, setItems } = useCart();
+  const { tableNumber } = useTable();
   const navigation = useNavigation<SacolaScreenProp>();
+  const [loading, setLoading] = React.useState(false);
+
+  // Calcular total
+  const total = items.reduce((sum, item) => sum + (parseFloat(item.product.price) * item.quantity), 0);
+
+  async function handleCheckout() {
+    setLoading(true);
+    try {
+      // Buscar id da mesa pelo número
+      const tableRes = await api.get(`/table/by-number?number=${tableNumber}`);
+      const tableId = tableRes.data.id;
+      // Cria a order no backend
+      const orderRes = await api.post("/order", {
+        table_id: tableId,
+        name: `Mesa ${tableNumber}`,
+        observation: "",
+      });
+      const orderId = orderRes.data.id;
+      // Adiciona os itens
+      for (const item of items) {
+        await api.post("/order/add", {
+          order_id: orderId,
+          product_id: item.product.id,
+          amount: item.quantity,
+        });
+      }
+      // Limpa sacola e vai para checkout
+      setItems([]);
+      navigation.navigate("Checkout", { orderId });
+    } catch (err: any) {
+      let msg = "Não foi possível criar o pedido.";
+      if (err?.response?.data?.error) {
+        msg += `\n${err.response.data.error}`;
+      } else if (err?.message) {
+        msg += `\n${err.message}`;
+      }
+      Alert.alert("Erro", msg);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   function handleRemove(index: number) {
     Alert.alert("Remover", "Deseja remover este item?", [
@@ -98,6 +144,21 @@ export default function Sacola() {
         </Text>
       }
       />
+
+      <View style={{ padding: 16 }}>
+        <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 8 }}>
+          Total: R$ {total.toFixed(2)}
+        </Text>
+        <TouchableOpacity
+          style={{ backgroundColor: "#BCA85C", padding: 16, borderRadius: 8, alignItems: "center" }}
+          onPress={handleCheckout}
+          disabled={items.length === 0 || loading}
+        >
+          <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
+            {loading ? "Processando..." : "Seguir para checkout"}
+          </Text>
+        </TouchableOpacity>
+      </View>
 
     </View>
   );
