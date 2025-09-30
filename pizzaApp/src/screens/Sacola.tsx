@@ -4,17 +4,26 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import BackButton from "../components/backButton";
 import Divider from "../components/divider";
 import { useCart } from "../contexts/CartContext";
-import { useTable } from "../contexts/TableContext";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Card from "../components/cart/card";
-import { RootStackParamList } from "../routes/RootStackParamList";
+import { ProductProps } from "../components/dashboard/MenuCompleto";
+import { api } from "../services/api";
+import { useTable } from "../contexts/TableContext";
+
+export type RootStackParamList = {
+  Sacola: undefined;
+  Detalhes: { product: ProductProps; index?: number };
+  Checkout: { orderId: string };
+  Pedidos: undefined; 
+};
 
 type SacolaScreenProp = StackNavigationProp<RootStackParamList, "Sacola">;
 
 export default function Sacola() {
   const { items, setItems } = useCart();
+  const { tableNumber } = useTable();
   const navigation = useNavigation<SacolaScreenProp>();
   const { tableNumber } = useTable();
   const [loading, setLoading] = React.useState(false);

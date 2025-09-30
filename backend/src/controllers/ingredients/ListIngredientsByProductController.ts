@@ -4,7 +4,7 @@ import { ListIngredientsByProductService } from "../../services/ingredients/List
 class ListIngredientsByProductController{
     async handle(req: Request, res: Response): Promise<Response | void> {
         try {
-            const { product_id } = req.params;
+            const { product_id } = req.body;
             
             const listIngredientsByProductService = new ListIngredientsByProductService();
 
