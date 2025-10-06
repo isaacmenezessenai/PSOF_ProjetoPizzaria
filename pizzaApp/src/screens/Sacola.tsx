@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import BackButton from "../components/backButton";
 import Divider from "../components/divider";
 import { useCart } from "../contexts/CartContext";
-import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Card from "../components/cart/card";
@@ -16,7 +15,7 @@ export type RootStackParamList = {
   Sacola: undefined;
   Detalhes: { product: ProductProps; index?: number };
   Checkout: { orderId: string };
-  Pedidos: undefined; 
+  Pedidos: undefined;
 };
 
 type SacolaScreenProp = StackNavigationProp<RootStackParamList, "Sacola">;
@@ -25,7 +24,6 @@ export default function Sacola() {
   const { items, setItems } = useCart();
   const { tableNumber } = useTable();
   const navigation = useNavigation<SacolaScreenProp>();
-  const { tableNumber } = useTable();
   const [loading, setLoading] = React.useState(false);
 
   const total = items.reduce((acc, item) => {
@@ -33,50 +31,33 @@ export default function Sacola() {
     return acc + price * item.quantity;
   }, 0);
 
-  // usa o ip da sua máquina
-  const API_HOSTS = ["http://10.106.131.31:3333"];
-
-  async function postToAnyHost(path: string, body: any) {
-    let lastErr: any = null;
-    for (const host of API_HOSTS) {
-      try {
-        const res = await axios.post(`${host}${path}`, body);
-        return res;
-      } catch (err) {
-        lastErr = err;
-      }
-    }
-    throw lastErr;
-  }
-
   async function handleCheckout() {
     if (!tableNumber) {
-      Alert.alert("mesa não definida", "selecione uma mesa antes de continuar.");
+      Alert.alert("Mesa não definida", "Selecione uma mesa antes de continuar.");
       return;
     }
     if (items.length === 0) {
-      Alert.alert("sacola vazia", "adicione itens antes de continuar.");
+      Alert.alert("Sacola vazia", "Adicione itens antes de continuar.");
       return;
     }
 
     setLoading(true);
     try {
-      // Buscar o id da mesa pelo número
-      const tableRes = await postToAnyHost("/table/find", { number: tableNumber });
-      const tableData = tableRes?.data ?? {};
+      const tableRes = await api.post("/table/find", { number: tableNumber });
+      const tableData = tableRes.data ?? {};
       const tableId = tableData.id ?? tableData.table?.id;
 
       if (!tableId) {
         throw new Error("Mesa não encontrada no banco. Confirme se existe uma mesa com esse número.");
       }
 
-      // Conferir se todos os produtos têm id válido
       const itemsPayload = items.map((i) => ({
         product_id: i.product.id,
         amount: i.quantity,
       }));
+
       for (const it of itemsPayload) {
-        if (!it.product_id || typeof it.product_id !== "string" || it.product_id.length < 10) {
+        if (!it.product_id || typeof it.product_id !== "string" || it.product_id.length < 3) {
           throw new Error("Produto inválido na sacola. Confirme se todos os produtos existem no banco.");
         }
       }
@@ -89,49 +70,48 @@ export default function Sacola() {
         products: itemsPayload,
       };
 
-      const orderRes = await postToAnyHost("/order", createBody);
-      const data = orderRes?.data ?? {};
+      const orderRes = await api.post("/order", createBody);
+      const data = orderRes.data ?? {};
       const order = data.order ?? data;
       const orderId = order?.id;
 
       if (!orderId) {
-        throw new Error("resposta inesperada do servidor: " + JSON.stringify(data));
+        throw new Error("Resposta inesperada do servidor: " + JSON.stringify(data));
       }
 
       if (!order.items || order.items.length === 0) {
         for (const it of itemsPayload) {
           try {
-            await postToAnyHost("/order/add", {
+            await api.post("/order/add", {
               order_id: orderId,
               product_id: it.product_id,
               amount: it.amount,
             });
           } catch (err) {
-            console.warn("não foi possível adicionar item via /order/add:", err);
+            console.warn("Não foi possível adicionar item via /order/add:", err);
           }
         }
       }
 
-      setItems([]);
       navigation.navigate("Checkout", { orderId });
     } catch (err: any) {
-      let msg = "não foi possível criar o pedido.";
-      if (axios.isAxiosError(err) && err.response?.data?.error) {
+      let msg = "Não foi possível criar o pedido.";
+      if (err.response?.data?.error) {
         msg += `\n${err.response.data.error}`;
       } else if (err?.message) {
         msg += `\n${err.message}`;
       }
-      Alert.alert("erro", msg);
+      Alert.alert("Erro", msg);
     } finally {
       setLoading(false);
     }
   }
 
   function handleRemove(index: number) {
-    Alert.alert("remover", "deseja remover este item?", [
-      { text: "cancelar", style: "cancel" },
+    Alert.alert("Remover", "Deseja remover este item?", [
+      { text: "Cancelar", style: "cancel" },
       {
-        text: "remover",
+        text: "Remover",
         style: "destructive",
         onPress: () => {
           setItems(items.filter((_, i) => i !== index));
@@ -151,10 +131,10 @@ export default function Sacola() {
       const newQty = item.quantity + delta;
 
       if (newQty <= 0) {
-        Alert.alert("remover", "deseja remover este item?", [
-          { text: "cancelar", style: "cancel" },
+        Alert.alert("Remover", "Deseja remover este item?", [
+          { text: "Cancelar", style: "cancel" },
           {
-            text: "remover",
+            text: "Remover",
             style: "destructive",
             onPress: () => {
               const updated = [...newItems];
@@ -178,6 +158,7 @@ export default function Sacola() {
       </View>
       <Text style={styles.title}>Sacola</Text>
       <Divider />
+
       <FlatList
         data={items}
         keyExtractor={(_, i) => i.toString()}
@@ -217,10 +198,8 @@ export default function Sacola() {
         >
           <Text style={{ fontSize: 16 }}>Total:</Text>
           <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-            <Text>
-              R$
-            </Text>
-            <Text style={{ fontSize: 20, fontWeight: "bold"}}>
+            <Text>R$</Text>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
               {total.toFixed(2)}
             </Text>
           </View>
@@ -245,7 +224,7 @@ export default function Sacola() {
         </TouchableOpacity>
       </SafeAreaView>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

@@ -28,7 +28,7 @@ import { FinishOrderController } from "./controllers/order/FinishOrderController
 
 import { DetailTableController } from "./controllers/table/DetailTableController";
 import { CreateTableController } from "./controllers/table/CreateTableController";
-import tableRoutes from "./routes/table";
+import { ListTableActiveOrdersController } from "./controllers/table/ListTableActiveOrdersController";
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
@@ -89,6 +89,7 @@ router.get('/order/sum', new SumOrderController().handle)
 router.get('/table/detail', new DetailTableController().handle)
 router.post('/table', new CreateTableController().handle)
 router.use('/table', tableRoutes);
+router.get('/table/order', new ListTableActiveOrdersController().handle)
 
 // ROTAS INGREDIENTS
 router.post('/ingredient', isAuthenticated, asyncWrapper(new CreateIngredientController().handle));
