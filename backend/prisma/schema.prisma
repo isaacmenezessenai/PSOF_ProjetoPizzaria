@@ -148,7 +148,7 @@ model Payment {
   amount        Decimal
   transactionId String? @unique
   pixCode       String?
-  status        String    @default("pending")
+  status        Boolean  @default(false)
   created_at    DateTime? @default(now())
   updated_at    DateTime? @default(now())
 
