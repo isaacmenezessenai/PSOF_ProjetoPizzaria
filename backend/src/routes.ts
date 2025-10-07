@@ -43,8 +43,8 @@ import { ListExtraIngredientController } from "./controllers/ingredients/ListExt
 import { SetExtraIngredientController } from "./controllers/ingredients/SetExtraIngredientController";
 import { AddExtraIngredientController } from "./controllers/ingredients/AddExtraIngredinetController";
 import { RemoveExtraIngredientController } from "./controllers/ingredients/RemoveExtraIngredientController";
+import { PaymentController } from "./controllers/payment/PaymentController";
 
-import { Pix } from './services/payment/PixPayment'; 
 
 const router = Router();
 
@@ -104,5 +104,5 @@ router.post('/ingredient/extra', new AddExtraIngredientController().handle)
 router.delete('/ingredient/extra' , new RemoveExtraIngredientController().handle)
 
 // ROTAS PAYMENT
-
+router.post('/payment',asyncWrapper(new PaymentController().handle)) ; 
 export { router };

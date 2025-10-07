@@ -12,6 +12,7 @@ import { api } from "../services/api";
 type RootStackParamList = {
   QRCode: undefined;
   Sacola: undefined;
+  Home: { table_id: string };
   DetalhesProduto: { product: any };
 };
 
@@ -78,7 +79,7 @@ export default function QRCode() {
         setPendingProduct(null);
         navigation.navigate("Sacola");
       } else {
-        navigation.goBack();
+        navigation.navigate("Home", { table_id: parsed.tableId });
       }
     } catch (err) {
       console.error(err);
