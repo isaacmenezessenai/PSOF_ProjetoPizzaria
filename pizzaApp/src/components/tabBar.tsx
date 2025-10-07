@@ -11,11 +11,11 @@ export interface TabBarItem {
 }
 
 const TABS: TabBarItem[] = [
-    { label: "Home", icon: <Ionicons name="home-outline" size={20} color="#888" />, screen: "Home" },
-    { label: "Favoritos", icon: <Ionicons name="star-outline" size={20} color="#888" />, screen: "Favoritos" },
+    { label: "Home", icon: <Ionicons name="home-outline" size={16} color="#888" />, screen: "Home" },
+    { label: "Favoritos", icon: <Ionicons name="star-outline" size={16} color="#888" />, screen: "Favoritos" },
     { label: "", icon: <Ionicons name="qr-code-outline" size={30} color="#fff" />, screen: "QRCode" },
-    { label: "Ajuda", icon: <Ionicons name="help-buoy-outline" size={20} color="#888" />, screen: "Ajuda" },
-    { label: "Perfil", icon: <Ionicons name="person-outline" size={20} color="#888" />, screen: "Perfil" },
+    { label: "Ajuda", icon: <Ionicons name="help-buoy-outline" size={16} color="#888" />, screen: "Ajuda" },
+    { label: "Perfil", icon: <Ionicons name="person-outline" size={16} color="#888" />, screen: "Perfil" },
 ];
 
 const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
@@ -73,7 +73,7 @@ export default TabBar;
 const styles = StyleSheet.create({
     tabBarContainer: {
         flexDirection: "row",
-        backgroundColor: "#07091aff",
+        backgroundColor: "#07091A",
         height: 70,
         paddingHorizontal: 10,
         marginHorizontal: "5%",

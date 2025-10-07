@@ -1,208 +1,117 @@
-import React from "react";
-import { View, ScrollView, Image, Text, TouchableOpacity, } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useEffect, useState } from "react";
+import { View, Text, ActivityIndicator, Alert, StyleSheet } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../routes/RootStackParamList";
+import BackButton from "../components/backButton";
+import Divider from "../components/divider";
+import OrderStatus from "../components/status/status";
+import Table from "../components/status/table";
+import { useTable } from "../contexts/TableContext";
+import axios from "axios";
 
-export default function StatusPedido() {
+type Props = NativeStackScreenProps<RootStackParamList, "StatusPedido">;
+
+export default function StatusPedido({ }: Props) {
+  const { tableNumber } = useTable();
+  const [loading, setLoading] = useState(true);
+  const [order, setOrder] = useState<any>(null);
+
+  const API_HOSTS = ["http://10.106.131.31:3333"];
+
+  async function fetchFromAnyHost(path: string) {
+    let lastErr: any = null;
+    for (const host of API_HOSTS) {
+      try {
+        const res = await axios.get(`${host}${path}`);
+        return res;
+      } catch (err) {
+        lastErr = err;
+      }
+    }
+    throw lastErr;
+  }
+
+  useEffect(() => {
+    async function loadOrder() {
+      if (!tableNumber) {
+        Alert.alert("Erro", "Nenhuma mesa vinculada.");
+        return;
+      }
+      try {
+        setLoading(true);
+
+        // pega mesa pelo número
+        const tableRes = await fetchFromAnyHost(`/table/find?number=${tableNumber}`);
+        const tableData = tableRes?.data ?? {};
+        const tableId = tableData.id ?? tableData.table?.id;
+        if (!tableId) throw new Error("Mesa não encontrada.");
+
+        // pega pedidos da mesa
+        const ordersRes = await fetchFromAnyHost(`/table/${tableId}/orders`);
+        const orders = ordersRes?.data ?? [];
+        if (!Array.isArray(orders) || orders.length === 0) {
+          throw new Error("Nenhum pedido encontrado para esta mesa.");
+        }
+
+        // último pedido
+        const latest = orders[orders.length - 1];
+        setOrder(latest);
+      } catch (err: any) {
+        console.error(err);
+        Alert.alert("Erro", err?.message || "Não foi possível carregar o pedido.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadOrder();
+  }, [tableNumber]);
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#BCA85C" />
+      </View>
+    );
+  }
+
+  if (!order) {
+    return (
+      <View style={styles.center}>
+        <Text style={{ fontSize: 18 }}>Nenhum pedido encontrado.</Text>
+      </View>
+    );
+  }
+
+  // draft = aguardando pagamento
+  if (order.draft) {
+    return (
+      <View style={styles.center}>
+        <Text style={{ fontSize: 22, fontWeight: "bold" }}>Aguardando pagamento</Text>
+      </View>
+    );
+  }
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "#FFFFFF",
-      }}
-    >
-      <ScrollView
-        style={{
-          flex: 1,
-          backgroundColor: "#FAF6ED",
-        }}
-      >
-        <Image
-          source={{
-            uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/g8rbnjfr_expires_30_days.png",
-          }}
-          resizeMode="stretch"
-          style={{
-            height: 44,
-            marginTop: 29,
-            marginBottom: 13,
-            marginHorizontal: 22,
-          }}
-        />
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            paddingVertical: 16,
-            paddingHorizontal: 20,
-            marginBottom: 13,
-            marginHorizontal: 22,
-          }}
-        >
-          <Text
-            style={{
-              color: "#10191F",
-              fontSize: 28,
-              fontWeight: "bold",
-              marginRight: 110,
-              flex: 1,
-            }}
-          >
-            {"Verificar status do pedido"}
-          </Text>
-
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#1A1F3F",
-              borderRadius: 18,
-              paddingVertical: 10,
-              paddingHorizontal: 12,
-            }}
-            onPress={() => alert("Mesa 21")}
-          >
-            <Text
-              style={{
-                color: "#FFFFFF",
-              }}
-            >
-              {"Mesa 21"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Status */}
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: "#FFFFFF",
-            paddingVertical: 25,
-            paddingLeft: 96,
-            marginBottom: 13,
-          }}
-        >
-          <Text
-            style={{
-              color: "#10191F",
-              fontSize: 32,
-              fontWeight: "bold",
-              textAlign: "center",
-              flex: 1,
-            }}
-          >
-            {"Preparando"}
-          </Text>
-          <Text
-            style={{
-              color: "#9E9E9E",
-              fontSize: 16,
-              fontWeight: "bold",
-              textAlign: "center",
-              width: 90,
-            }}
-          >
-            {"Indo até você"}
-          </Text>
-        </View>
-
-        <View
-          style={{
-            paddingVertical: 10,
-            marginBottom: 13,
-            marginHorizontal: 22,
-          }}
-        >
-          <Text
-            style={{
-              color: "#000000",
-              fontSize: 20,
-              textAlign: "center",
-              marginHorizontal: 21,
-            }}
-          >
-            {"Acompanhe seu pedido em tempo real diretamente da sua mesa."}
-          </Text>
-        </View>
-
-        <Image
-          source={{
-            uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/87hnq6ap_expires_30_days.png",
-          }}
-          resizeMode="stretch"
-          style={{
-            height: 18,
-            marginBottom: 13,
-            marginHorizontal: 14,
-          }}
-        />
-
-        <View
-          style={{
-            marginBottom: 13,
-            marginHorizontal: 22,
-          }}
-        >
-          <Text
-            style={{
-              color: "#000000",
-              fontSize: 24,
-              textAlign: "center",
-              marginHorizontal: 10,
-            }}
-          >
-            {
-              "Está com alguma dúvida ou teve um problema? Clique no botão para pedir ajuda ao garçom."
-            }
-          </Text>
-        </View>
-
-        <View
-          style={{
-            paddingVertical: 3,
-            marginBottom: 261,
-            marginHorizontal: 35,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#9A1105",
-              borderColor: "#FFFFFF",
-              borderRadius: 24,
-              borderWidth: 1,
-              paddingVertical: 1,
-              marginHorizontal: 34,
-            }}
-            onPress={() =>
-              alert("Seu pedido de ajuda foi enviado ao sistema!")
-            }
-          >
-            <Image
-              source={{
-                uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/s2hn1gts_expires_30_days.png",
-              }}
-              resizeMode="stretch"
-              style={{
-                borderRadius: 24,
-                width: 36,
-                height: 49,
-                marginRight: 10,
-              }}
-            />
-            <Text
-              style={{
-                color: "#FFFFFF",
-                fontSize: 20,
-                fontWeight: "bold",
-              }}
-            >
-              {"Chamar Ajuda"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View style={{ padding: 16 }}>
+      <BackButton />
+      <View>
+        <Text>
+          Status do pedido
+        </Text>
+        <Table />
+      </View>
+      <Divider />
+      <OrderStatus status={order.status} />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FAF6ED",
+  },
+});

@@ -9,10 +9,11 @@ import Perfil from "../screens/Perfil";
 import Sacola from "../screens/Sacola";
 import Detalhes from "../screens/DetalhesProduto";
 import QRCode from "../screens/QRCode";
-import Checkout from "../screens/Checkout";
 import StatusPedido from "../screens/StatusPedido";
+import Checkout from "../screens/Checkout";
+import { RootStackParamList } from "./RootStackParamList";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Routes() {
   return (

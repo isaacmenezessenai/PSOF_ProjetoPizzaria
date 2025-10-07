@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Button } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context"
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useTable } from "../contexts/TableContext";
 import { useCart } from "../contexts/CartContext";
+import BackButton from "../components/backButton";
 import { api } from "../services/api";
 
 type RootStackParamList = {
@@ -97,7 +99,8 @@ export default function QRCode() {
         onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
       />
 
-      <View style={styles.overlay}>
+      <SafeAreaView style={styles.overlay} edges={['top']}>
+        <BackButton style={styles.backButton} />
         <View style={styles.background}>
           <Text style={styles.title}>Escaneie o QRCode da mesa para fazer o seu pedido</Text>
           <Text style={styles.subtitle}>Levaremos ele até você!</Text>
@@ -107,7 +110,7 @@ export default function QRCode() {
             <Text style={styles.buttonText}>Escanear novamente</Text>
           </TouchableOpacity>
         )}
-      </View>
+      </SafeAreaView>
     </View>
   );
 }
@@ -133,7 +136,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: "center",
-    marginTop: 80,
   },
   title: {
     color: "#000",
@@ -161,5 +163,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     fontFamily: "NeueHaas",
+  },
+  backButton: {
+    alignSelf: "flex-start",
   },
 });
