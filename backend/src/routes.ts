@@ -88,7 +88,6 @@ router.get('/order/sum', new SumOrderController().handle)
 // ROTAS TABLE
 router.get('/table/detail', new DetailTableController().handle)
 router.post('/table', new CreateTableController().handle)
-router.use('/table', tableRoutes);
 router.get('/table/order', new ListTableActiveOrdersController().handle)
 
 // ROTAS INGREDIENTS
