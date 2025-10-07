@@ -42,6 +42,7 @@ import { SumOrderController } from "./controllers/order/SumOrderController";
 import { ListExtraIngredientController } from "./controllers/ingredients/ListExtraIngredientController";
 import { SetExtraIngredientController } from "./controllers/ingredients/SetExtraIngredientController";
 import { AddExtraIngredientController } from "./controllers/ingredients/AddExtraIngredinetController";
+import { RemoveExtraIngredientController } from "./controllers/ingredients/RemoveExtraIngredientController";
 
 import { Pix } from './services/payment/PixPayment'; 
 
@@ -101,7 +102,8 @@ router.get('/ingredients/product', asyncWrapper(new ListIngredientsByProductCont
 router.get('/ingredients/extra', new ListExtraIngredientController().handle);
 router.put('/ingredient/extra' , new SetExtraIngredientController().handle);
 router.post('/ingredient/extra', new AddExtraIngredientController().handle)
-  
+router.delete('/ingredient/extra' , new RemoveExtraIngredientController().handle)
+
 // ROTAS PAYMENT
 
 export { router };
