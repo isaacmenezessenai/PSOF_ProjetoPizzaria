@@ -100,5 +100,5 @@ router.get('/ingredients/extra', new ListExtraIngredientController().handle);
 router.put('/ingredient/extra' , new SetExtraIngredientController().handle);
 
 // ROTAS PAYMENT
-router.post('/payment',asyncWrapper(new PaymentController().handle)) ; 
+router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new PaymentController()))) ;
 export { router };

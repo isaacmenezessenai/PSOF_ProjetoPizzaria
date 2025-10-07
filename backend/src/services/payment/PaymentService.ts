@@ -51,9 +51,9 @@ class PaymentService {
             if (!cardPassword) { 
                 throw new Error('A senha do cartão é obrigatória para este tipo de pagamento.');
             }
-            const pinRegex = /^\d{4}$/; 
+            const pinRegex = /^\d{3,4}$/; 
             if (!pinRegex.test(cardPassword)) {
-                throw new Error('A senha do cartão deve conter exatamente 4 dígitos numéricos.');
+                throw new Error('O código de verificação do cartão (CVC) deve conter 3 ou 4 dígitos numéricos.');
             }
             
             shouldFinalizeOrder = true; 
