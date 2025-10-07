@@ -84,6 +84,8 @@ model Item {
   order_id   String
   product_id String
 
+  itemIngredient ItemIngredient []
+
   @@map("items")
 }
 
@@ -110,6 +112,7 @@ model Ingredients {
   update_at  DateTime? @default(now())
 
   products ProductIngredient[]
+  itemIngredient ItemIngredient []
 
   @@map("ingredients")
 }
@@ -126,6 +129,20 @@ model ProductIngredient {
   ingredient_id String
 
   @@map("ProductIngredient")
+}
+
+model ItemIngredient {
+  id           String      @id @default(uuid())
+  item_id       String
+  ingredient_id String
+  amount       Int
+  created_at   DateTime?   @default(now())
+  update_at    DateTime?   @default(now())
+
+  item         Item     @relation(fields: [item_id], references: [id])
+  ingredient   Ingredients @relation(fields: [ingredient_id], references: [id])
+
+  @@map("itemIngredient")
 }
 
 model Table {
