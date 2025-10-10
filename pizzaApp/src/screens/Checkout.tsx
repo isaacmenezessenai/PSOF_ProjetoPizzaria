@@ -21,6 +21,7 @@ import { api } from "../services/api";
 import { useCart } from "../contexts/CartContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
 type Props = NativeStackScreenProps<RootStackParamList, "Checkout">;
 
 // Cores do design
@@ -35,6 +36,8 @@ const PAYMENT_METHODS = [
   { key: "pix", label: "Pix" },
   { key: "cash", label: "Dinheiro" },
 ];
+
+
 
 
 export default function Checkout({ route, navigation }: Props) {
@@ -144,8 +147,8 @@ async function handlePayment() {
     if (!modalMethod) return null;
 
     switch (modalMethod.key) {
-      case "1":
-      case "3":
+      case "credit":
+      case "debit":
         return (
           <ScrollView contentContainerStyle={styles.modalScrollContent}>
             <Text style={styles.formSectionTitle}>Informações do Cartão</Text>
@@ -179,7 +182,7 @@ async function handlePayment() {
           </ScrollView>
         );
 
-      case "2":
+      case "pix":
         return (
           <View style={styles.modalScrollContent}>
             <Text style={styles.pixInstruction}>
@@ -203,7 +206,7 @@ async function handlePayment() {
           </View>
         );
 
-      case "4":
+      case "cash":
         return (
           <View style={styles.modalScrollContent}>
             <Text style={styles.cashInstruction}>
