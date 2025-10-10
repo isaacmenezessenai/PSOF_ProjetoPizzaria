@@ -378,6 +378,8 @@ async function handlePayment() {
   );
 }
 
+//testando 
+
 /* ---- ESTILOS (idênticos ao layout original, só removi duplicações) ---- */
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: BG },
