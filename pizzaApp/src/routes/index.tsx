@@ -11,25 +11,28 @@ import Detalhes from "../screens/DetalhesProduto";
 import QRCode from "../screens/QRCode";
 import StatusPedido from "../screens/StatusPedido";
 import Checkout from "../screens/Checkout";
+import { TableProvider } from "../contexts/TableContext"
 import { RootStackParamList } from "./RootStackParamList";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Routes() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={MainTabs} />
-        <Stack.Screen name="Favoritos" component={Favoritos} />
-        <Stack.Screen name="Pedidos" component={Pedidos} />
-        <Stack.Screen name="Ajuda" component={Ajuda} />
-        <Stack.Screen name="Perfil" component={Perfil} />
-        <Stack.Screen name="Sacola" component={Sacola} />
-        <Stack.Screen name="Detalhes" component={Detalhes} />
-        <Stack.Screen name="QRCode" component={QRCode} />
-        <Stack.Screen name="Checkout" component={Checkout} />
-        <Stack.Screen name="StatusPedido" component={StatusPedido} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <TableProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={MainTabs} />
+          <Stack.Screen name="Favoritos" component={Favoritos} />
+          <Stack.Screen name="Pedidos" component={Pedidos} />
+          <Stack.Screen name="Ajuda" component={Ajuda} />
+          <Stack.Screen name="Perfil" component={Perfil} />
+          <Stack.Screen name="Sacola" component={Sacola} />
+          <Stack.Screen name="Detalhes" component={Detalhes} />
+          <Stack.Screen name="QRCode" component={QRCode} />
+          <Stack.Screen name="Checkout" component={Checkout} />
+          <Stack.Screen name="StatusPedido" component={StatusPedido} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </TableProvider>
   );
 }

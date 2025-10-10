@@ -1,17 +1,38 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-interface TableContextType {
-  tableNumber: string | null;
-  setTableNumber: (table: string | null) => void;
+interface TableContextData {
+  tableNumber: string | null; 
+  tableId: string | null;     // ID da Mesa adicionado aqui!!!
+  setTableNumber: (number: string) => void;
+  setTableId: (id: string) => void;
+  clearTable: () => void; //Função para limpar a mesa em caso de logout ou troca de mesa
 }
 
-const TableContext = createContext<TableContextType | undefined>(undefined);
+const TableContext = createContext<TableContextData>({} as TableContextData);
 
-export const TableProvider = ({ children }: { children: ReactNode }) => {
+interface TableProviderProps {
+  children: ReactNode;
+}
+
+export const TableProvider: React.FC<TableProviderProps> = ({ children }) => {
   const [tableNumber, setTableNumber] = useState<string | null>(null);
+  const [tableId, setTableId] = useState<string | null>(null);
+
+  const clearTable = () => {
+    setTableNumber(null);
+    setTableId(null);
+  };
 
   return (
-    <TableContext.Provider value={{ tableNumber, setTableNumber }}>
+    <TableContext.Provider
+      value={{
+        tableNumber,
+        tableId,
+        setTableNumber,
+        setTableId,
+        clearTable, 
+      }}
+    >
       {children}
     </TableContext.Provider>
   );
@@ -19,8 +40,10 @@ export const TableProvider = ({ children }: { children: ReactNode }) => {
 
 export function useTable() {
   const context = useContext(TableContext);
+
   if (!context) {
-    throw new Error("useTable deve ser usado dentro de TableProvider");
+    throw new Error('useTable must be used within a TableProvider');
   }
+
   return context;
 }

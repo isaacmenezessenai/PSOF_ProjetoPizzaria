@@ -22,7 +22,7 @@ type SacolaScreenProp = StackNavigationProp<RootStackParamList, "Sacola">;
 
 export default function Sacola() {
   const { items, setItems } = useCart();
-  const { tableNumber } = useTable();
+  const { tableNumber, tableId } = useTable();
   const navigation = useNavigation<SacolaScreenProp>();
   const [loading, setLoading] = React.useState(false);
 
@@ -32,25 +32,17 @@ export default function Sacola() {
   }, 0);
 
   async function handleCheckout() {
-    if (!tableNumber) {
-      Alert.alert("Mesa não definida", "Selecione uma mesa antes de continuar.");
+    if (!tableId || !tableNumber) { 
+      Alert.alert("Mesa não definida", "Escaneie o QR Code da mesa antes de continuar.");
       return;
     }
     if (items.length === 0) {
       Alert.alert("Sacola vazia", "Adicione itens antes de continuar.");
       return;
     }
-
+    
     setLoading(true);
     try {
-      const tableRes = await api.post("/table/find", { number: tableNumber });
-      const tableData = tableRes.data ?? {};
-      const tableId = tableData.id ?? tableData.table?.id;
-
-      if (!tableId) {
-        throw new Error("Mesa não encontrada no banco. Confirme se existe uma mesa com esse número.");
-      }
-
       const itemsPayload = items.map((i) => ({
         product_id: i.product.id,
         amount: i.quantity,

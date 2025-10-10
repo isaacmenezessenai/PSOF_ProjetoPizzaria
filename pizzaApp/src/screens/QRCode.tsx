@@ -22,7 +22,7 @@ export default function QRCode() {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const navigation = useNavigation<QRCodeScreenProp>();
-  const { setTableNumber } = useTable();
+  const { setTableNumber, setTableId } = useTable();
   const { pendingProduct, setPendingProduct, items, setItems } = useCart();
 
   if (!permission) {
@@ -46,10 +46,9 @@ export default function QRCode() {
 
   async function handleBarCodeScanned({ data }: { data: string }) {
     setScanned(true);
-
     try {
       // ! tenta transformar em JSON
-      const parsed = JSON.parse(data); // ? { tableId: "uuid" }
+      const parsed = JSON.parse(data); 
       if (!parsed?.tableId) {
         Alert.alert("QR inválido", "Não contém um ID de mesa válido.");
         setScanned(false);
@@ -59,7 +58,9 @@ export default function QRCode() {
       // ! VALIDAÇÃO
       const response = await api.get(`/tables/${parsed.tableId}/validate`);
       const table = response.data;
-
+      setTableId(parsed.tableId);
+      console.log(table.tableId)
+      
       setTableNumber(String(table.number));
       Alert.alert("Mesa vinculada!", `Você está na mesa ${table.number}`);
 

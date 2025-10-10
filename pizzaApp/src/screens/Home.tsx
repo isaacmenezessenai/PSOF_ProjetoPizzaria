@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, View, StyleSheet, Image, Text } from "react-native";
 import { api } from "../services/api";
-
+import { useTable } from "../contexts/TableContext"; 
 // ! Components
 import Chip from "../components/dashboard/chip";
 import Divider from "../components/divider";
@@ -12,8 +12,8 @@ import PedidoAtivoFAB from "../components/PedidoAtivo";
 
 
 export default function Home({ route }: any) {
- 
-  const tableId = route?.params?.table_id
+
+  const { tableId } = useTable();
 
   const [temPedidoAtivo, setTemPedidoAtivo] = useState(false);
 
