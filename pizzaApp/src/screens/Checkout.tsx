@@ -106,7 +106,6 @@ async function handlePayment() {
   }
 }
 
-
   /** Animações e abertura do modal */
   function openModalFor(method: any) {
     setModalMethod(method);

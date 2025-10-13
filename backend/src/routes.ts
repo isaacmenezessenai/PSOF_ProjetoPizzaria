@@ -1,4 +1,4 @@
-import { Router} from "express";
+import { Router } from "express";
 import { Request, Response } from 'express';
 import multer from "multer";
 
@@ -45,6 +45,10 @@ import { AddExtraIngredientController } from "./controllers/ingredients/AddExtra
 import { RemoveExtraIngredientController } from "./controllers/ingredients/RemoveExtraIngredientController";
 import { PaymentController } from "./controllers/payment/PaymentController";
 
+import { GetOrderByTableController } from "./controllers/order/GetOrderByTableController";
+
+import { GetTableByNumberController } from "./controllers/table/GetTableByNumberController";
+
 
 const router = Router();
 
@@ -62,7 +66,7 @@ router.post('/session', new AuthUserController().handle)
 router.get('/me', isAuthenticated, new DetailUserController().handle)
 
 // -- ROTAS CATEGORY --
-router.post('/category', isAuthenticated, new CreateCategoryController().handle) 
+router.post('/category', isAuthenticated, new CreateCategoryController().handle)
 
 router.get('/category', new ListCategoryController().handle.bind(new ListCategoryController()))
 
@@ -97,12 +101,24 @@ router.post('/ingredient', isAuthenticated, asyncWrapper(new CreateIngredientCon
 router.delete('/product/ingredient/remove', isAuthenticated, new RemoveIngredientFromProductController().handle)
 router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
 router.post('/product/ingredient', asyncWrapper(new AddIngredientToProductController().handle));
-router.get('/ingredients/product', asyncWrapper(new ListIngredientsByProductController().handle) );
+router.get('/ingredients/product', asyncWrapper(new ListIngredientsByProductController().handle));
 router.get('/ingredients/extra', new ListExtraIngredientController().handle);
-router.put('/ingredient/extra' , new SetExtraIngredientController().handle);
+router.put('/ingredient/extra', new SetExtraIngredientController().handle);
 router.post('/ingredient/extra', new AddExtraIngredientController().handle)
-router.delete('/ingredient/extra' , new RemoveExtraIngredientController().handle)
+router.delete('/ingredient/extra', new RemoveExtraIngredientController().handle)
 
 // ROTAS PAYMENT
-router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new PaymentController()))) ;
+router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new PaymentController())));
 export { router };
+
+
+
+// Rota para obter pedidos ativos
+const getOrderByTableController = new GetOrderByTableController();
+router.get(
+    "/table/:table_id/orders",
+    getOrderByTableController.handle.bind(getOrderByTableController)
+);
+const getTableByNumberController = new GetTableByNumberController()
+router.get("/table/number/:number", getTableByNumberController.handle.bind(getTableByNumberController));
+
