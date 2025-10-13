@@ -42,8 +42,6 @@ const PAYMENT_METHODS = [
 
 export default function Checkout({ route, navigation }: Props) {
   const { orderId } = route.params;
-  const { setItems } = useCart();
-  
   const [cardNumber, setCardNumber] = useState("");
   const [cardPassword, setCardPassword] = useState("");
   const [cardName, setCardName] = useState("");
@@ -53,20 +51,17 @@ export default function Checkout({ route, navigation }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMethod, setModalMethod] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const { items, setItems } = useCart();
   const anim = useRef(new Animated.Value(0)).current;
 
-  // Exemplo de itens mockados
-  const items = useMemo(
-    () => [
-      { id: "1", name: "Coxinha + Suco", price: 8.5 },
-      { id: "2", name: "Pastel", price: 4.73 },
-    ],
-    []
-  );
 
-  const subtotal = items.reduce((s, it) => s + it.price, 0);
-  const total = subtotal;
-  const formattedTotal = `R$ ${total.toFixed(2).replace(".", ",")}`;
+  const total = items.reduce((acc, item) => {
+    const price = parseFloat(item.product.price);
+    return acc + price * item.quantity;
+  }, 0);
+
+  const subtotal = total;
+  // implementar futuramente taxas ou descontos por aqui
 
 async function handlePayment() {
   try {
@@ -190,7 +185,7 @@ async function handlePayment() {
             </Text>
             <View style={styles.pixInfoBox}>
               <Ionicons name="qr-code-outline" size={30} color={ACCENT} />
-              <Text style={styles.pixValue}>{formattedTotal}</Text>
+              <Text style={styles.pixValue}>{total.toFixed(2)}</Text>
               <Text style={styles.pixValueLabel}></Text>
             </View>
 
@@ -307,7 +302,7 @@ async function handlePayment() {
             <View style={styles.summaryRow}>
               <Text style={{ fontWeight: "700" }}>Total</Text>
               <Text style={{ fontWeight: "700", fontSize: 16 }}>
-                {formattedTotal}
+                {total.toFixed(2).replace(".",",")}
               </Text>
             </View>
           </View>
@@ -323,7 +318,7 @@ async function handlePayment() {
             }
           >
             <Text style={styles.payNowText}>
-              Pagar Agora ({formattedTotal})
+              Pagar Agora ({total.toFixed(2).replace(".",",")})
             </Text>
           </TouchableOpacity>
         </View>
@@ -365,7 +360,7 @@ async function handlePayment() {
                     disabled={loading}
                   >
                     <Text style={styles.confirmTxt}>
-                      {loading ? "Processando..." : `Pagar ${formattedTotal}`}
+                      {loading ? "Processando..." : `Pagar ${total.toFixed(2).replace(".",",")}`}
                     </Text>
                   </TouchableOpacity>
                 </View>
