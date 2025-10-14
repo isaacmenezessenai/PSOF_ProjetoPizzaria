@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, View, StyleSheet, Image, Text } from "react-native";
+import { ScrollView, View, StyleSheet, Image } from "react-native";
 import { api } from "../services/api";
 import { useTable } from "../contexts/TableContext"; 
 // ! Components
@@ -9,7 +9,6 @@ import MenuCompleto from "../components/dashboard/MenuCompleto";
 import ImageButton from "../components/imageButton";
 import Header from "../components/dashboard/header";
 import PedidoAtivoFAB from "../components/PedidoAtivo";
-
 
 export default function Home({ route }: any) {
 
@@ -96,7 +95,7 @@ export default function Home({ route }: any) {
         </View>
       </ScrollView>
 
-      <PedidoAtivoFAB temPedidoAtivo={temPedidoAtivo} />
+      <PedidoAtivoFAB />
     </View>
   );
 }
