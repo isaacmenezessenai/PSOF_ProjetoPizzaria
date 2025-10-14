@@ -89,8 +89,8 @@ export function Form({ categories }: Props) {
 
             for (const ingredient of selectedIngredients) {
                 const ingredientData = {
-                    productId,
-                    ingredientId: ingredient.id,
+                    product_id: productId,
+                    ingredient_id: ingredient.id,
                     amount: ingredient.amount,
                 };
                 await api.post("/product/ingredient", ingredientData, {

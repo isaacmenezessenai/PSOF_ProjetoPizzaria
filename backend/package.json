@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "dotenv -e .env -- ts-node-dev --transpile-only src/server.ts",
     "main": "dotenv -e .env.main -- ts-node-dev --transpile-only src/server.ts",
-    "generate:main": "dotenv -e .env.prod -- npx prisma generate",
+    "generate:main": "dotenv -e .env.main -- npx prisma generate",
     "db:main": "dotenv -e .env.main -- npx prisma db push",
     "start": "node dist/server.js"
   },
