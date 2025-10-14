@@ -96,7 +96,6 @@ export default function Home({ route }: any) {
         </View>
       </ScrollView>
 
-      {/* Botão flutuante de pedido ativo */}
       <PedidoAtivoFAB temPedidoAtivo={temPedidoAtivo} />
     </View>
   );
