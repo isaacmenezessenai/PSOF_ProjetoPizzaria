@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 import { useTable } from "../contexts/TableContext";
 import axios from 'axios';
 
-// --- DEFINIÇÕES DE TIPOS E VARIÁVEIS DE API (MOVIDAS PARA CÁ) ---
-const API_HOSTS = ["http://192.168.15.16:3333"];
-const POLLING_INTERVAL_MS = 3000;
+// --- DEFINIÇÕES DE TIPOS E VARIÁVEIS DE API ---
+
+const API_HOSTS = ["http://192.168.217.237:3333"]; 
+const API_TIMEOUT_MS = 15000;
 
 interface Product {
   name: string;
@@ -26,15 +27,21 @@ interface Order {
   [key: string]: any;
 }
 
-// --- FUNÇÕES DE API (MOVIDAS PARA CÁ) ---
+// --- FUNÇÕES DE API ---
 async function fetchFromAnyHost(path: string) {
   let lastErr: any = null;
   for (const host of API_HOSTS) {
     try {
-      const res = await axios.get(`${host}${path}`, { timeout: 5000 });
+
+      const res = await axios.get(`${host}${path}`, { timeout: API_TIMEOUT_MS });
       return res;
     } catch (err) {
       lastErr = err;
+      if (axios.isAxiosError(err)) {
+        console.error(`Falha no Host ${host}. Código Axios: ${err.code}. Mensagem: ${err.message}`);
+      } else {
+        console.error(`Falha no Host ${host}. Erro desconhecido:`, err);
+      }
     }
   }
   throw lastErr;
@@ -64,19 +71,19 @@ const useActiveOrdersLogic = () => {
   const [rawOrders, setRawOrders] = useState<Order[]>([]);
   const [hiddenOrderIds, setHiddenOrderIds] = useState<Set<string | number>>(new Set());
 
-
   // Lógica de Filtragem de Pedidos ATIVOS
   const activeOrders = useMemo(() => {
     return rawOrders.filter(order =>
       !hiddenOrderIds.has(order.id) &&
-      !order.draft && 
-      !isBeingDelivered(order) 
+      !order.draft &&
+      !isBeingDelivered(order)
     );
   }, [rawOrders, hiddenOrderIds]);
 
   const hasActiveOrders = activeOrders.length > 0;
-  
+
   useEffect(() => {
+    // Função para carregar os pedidos UMA VEZ
     async function loadOrders() {
       if (!tableNumber && !tableId) {
         setLoading(false);
@@ -124,7 +131,7 @@ const useActiveOrdersLogic = () => {
         setRawOrders(typedOrders);
 
       } catch (err: any) {
-        console.error("Erro no polling:", err);
+        console.error("Erro ao carregar pedidos (execução única):", err);
         setRawOrders([]);
       } finally {
         setLoading(false);
@@ -132,17 +139,15 @@ const useActiveOrdersLogic = () => {
     }
 
     loadOrders();
-    const pollInterval = setInterval(loadOrders, POLLING_INTERVAL_MS);
 
-    return () => clearInterval(pollInterval);
-  }, [tableNumber, tableId]);
+  }, [tableNumber, tableId]); 
 
   return { loading, hasActiveOrders };
 };
 
 
 interface PedidoAtivoFABProps {
-  onClose?: () => void; 
+  onClose?: () => void;
 }
 
 const PedidoAtivoFAB: React.FC<PedidoAtivoFABProps> = ({ onClose }) => {
@@ -157,26 +162,26 @@ const PedidoAtivoFAB: React.FC<PedidoAtivoFABProps> = ({ onClose }) => {
   }
 
   const handlePress = () => {
-    navigation.navigate('StatusPedido' as never); 
+    navigation.navigate('StatusPedido' as never);
   };
 
   return (
-    <TouchableOpacity 
-      style={styles.floatingButton} 
+    <TouchableOpacity
+      style={styles.floatingButton}
       onPress={handlePress}
     >
       {/* Ícone (vazio no original) */}
       <View style={styles.iconContainer}>
         <Text style={styles.initialText}>{'P'}</Text>
       </View>
-      
+
       {/* Texto de alerta */}
       <Text style={styles.alertText}>Pedidos Ativo</Text>
 
       {/* Botão de fechar opcional */}
       {onClose && (
         <TouchableOpacity style={styles.closeButton} onPress={(e) => {
-          e.stopPropagation(); 
+          e.stopPropagation();
           onClose();
         }}>
           <Text style={styles.closeText}>X</Text>
@@ -189,17 +194,17 @@ const PedidoAtivoFAB: React.FC<PedidoAtivoFABProps> = ({ onClose }) => {
 const styles = StyleSheet.create({
   floatingButton: {
     position: 'absolute',
-    bottom: 80, 
-    right: 20, 
-    zIndex: 10, 
+    bottom: 80,
+    right: 20,
+    zIndex: 10,
 
-    backgroundColor: '#CC0000', 
+    backgroundColor: '#CC0000',
     flexDirection: 'row',
     alignItems: 'center',
     paddingRight: 15,
-    borderRadius: 30, 
+    borderRadius: 30,
     height: 50,
-    
+
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
