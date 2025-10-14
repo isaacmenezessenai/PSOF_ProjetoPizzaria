@@ -102,6 +102,19 @@ model Favorites {
   @@map("favorites")
 }
 
+model IngredientsType{
+  id               String    @id @default(uuid())
+  type             String
+  ingredient_id    String
+  created_at       DateTime? @default(now())
+  update_at        DateTime? @default(now())
+
+  ingredient Ingredients @relation(fields: [ingredient_id], references: [id])
+
+  @@map("ingredientsType")
+  
+}
+
 model Ingredients {
   id         String    @id @default(uuid())
   name       String
@@ -113,6 +126,7 @@ model Ingredients {
 
   products ProductIngredient[]
   itemIngredient ItemIngredient []
+  IngredientsType IngredientsType []
 
   @@map("ingredients")
 }
@@ -132,12 +146,12 @@ model ProductIngredient {
 }
 
 model ItemIngredient {
-  id           String      @id @default(uuid())
+  id            String      @id @default(uuid())
   item_id       String
   ingredient_id String
-  amount       Int
-  created_at   DateTime?   @default(now())
-  update_at    DateTime?   @default(now())
+  amount        Int
+  created_at    DateTime?   @default(now())
+  update_at     DateTime?   @default(now())
 
   item         Item     @relation(fields: [item_id], references: [id])
   ingredient   Ingredients @relation(fields: [ingredient_id], references: [id])

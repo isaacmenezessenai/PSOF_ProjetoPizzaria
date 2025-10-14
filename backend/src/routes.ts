@@ -44,6 +44,8 @@ import { SetExtraIngredientController } from "./controllers/ingredients/SetExtra
 import { AddExtraIngredientController } from "./controllers/ingredients/AddExtraIngredinetController";
 import { RemoveExtraIngredientController } from "./controllers/ingredients/RemoveExtraIngredientController";
 import { AddTypeIngredientController } from "./controllers/ingredients/AddTypeIngredientController";
+
+import { AddTypeIngredientController } from "./controllers/ingredients/AddTypeIngredientController";
 import { ListIngredientByTypeController } from "./controllers/ingredients/ListIngredientsByTypeController";
 
 import { PaymentController } from "./controllers/payment/PaymentController";
@@ -109,6 +111,7 @@ router.get('/ingredients/extra', new ListExtraIngredientController().handle);
 router.put('/ingredient/extra', new SetExtraIngredientController().handle);
 router.post('/ingredient/extra', new AddExtraIngredientController().handle)
 router.delete('/ingredient/extra', new RemoveExtraIngredientController().handle)
+router.post('/ingredient/type', new AddTypeIngredientController().handle)
 router.get('/ingredient/type', new ListIngredientByTypeController().handle)
 
 // ROTAS PAYMENT
