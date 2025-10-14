@@ -493,7 +493,7 @@ const styles = StyleSheet.create({
   },
   
   preparingCard: {
-    backgroundColor:'#fff5f5ff',
+    backgroundColor:'#ffffffff',
     borderColor: COLORS.PRIMARY,
     borderLeftWidth: 5,
   },
