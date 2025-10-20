@@ -9,14 +9,13 @@ const createOrderController = new CreateOrderController();
 // Criar novo pedido
 orderRoutes.post("/", (req, res) => createOrderController.handle(req, res));
 
-// Buscar último pedido ativo de uma mesa
 orderRoutes.get("/:table_id", async (req, res) => {
   const { table_id } = req.params;
 
   try {
     const order = await prisma.order.findFirst({
       where: {
-        table_id: table_id,  
+        table_id: table_id,
         status: false,
       },
       orderBy: {
@@ -42,5 +41,7 @@ orderRoutes.get("/:table_id", async (req, res) => {
     return res.status(500).json({ error: "Erro ao buscar pedido" });
   }
 });
+
+
 
 export { orderRoutes };
