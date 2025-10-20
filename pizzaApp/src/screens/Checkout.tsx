@@ -55,9 +55,13 @@ export default function Checkout({ route, navigation }: Props) {
   const anim = useRef(new Animated.Value(0)).current;
 
 
-  const total = items.reduce((acc, item) => {
-    const price = parseFloat(item.product.price);
-    return acc + price * item.quantity;
+   const total = items.reduce((acc, item) => {
+    const extrasPrice = item.extras?.reduce((extraAcc, extra) => {
+    const price = parseFloat(extra.price) || 0;
+    return extraAcc + (price * extra.amount);
+  }, 0) || 0;
+    const itemPrice = parseFloat(item.product.price) + extrasPrice;
+    return acc + (itemPrice * item.quantity);
   }, 0);
 
   const subtotal = total;
