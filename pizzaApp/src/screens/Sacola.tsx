@@ -1,15 +1,16 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import BackButton from "../components/backButton";
 import Divider from "../components/divider";
 import { useCart } from "../contexts/CartContext";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Card from "../components/cart/card";
+import BackButton from "../components/backButton";
 import { ProductProps } from "../components/dashboard/MenuCompleto";
 import { api } from "../services/api";
 import { useTable } from "../contexts/TableContext";
+import { Ionicons } from '@expo/vector-icons';
 
 export type RootStackParamList = {
   Sacola: undefined;
@@ -146,7 +147,11 @@ export default function Sacola() {
   return (
     <View style={{ flex: 1, backgroundColor: "#FAF6ED" }}>
       <View style={{ marginTop: 40, marginLeft: 20, alignSelf: "flex-start" }}>
-        <BackButton />
+
+      <View style={[styles.headerRow]}>
+      <BackButton />
+      </View>
+
       </View>
       <Text style={styles.title}>Sacola</Text>
       <Divider />
@@ -227,5 +232,16 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     fontFamily: "NeueHaas",
     marginTop: -10,
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: 24,
+    paddingLeft: 10,
+  },
+  backButton: {
+    padding: 8,
+    alignSelf: "flex-start",
+    marginBottom: 8,
   },
 });
