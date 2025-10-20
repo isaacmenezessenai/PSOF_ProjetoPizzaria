@@ -6,11 +6,12 @@ import prismaClient from "../../prisma";
 interface IngredientRequest {
     name: string;
     price: number; 
-    banner: string; 
+    banner: string;
+    extra?: boolean
 }
 
 class CreateIngredientService {
-    async execute({ name, price, banner }: IngredientRequest) {
+    async execute({ name, price, banner, extra }: IngredientRequest) {
         if (!name || !banner) {
             throw new Error('Name and banner are required.');
         }
@@ -19,7 +20,8 @@ class CreateIngredientService {
             data: {
                 name: name,
                 price: price, 
-                banner: banner, 
+                banner: banner,
+                extra: extra
             },
             select: {
                 id: true,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useFocusEffect, useRoute, useNavigation } from "@react-navigation/native";
 import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,6 +9,7 @@ import { useCart } from "../contexts/CartContext";
 import Divider from "../components/divider";
 import { api } from "../services/api";
 import BackButton from "../components/backButton";
+import { ExtraIngredientsSelector, SelectedExtra } from "../components/ingredientCard";
 
 type RootStackParamList = {
   QRCode: undefined;
@@ -31,25 +32,13 @@ export default function DetalhesProduto() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [loadingIngredients, setLoadingIngredients] = useState(true);
 
-  const initialQty = (() => {
-    if (typeof index === "number" && items[index]) {
-      return items[index].quantity;
-    }
-    const existing = items.find(i => i.product.id === product.id);
-    return existing ? existing.quantity : 1;
-  })();
-  const [quantity, setQuantity] = useState(initialQty);
+  const itemInCart = typeof index === "number" && items[index] ? items[index] : undefined;
 
-  useFocusEffect(
-    React.useCallback(() => {
-      if (typeof index === "number" && items[index]) {
-        setQuantity(items[index].quantity);
-      } else {
-        const existing = items.find(i => i.product.id === product.id);
-        setQuantity(existing ? existing.quantity : 1);
-      }
-    }, [product.id, index, items])
+  const [quantity, setQuantity] = useState(itemInCart?.quantity || 1);
+  const [selectedExtras, setSelectedExtras] = useState<SelectedExtra[]>(
+    itemInCart?.extras || []
   );
+  
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -66,32 +55,46 @@ export default function DetalhesProduto() {
     fetchIngredients();
   }, []);
 
-  const priceNumber = parseFloat(product.price.replace(",", "."));
-  const total = (isNaN(priceNumber) ? 0 : priceNumber) * quantity;
+  const total = useMemo(() => {
+    const extrasPrice = selectedExtras.reduce((sum, extra) => {
+      const price = parseFloat(extra.price) || 0;
+      return sum + price * extra.amount;
+    }, 0);
 
+    const productPrice = parseFloat(product.price.replace(",", ".")) || 0;
+    
+    const singleItemTotal = productPrice + extrasPrice;
+
+    return singleItemTotal * quantity;
+  }, [quantity, selectedExtras, product.price]);
+
+
+  // --- 5. FUNÇÃO handleAddToCart ATUALIZADA ---
   function handleAddToCart() {
     if (!tableNumber) {
-      setPendingProduct({ product, quantity });
+      // Inclui os 'extras' ao redirecionar para o QRCode
+      setPendingProduct({ product, quantity, extras: selectedExtras });
       navigation.navigate("QRCode");
       return;
     }
-
-    // ! TENTATIVA DE ADIÇÃO SEM REMOVER
     
+    // Cria o objeto do novo item com os extras
+    const newItem = { product, quantity, extras: selectedExtras };
+
     if (typeof index === "number" && items[index]) {
+      // Se está editando, substitui o item na posição 'index'
       const newItems = [...items];
-      newItems[index] = { product, quantity }; // sobrescreve ao editar
+      newItems[index] = newItem;
       setItems(newItems);
     } else {
-      // Adição normal
       const itemIndex = items.findIndex(i => i.product.id === product.id);
 
       if (itemIndex !== -1) {
         const newItems = [...items];
-        newItems[itemIndex] = { product, quantity };
+        newItems[itemIndex] = newItem;
         setItems(newItems);
       } else {
-        setItems([...items, { product, quantity }]);
+        setItems([...items, newItem]);
       }
     }
 
@@ -114,6 +117,13 @@ export default function DetalhesProduto() {
               </Text>
             ) : null}
             <Text style={styles.description}>{product.description}</Text>
+
+            {/* --- 6. RENDERIZAÇÃO DO COMPONENTE DE ADICIONAIS --- */}
+            <ExtraIngredientsSelector
+              api={api}
+              onChange={setSelectedExtras} 
+              initialExtras={selectedExtras} 
+            />
           </View>
         </ScrollView>
         <SafeAreaView edges={["bottom"]} style={{ backgroundColor: "#fff" }}>

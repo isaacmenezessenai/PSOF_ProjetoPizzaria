@@ -1,22 +1,23 @@
-.container{
+.container {
     max-width: 720px;
     margin: 20px auto;
     padding: 0 16px;
     display: flex;
     flex-direction: column;
 
-    h1{
+    h1 {
         color: var(--dark);
+        font-family: "FactorA", sans-serif, 900;
     }
 }
 
-.form{
+.form {
     display: flex;
     flex-direction: column;
     margin: 16px 0;
     gap: 16px;
 
-    select{
+    select {
         width: 100%;
         height: 40px;
         border-radius: 8px;
@@ -26,16 +27,18 @@
         border: 1px solid var(--gray);
     }
 
-    textarea{
+    textarea {
         width: 100%;
         min-height: 120px;
         resize: none;
         padding: 8px;
         color: var(--white);
+        background-color: var(--dark-900);
+        border: 1px solid #8A8A8A;
     }
 }
 
-.labelImage{
+.labelImage {
     width: 100%;
     height: 280px;
     position: relative;
@@ -49,30 +52,30 @@
     margin-bottom: 16px;
     border: 1px solid var(--gray);
 
-    input{
+    input {
         display: none;
     }
 
-    span{
+    span {
         z-index: 90;
         opacity: 0.8;
         transition: all 0.6s;
-
-        &:hover{
+        color: var(--dark); 
+        &:hover {
             opacity: 1;
             transform: scale(1.1);
         }
     }
 }
 
-.preview{
+.preview {
     width: 100%;
     height: 100%;
     border-radius: 8px;
     object-fit: cover;
 }
 
-.input{
+.input {
     border: 0;
     height: 40px;
     background-color: var(--white);
