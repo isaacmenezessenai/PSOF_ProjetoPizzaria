@@ -1,7 +1,7 @@
 "use client"
 
 import { ChangeEvent, useState } from "react"
-import styles from './styles.module.scss' // Use o mesmo arquivo de estilos
+import styles from './styles.module.scss'
 import { UploadCloud } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/app/dashboard/components/button"
@@ -73,7 +73,7 @@ export function Form() {
 
                 <label className={styles.labelImage}>
                     <span>
-                        <UploadCloud size={30} color="#FFF" />
+                        <UploadCloud size={30} color="#7a7a7aff" />
                     </span>
 
                     <input
