@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { api } from "../../services/api";
 
 export interface Ingredient {
-  ingredient: {
-    name: string;
-  };
+  id: string;
+  name: string;
+  price: number;
+  banner: string;
+  extra: boolean;
 }
 
 export interface ProductProps {
@@ -24,6 +27,7 @@ type CardProps = {
 
 export default function Card({ data, onPress }: CardProps) {
   const navigation: any = useNavigation();
+  const [nonExtraIngredients, setNonExtraIngredients] = useState<Ingredient[]>([]);
 
   const handlePress = () => {
     if (onPress) {
@@ -32,6 +36,18 @@ export default function Card({ data, onPress }: CardProps) {
       navigation.navigate("Detalhes", { product: data });
     }
   };
+
+  useEffect(() => {
+    async function fetchNonExtraIngredients() {
+      try {
+        const response = await api.get('/ingredients/non-extra');
+        setNonExtraIngredients(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar ingredientes não extras:', error);
+      }
+    }
+    fetchNonExtraIngredients();
+  }, []);
 
   let formattedPrice = "R$ --,--";
 
@@ -58,9 +74,9 @@ export default function Card({ data, onPress }: CardProps) {
           <Text style={styles.title}>{data.name}</Text>
         </View>
 
-        {data.ingredients && data.ingredients.length > 0 ? (
+        {nonExtraIngredients.length > 0 ? (
           <Text style={styles.ingredients} numberOfLines={2}>
-            {data.ingredients.map((ing) => ing.ingredient.name).join(", ")}
+            {nonExtraIngredients.map((ing) => ing.name).join(", ")}
           </Text>
         ) : (
           <Text style={styles.ingredientsEmpty}>Sem ingredientes</Text>

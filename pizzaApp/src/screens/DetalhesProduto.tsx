@@ -3,7 +3,7 @@ import { useFocusEffect, useRoute, useNavigation } from "@react-navigation/nativ
 import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ProductProps } from "../components/dashboard/card";
+import { ProductProps, Ingredient } from "../components/dashboard/card";
 import { useTable } from "../contexts/TableContext";
 import { useCart } from "../contexts/CartContext";
 import Divider from "../components/divider";
@@ -28,7 +28,7 @@ export default function DetalhesProduto() {
   const { setItems, items, setPendingProduct } = useCart();
   const { product, index } = route.params as { product: ProductProps; index?: number };
 
-  const [ingredients, setIngredients] = useState<any[]>([]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [loadingIngredients, setLoadingIngredients] = useState(true);
 
   const initialQty = (() => {
@@ -55,7 +55,7 @@ export default function DetalhesProduto() {
     async function fetchIngredients() {
       try {
         setLoadingIngredients(true);
-        const response = await api.get(`/products/${product.id}/ingredients`);
+        const response = await api.get('/ingredients/non-extra');
         setIngredients(response.data);
       } catch (err) {
         setIngredients([]);
@@ -64,7 +64,7 @@ export default function DetalhesProduto() {
       }
     }
     fetchIngredients();
-  }, [product.id]);
+  }, []);
 
   const priceNumber = parseFloat(product.price.replace(",", "."));
   const total = (isNaN(priceNumber) ? 0 : priceNumber) * quantity;
@@ -110,7 +110,7 @@ export default function DetalhesProduto() {
               <ActivityIndicator size="small" color="#BCA85C" style={{ marginVertical: 4 }} />
             ) : ingredients.length > 0 ? (
               <Text style={styles.ingredients} numberOfLines={2}>
-                {ingredients.map((ing) => ing.ingredient.name).join(", ")}
+                {ingredients.map((ing) => ing.name).join(", ")}
               </Text>
             ) : null}
             <Text style={styles.description}>{product.description}</Text>
@@ -232,4 +232,5 @@ export default function DetalhesProduto() {
       fontSize: 16,
       fontWeight: "bold",
     },
+
   });
