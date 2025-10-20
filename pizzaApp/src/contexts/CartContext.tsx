@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
+import { SelectedExtra } from '../components/ingredientCard';
 
 export interface CartItem {
   product: any; 
   quantity: number;
   customizations?: any;
+  extras?: SelectedExtra[];
 }
 
 interface CartContextType {
