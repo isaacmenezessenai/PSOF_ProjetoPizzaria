@@ -1,7 +1,6 @@
 "use client"
-
 import { ChangeEvent, useState } from "react"
-import styles from './styles.module.scss' // Use o mesmo arquivo de estilos
+import styles from './styles.module.scss'
 import { UploadCloud } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/app/dashboard/components/button"
@@ -19,6 +18,7 @@ export function Form() {
 
         const name = formData.get("name")
         const price = formData.get("price")
+        const isExtraChecked = formData.get("IsExtra")
 
         if (!name || !price || !image) {
             toast.warning("Preencha todos os campos")
@@ -30,6 +30,7 @@ export function Form() {
         data.append("name", name)
         data.append("price", price)
         data.append("file", image)
+        data.append("extra", isExtraChecked ? 'true' : 'false')
 
         const token = getCookieClient();
 
@@ -110,7 +111,10 @@ export function Form() {
                     required
                     className={styles.input}
                 />
-                
+
+                <label htmlFor="isExtra">
+                    <input type="checkbox" name="extra"  id= "extra"/> O ingrediente é extra?
+                </label>
                 <Button name="Cadastrar ingrediente" />
 
             </form>
