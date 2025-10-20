@@ -44,8 +44,6 @@ import { SetExtraIngredientController } from "./controllers/ingredients/SetExtra
 import { AddExtraIngredientController } from "./controllers/ingredients/AddExtraIngredinetController";
 import { RemoveExtraIngredientController } from "./controllers/ingredients/RemoveExtraIngredientController";
 import { AddTypeIngredientController } from "./controllers/ingredients/AddTypeIngredientController";
-
-import { AddTypeIngredientController } from "./controllers/ingredients/AddTypeIngredientController";
 import { ListIngredientByTypeController } from "./controllers/ingredients/ListIngredientsByTypeController";
 
 import { PaymentController } from "./controllers/payment/PaymentController";
