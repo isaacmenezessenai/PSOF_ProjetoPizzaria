@@ -7,11 +7,10 @@ interface IngredientRequest {
     name: string;
     price: number; 
     banner: string;
-    extra?: boolean
 }
 
 class CreateIngredientService {
-    async execute({ name, price, banner, extra }: IngredientRequest) {
+    async execute({ name, price, banner}: IngredientRequest) {
         if (!name || !banner) {
             throw new Error('Name and banner are required.');
         }
@@ -21,7 +20,6 @@ class CreateIngredientService {
                 name: name,
                 price: price, 
                 banner: banner,
-                extra: extra
             },
             select: {
                 id: true,
