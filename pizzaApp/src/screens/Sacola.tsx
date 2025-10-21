@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Divider from "../components/divider";
 import { useCart } from "../contexts/CartContext";
@@ -26,6 +26,7 @@ export default function Sacola() {
   const { tableNumber, tableId } = useTable();
   const navigation = useNavigation<SacolaScreenProp>();
   const [loading, setLoading] = React.useState(false);
+  const [observation, setObservation] = React.useState("");
 
   const total = items.reduce((acc, item) => {
     const extrasPrice = item.extras?.reduce((extraAcc, extra) => {
@@ -62,7 +63,7 @@ export default function Sacola() {
       const createBody = {
         table_id: tableId,
         name: "",
-        observation: "",
+        observation: observation,
         items: itemsPayload,
         products: itemsPayload,
       };
@@ -189,6 +190,27 @@ export default function Sacola() {
           backgroundColor: "#fff",
         }}
       >
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 8 }}>
+            Observações (opcional):
+          </Text>
+          <TextInput
+            style={{
+              borderWidth: 1,
+              borderColor: "#ccc",
+              borderRadius: 8,
+              padding: 12,
+              fontSize: 16,
+              backgroundColor: "#f9f9f9",
+            }}
+            placeholder="Ex: Sem cebola, bem passado..."
+            value={observation}
+            onChangeText={setObservation}
+            multiline
+            numberOfLines={2}
+          />
+        </View>
+
         <View
           style={{
             flexDirection: "row",

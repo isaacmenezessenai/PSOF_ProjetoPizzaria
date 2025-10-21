@@ -74,7 +74,7 @@ export function Form() {
 
                 <label className={styles.labelImage}>
                     <span>
-                        <UploadCloud size={30} color="#FFF" />
+                        <UploadCloud size={30} color="#7a7a7aff" />
                     </span>
 
                     <input
