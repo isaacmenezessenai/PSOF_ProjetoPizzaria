@@ -29,8 +29,12 @@ export default function Sacola() {
   const [observation, setObservation] = React.useState("");
 
   const total = items.reduce((acc, item) => {
-    const price = parseFloat(item.product.price);
-    return acc + price * item.quantity;
+    const extrasPrice = item.extras?.reduce((extraAcc, extra) => {
+    const price = parseFloat(extra.price) || 0;
+    return extraAcc + (price * extra.amount);
+  }, 0) || 0;
+    const itemPrice = parseFloat(item.product.price) + extrasPrice;
+    return acc + (itemPrice * item.quantity);
   }, 0);
 
   async function handleCheckout() {
