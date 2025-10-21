@@ -6,7 +6,7 @@ import { v2 as cloudinary, UploadApiResponse} from 'cloudinary'
 class CreateIngredientController {
     async handle(req: Request, res: Response): Promise<Response | void> {
         try {
-            const { name, price, extra } = req.body;
+            const { name, price} = req.body;
 
             if (!req.files || Object.keys(req.files).length === 0) {
                 throw new Error("Nenhum arquivo de imagem enviado.");
@@ -36,7 +36,6 @@ class CreateIngredientController {
                 name,
                 price: Number(price),
                 banner: resultFile.url,
-                extra
             });
 
             return res.json(ingredient);
