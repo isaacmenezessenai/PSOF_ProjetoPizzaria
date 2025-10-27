@@ -51,6 +51,7 @@ model Product {
   items       Item[]
   favorites   Favorites[]
   ingredients ProductIngredient[]
+  productIngredientLiable ProductIngredientLiable[]
 
   @@map("products")
 }
@@ -85,6 +86,8 @@ model Item {
   product_id String
 
   itemIngredient ItemIngredient []
+  itemExtra itemExtra[]
+  productIngredientLiable ProductIngredientLiable[]
 
   @@map("items")
 }
@@ -120,7 +123,6 @@ model Ingredients {
   name       String
   price      Decimal   @default(0.00)
   banner     String?
-  extra      Boolean   @default(false)
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
@@ -129,6 +131,24 @@ model Ingredients {
   IngredientsType IngredientsType []
 
   @@map("ingredients")
+}
+
+model ProductIngredientLiable {
+
+  id                        String @id @default(uuid())
+  product_id                String
+  productIngredient_id      String
+  items_id                  String
+  tem                       Boolean
+  update_at                 DateTime? @default(now())
+  created_at                DateTime? @default(now())
+
+  @@map("productIngredientLiable")
+
+  product              Product            @relation(fields: [product_id], references: [id])
+  productIngredient    ProductIngredient  @relation(fields: [productIngredient_id], references: [id])
+  items                Item               @relation(fields: [items_id], references: [id])
+
 }
 
 model ProductIngredient {
@@ -141,6 +161,8 @@ model ProductIngredient {
   ingredient   Ingredients @relation(fields: [ingredient_id], references: [id])
   product_id    String
   ingredient_id String
+
+  productIngredientLiable ProductIngredientLiable[]
 
   @@map("ProductIngredient")
 }
@@ -157,6 +179,35 @@ model ItemIngredient {
   ingredient   Ingredients @relation(fields: [ingredient_id], references: [id])
 
   @@map("itemIngredient")
+}
+
+model itemExtra{
+
+  id            String      @id @default(uuid())
+  item_id       String
+  extra_id      String
+  update_at     DateTime?   @default(now())
+  created_at    DateTime?   @default(now())
+  
+  item          Item          @relation(fields: [item_id], references: [id])
+  extra         Extras        @relation(fields: [extra_id], references: [id])
+
+  @@map("itemExtra")
+
+}
+
+model Extras{
+
+  id            String    @id @default(uuid())
+  name          String    
+  price         String
+  update_at     DateTime?   @default(now())
+  created_at    DateTime?   @default(now())
+
+  @@map("extras")
+
+  itemExtra itemExtra[]
+
 }
 
 model Table {
