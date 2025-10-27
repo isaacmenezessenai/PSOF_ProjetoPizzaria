@@ -61,6 +61,9 @@ import { ListNonExtraIngredientController } from "./controllers/ingredients/List
 // Import Payment
 import { PaymentController } from "./controllers/payment/PaymentController";
 
+// Import JobRole
+import { CreateJobRoleController } from "./controllers/JobRole/CreateJobRoleController";
+import { ListJobRoleController } from "./controllers/JobRole/ListJobRoleController";
 
 const router = Router();
 
@@ -134,6 +137,9 @@ router.get('/ingredients/non-extra', new ListNonExtraIngredientController().hand
 router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new PaymentController())));
 export { router };
 
+// ROTAS JOB ROLE
+router.post('/jobrole', asyncWrapper(new CreateJobRoleController().handle));
+router.get('/jobroles', asyncWrapper(new ListJobRoleController().handle));
 
 
 
