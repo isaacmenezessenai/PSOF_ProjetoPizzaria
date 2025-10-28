@@ -69,6 +69,10 @@ import { CreateJobRoleController } from "./controllers/JobRole/CreateJobRoleCont
 import { ListJobRoleController } from "./controllers/JobRole/ListJobRoleController";
 
 
+import { AddFavoriteController } from "./controllers/favorites/AddFavoriteController";
+import { RemoveFavoriteController } from "./controllers/favorites/RemoveFavoriteController";
+import { ListFavoritesController } from "./controllers/favorites/ListFavoriteController";
+
 
 const router = Router();
 
@@ -142,6 +146,7 @@ router.get('/ingredients/non-extra', new ListNonExtraIngredientController().hand
 router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new PaymentController())));
 export { router };
 
+
 // ROTAS JOB ROLE
 router.post('/jobrole', asyncWrapper(new CreateJobRoleController().handle));//gerente
 router.get('/jobroles', asyncWrapper(new ListJobRoleController().handle));
@@ -150,5 +155,11 @@ router.get('/jobroles', asyncWrapper(new ListJobRoleController().handle));
 router.post('/users/employee', asyncWrapper(new CreateUserEmployeeController().handle));//gerente
 router.post('/session/employee', asyncWrapper(new AuthUserEmployeeController().handle));
 router.get('/me/employee', asyncWrapper(new DetailUserEmployeeController().handle));
+
+// ROTAS FAVORITE
+router.post('/favorite', asyncWrapper(new AddFavoriteController().handle))
+router.delete('/favorite', asyncWrapper(new RemoveFavoriteController().handle))
+router.get('/favorites', asyncWrapper(new ListFavoritesController().handle))
+
 
 
