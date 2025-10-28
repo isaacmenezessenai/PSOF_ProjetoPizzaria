@@ -7,7 +7,10 @@ import { CreateUserClientController } from "./controllers/UsersClient/CreateUser
 import { AuthUserClientController } from "./controllers/UsersClient/AuthUserClientController";
 import { DetailUserClientController } from "./controllers/UsersClient/DetailUserClientController";
 
-//UsersEmployee
+// Import UsersEmployee
+import { CreateUserEmployeeController } from "./controllers/UsersEmployee/CreateUserEmployeeController";
+import { AuthUserEmployeeController } from "./controllers/UsersEmployee/AuthUserEmployeeControlller";
+import { DetailUserEmployeeController } from "./controllers/UsersEmployee/DetailUserEmployeeController";
 
 
 // Import Category
@@ -65,6 +68,8 @@ import { PaymentController } from "./controllers/payment/PaymentController";
 import { CreateJobRoleController } from "./controllers/JobRole/CreateJobRoleController";
 import { ListJobRoleController } from "./controllers/JobRole/ListJobRoleController";
 
+
+
 const router = Router();
 
 const upload = multer(uploadConfig.upload("./tmp"))
@@ -76,22 +81,22 @@ const asyncWrapper = (fn) => (req, res, next) => {
 // ROTAS USERCLIENT  
 router.post('/users/client', asyncWrapper(new CreateUserClientController().handle));
 router.post('/session/client', asyncWrapper(new AuthUserClientController().handle));
-router.get('/me/client', isAuthenticated, asyncWrapper(new DetailUserClientController().handle));
+router.get('/me/client', asyncWrapper(new DetailUserClientController().handle));
 
 
 
-// ROTAS CATEGORY 
-router.post('/category', isAuthenticated, new CreateCategoryController().handle)
+// ROTAS CATEGORY Gerente
+router.post('/category', new CreateCategoryController().handle)
 
 router.get('/category', new ListCategoryController().handle.bind(new ListCategoryController()))
 
 // ROTAS PRODUCT 
 
-router.post('/product', isAuthenticated, new CreateProductController().handle)
-router.get('/category/product', new ListByCategoryController().handle)
+router.post('/product', new CreateProductController().handle)//gerente
+router.get('/category/product', new ListByCategoryController().handle)//garçom e cliente
 router.get('/details/product', new DetailsProductController().handle)
 
-// ROTAS ORDER
+// ROTAS ORDER Cliente e garçom
 router.post('/order', new CreateOrderController().handle)
 router.delete('/order', new RemoveOrderController().handle)
 
@@ -99,13 +104,13 @@ router.post('/order/add', new AddItemController().handle)
 router.delete('/order/remove', new RemoveItemController().handle)
 router.put('/order/send', new SendOrderController().handle)
 
-router.get('/orders', isAuthenticated, new ListOrderController().handle)
-router.get('/order/detail', isAuthenticated, new DetailOrderController().handle)
+router.get('/orders', new ListOrderController().handle)
+router.get('/order/detail', new DetailOrderController().handle)
 
-router.put('/order/finish', isAuthenticated, new FinishOrderController().handle)
+router.put('/order/finish', new FinishOrderController().handle)
 router.get('/order/sum', new SumOrderController().handle)
 
-    // Rota Pedidos Ativos
+    // Rota Pedidos Ativos cliente cozinha e garçom
     const getOrderByTableController = new GetOrderByTableController();
     router.get(
         "/table/:table_id/orders",
@@ -116,20 +121,20 @@ router.get('/order/sum', new SumOrderController().handle)
 
 // ROTAS TABLE
 router.get('/table/detail', new DetailTableController().handle)
-router.post('/table', new CreateTableController().handle)
+router.post('/table', new CreateTableController().handle) //gerente
 router.get('/table/order', new ListTableActiveOrdersController().handle)
 
 // ROTAS INGREDIENTS
-router.post('/ingredient', isAuthenticated, asyncWrapper(new CreateIngredientController().handle));
-router.delete('/product/ingredient/remove', isAuthenticated, new RemoveIngredientFromProductController().handle)
+router.post('/ingredient', asyncWrapper(new CreateIngredientController().handle));//gerente
+router.delete('/product/ingredient/remove', new RemoveIngredientFromProductController().handle)//gerente
 router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
-router.post('/product/ingredient', asyncWrapper(new AddIngredientToProductController().handle));
+router.post('/product/ingredient', asyncWrapper(new AddIngredientToProductController().handle));//gerente
 router.get('/ingredients/product', asyncWrapper(new ListIngredientsByProductController().handle));
 router.get('/ingredients/extra', new ListExtraIngredientController().handle);
 router.put('/ingredient/extra', new SetExtraIngredientController().handle);
 router.post('/ingredient/extra', new AddExtraIngredientController().handle)
 router.delete('/ingredient/extra', new RemoveExtraIngredientController().handle)
-router.post('/ingredient/type', new AddTypeIngredientController().handle)
+router.post('/ingredient/type', new AddTypeIngredientController().handle)// gerente
 router.get('/ingredient/type', new ListIngredientByTypeController().handle)
 router.get('/ingredients/non-extra', new ListNonExtraIngredientController().handle)
 
@@ -138,9 +143,12 @@ router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new Pay
 export { router };
 
 // ROTAS JOB ROLE
-router.post('/jobrole', asyncWrapper(new CreateJobRoleController().handle));
+router.post('/jobrole', asyncWrapper(new CreateJobRoleController().handle));//gerente
 router.get('/jobroles', asyncWrapper(new ListJobRoleController().handle));
 
-
+// ROTAS USERSEMPLOYEE
+router.post('/users/employee', asyncWrapper(new CreateUserEmployeeController().handle));//gerente
+router.post('/session/employee', asyncWrapper(new AuthUserEmployeeController().handle));
+router.get('/me/employee', asyncWrapper(new DetailUserEmployeeController().handle));
 
 

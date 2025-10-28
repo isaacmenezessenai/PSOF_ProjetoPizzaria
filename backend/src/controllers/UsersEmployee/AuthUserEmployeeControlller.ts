@@ -1,20 +1,27 @@
 import { Request, Response } from "express";
-import { AuthUserService } from "../../services/usersClient/AuthUserClientService";
+import { AuthUserEmployeeService } from "../../services/UsersEmployee/AuthUserEmployeeService";
 
-class AuthUserController {
-    async handle(req: Request, res: Response){
-        const { email, password} = req.body;
+class AuthUserEmployeeController {
+    async handle(req: Request, res: Response) {
+        
+        const { email, password } = req.body;
 
-        const authUserService = new AuthUserService()
+        if (!email || !password) {
+            return res.status(400).json({ error: "E-mail e senha são obrigatórios." });
+        }
 
-        const auth = await authUserService.execute({
-            email,
-            password
-        })
+        const authService = new AuthUserEmployeeService();
 
-        res.json(auth);
-
+        try {
+            const auth = await authService.execute({ email, password });
+            
+            return res.json(auth);
+            
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : "Erro desconhecido durante o login.";
+            return res.status(401).json({ error: errorMessage }); 
+        }
     }
 }
 
-export {AuthUserController}
+export { AuthUserEmployeeController };

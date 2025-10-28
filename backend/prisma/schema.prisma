@@ -24,6 +24,7 @@ model UsersClient {
   created_at DateTime?   @default(now())
   update_at  DateTime?   @default(now())
   favorites  Favorites[]
+  Orders Order[]
 
 
   @@map("usersClient")
@@ -81,9 +82,12 @@ model Order {
   created_at  DateTime? @default(now())
   updated_at  DateTime? @default(now())
   observation String    @default("")
-
+  usersClient_id String?
   table    Table  @relation(fields: [table_id], references: [id])
   table_id String
+  
+  UsersClient   UsersClient? @relation(fields: [usersClient_id], references: [id])
+  
   items    Item[]
 
   payments Payment[]

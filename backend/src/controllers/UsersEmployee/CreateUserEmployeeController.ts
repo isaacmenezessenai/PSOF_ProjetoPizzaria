@@ -1,20 +1,65 @@
-import { Request, response, Response } from "express";
-import { CreateUserService} from "../../services/usersClient/CreateUserClientService";
+import { Request, Response } from "express";
 
-class CreateUserController{
-    async handle(req: Request, res: Response){
-        const { name, email, password } = req.body
+import { CreateUserEmployeeService } from "../../services/UsersEmployee/CreateUserEmployeeService"; 
 
-        const createUserService = new CreateUserService()
+import { validarCPF } from "../../utils/validation"; 
+import prismaClient from "../../prisma"; 
 
-        const user = await createUserService.execute({
-            name,
-            email,
-            password
-        })
+class CreateUserEmployeeController {
+    async handle(req: Request, res: Response) {
+        
+        const { name, email, password, cpf, dataNascimento, jobRoleId } = req.body;
 
-        res.json(user)
+
+        // 1. VALIDAÇÃO INICIAL DE CAMPOS OBRIGATÓRIOS
+        if (!name || !email || !password || !cpf || !dataNascimento || !jobRoleId) {
+            return res.status(400).json({ error: "Todos os campos (name, email, password, cpf, dataNascimento, jobRoleId) são obrigatórios para o cadastro de empregado." });
+        }
+
+        // 2. VALIDAÇÃO E FORMATAÇÃO DE CPF
+        if (!validarCPF(cpf)) {
+            return res.status(400).json({ error: "O CPF fornecido é inválido." });
+        }
+
+        try {
+
+            // 3. VALIDAÇÃO E CONVERSÃO DA DATA DE NASCIMENTO
+            let dataNascimentoDate: Date;
+            const dataString = String(dataNascimento);
+            
+            const regexDDMMAAAA = /^(\d{2})[/\-](\d{2})[/\-](\d{4})$/;
+            const match = dataString.match(regexDDMMAAAA);
+
+            if (match) {
+                const dataAmericanaString = `${match[3]}-${match[2]}-${match[1]}`;
+                dataNascimentoDate = new Date(dataAmericanaString);
+            } else {
+                dataNascimentoDate = new Date(dataString);
+            }
+
+            if (isNaN(dataNascimentoDate.getTime())) {
+                return res.status(400).json({ error: "Formato de data de nascimento inválido. Use o formato dd/mm/aaaa ou ISO 8601." });
+            }
+
+            // 4. CHAMADA AO SERVIÇO
+            const createUserEmployeeService = new CreateUserEmployeeService();
+
+            const userEmployee = await createUserEmployeeService.execute({
+                name,
+                email,
+                password,
+                cpf,
+                dataNascimento: dataNascimentoDate, 
+                jobRoleId: jobRoleId, 
+            });
+
+            return res.status(201).json(userEmployee); 
+
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : "Erro desconhecido durante o cadastro do empregado.";
+            return res.status(400).json({ error: errorMessage });
+        }
     }
 }
 
-export{CreateUserController}
+export { CreateUserEmployeeController };
