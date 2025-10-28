@@ -55,6 +55,7 @@ import { GetTableByNumberController } from "./controllers/table/GetTableByNumber
 
 import { AddFavoriteController } from "./controllers/favorites/AddFavoriteController";
 import { RemoveFavoriteController } from "./controllers/favorites/RemoveFavoriteController";
+import { ListFavoritesController } from "./controllers/favorites/ListFavoriteController";
 
 
 const router = Router();
@@ -124,7 +125,7 @@ export { router };
 // ROTAS FAVORITE
 router.post('/favorite', isAuthenticated, asyncWrapper(new AddFavoriteController().handle))
 router.delete('/favorite', isAuthenticated, asyncWrapper(new RemoveFavoriteController().handle))
-
+router.get('/favorites', isAuthenticated, asyncWrapper(new ListFavoritesController().handle))
 
 
 // Rota para obter pedidos ativos
