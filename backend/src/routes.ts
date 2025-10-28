@@ -53,6 +53,9 @@ import { GetOrderByTableController } from "./controllers/order/GetOrderByTableCo
 
 import { GetTableByNumberController } from "./controllers/table/GetTableByNumberController";
 
+import { AddFavoriteController } from "./controllers/favorites/AddFavoriteController";
+import { RemoveFavoriteController } from "./controllers/favorites/RemoveFavoriteController";
+
 
 const router = Router();
 
@@ -117,6 +120,10 @@ router.get('/ingredients/non-extra', new ListNonExtraIngredientController().hand
 // ROTAS PAYMENT
 router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new PaymentController())));
 export { router };
+
+// ROTAS FAVORITE
+router.post('/favorite', isAuthenticated, asyncWrapper(new AddFavoriteController().handle))
+router.delete('/favorite', isAuthenticated, asyncWrapper(new RemoveFavoriteController().handle))
 
 
 
