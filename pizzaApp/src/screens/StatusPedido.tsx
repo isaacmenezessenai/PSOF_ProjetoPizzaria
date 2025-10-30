@@ -29,6 +29,7 @@ interface Order {
   [key: string]: any;
 }
 
+
 const API_HOSTS = ["http://192.168.105.237:3333"];
 const POLLING_INTERVAL_MS = 3000;
 
