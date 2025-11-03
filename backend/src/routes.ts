@@ -39,13 +39,8 @@ import { CreateIngredientController } from "./controllers/ingredients/CreateIngr
 import { ListIngredientController } from "./controllers/ingredients/ListIngredientController";
 import { ListIngredientsByProductController } from "./controllers/ingredients/ListIngredientsByProductController";
 import { SumOrderController } from "./controllers/order/SumOrderController";
-import { ListExtraIngredientController } from "./controllers/ingredients/ListExtraIngredientController";
-import { SetExtraIngredientController } from "./controllers/ingredients/SetExtraIngredientController";
-import { AddExtraIngredientController } from "./controllers/ingredients/AddExtraIngredinetController";
-import { RemoveExtraIngredientController } from "./controllers/ingredients/RemoveExtraIngredientController";
 import { AddTypeIngredientController } from "./controllers/ingredients/AddTypeIngredientController";
 import { ListIngredientByTypeController } from "./controllers/ingredients/ListIngredientsByTypeController";
-import { ListNonExtraIngredientController } from "./controllers/ingredients/ListNonExtraIngredientController";
 
 // IMPORTS EXTRA
 import { CreateExtraController } from "./controllers/extras/CreateExtraController";
