@@ -105,14 +105,14 @@ model Favorites {
   @@map("favorites")
 }
 
-model IngredientsType{
+model ExtraType{
   id               String    @id @default(uuid())
-  type             String
-  ingredient_id    String
+  name             String
+  extra_id         String
   created_at       DateTime? @default(now())
   update_at        DateTime? @default(now())
 
-  ingredient Ingredients @relation(fields: [ingredient_id], references: [id])
+  extras Extras[]
 
   @@map("ingredientsType")
   
@@ -127,7 +127,6 @@ model Ingredients {
 
   products ProductIngredient[]
   itemIngredient ItemIngredient []
-  IngredientsType IngredientsType []
 
   @@map("ingredients")
 }
@@ -200,11 +199,13 @@ model Extras{
   id            String    @id @default(uuid())
   name          String    
   price         String
+  type_id       String
   update_at     DateTime?   @default(now())
   created_at    DateTime?   @default(now())
 
   @@map("extras")
 
+  extraType    ExtraType   @relation(fields: [type_id], references: [id])
   itemExtra itemExtra[]
 
 }
