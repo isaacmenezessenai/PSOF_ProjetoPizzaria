@@ -3,7 +3,7 @@ import { CreateTypeExtraService} from "../../services/extras/CreateTypeExtraServ
 
 class CreateTypeExtraController{
     async handle(req:Request, res:Response){
-        const name = req.body
+        const {name} = req.body
         
         const createTypeExtraService = new CreateTypeExtraService()
 
