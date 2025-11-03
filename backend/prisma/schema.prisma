@@ -114,7 +114,7 @@ model ExtraType{
 
   extras Extras[]
 
-  @@map("ingredientsType")
+  @@map("ExtraType")
   
 }
 
