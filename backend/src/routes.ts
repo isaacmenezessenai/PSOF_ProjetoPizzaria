@@ -112,13 +112,9 @@ router.delete('/product/ingredient/remove', isAuthenticated, new RemoveIngredien
 router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
 router.post('/product/ingredient', asyncWrapper(new AddIngredientToProductController().handle));
 router.get('/ingredients/product', asyncWrapper(new ListIngredientsByProductController().handle));
-router.get('/ingredients/extra', new ListExtraIngredientController().handle);
-router.put('/ingredient/extra', new SetExtraIngredientController().handle);
-router.post('/ingredient/extra', new AddExtraIngredientController().handle)
-router.delete('/ingredient/extra', new RemoveExtraIngredientController().handle)
 router.post('/ingredient/type', new AddTypeIngredientController().handle)
 router.get('/ingredient/type', new ListIngredientByTypeController().handle)
-router.get('/ingredients/non-extra', new ListNonExtraIngredientController().handle)
+
 
 // ROTAS EXTRAS
 router.post('/extra', new CreateExtraController().handle)
