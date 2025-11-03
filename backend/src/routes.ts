@@ -49,6 +49,7 @@ import { ListNonExtraIngredientController } from "./controllers/ingredients/List
 
 // IMPORTS EXTRA
 import { CreateExtraController } from "./controllers/extras/CreateExtraController";
+import { ListExtraController } from "./controllers/extras/ListExtraController";
 
 import { PaymentController } from "./controllers/payment/PaymentController";
 
@@ -118,7 +119,8 @@ router.get('/ingredient/type', new ListIngredientByTypeController().handle)
 router.get('/ingredients/non-extra', new ListNonExtraIngredientController().handle)
 
 // ROTAS EXTRAS
-router.post('/extra', (new CreateExtraController().handle))
+router.post('/extra', new CreateExtraController().handle)
+router.get('/extra', new ListExtraController().handle)
 
 // ROTAS PAYMENT
 router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new PaymentController())));
