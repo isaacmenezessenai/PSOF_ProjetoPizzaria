@@ -22,11 +22,12 @@ export function isAuthenticated(
     req: Request,
     res: Response,
     next: NextFunction
-) {
+): void { // <--- A tipagem agora é 'void'
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        return res.status(401).json({ error: "Token de autenticação não fornecido." }); 
+        res.status(401).json({ error: "Token de autenticação não fornecido." }); 
+        return; // <--- Apenas retorna para encerrar a execução
     }
 
     const [, token] = authHeader.split(" ");
@@ -45,6 +46,7 @@ export function isAuthenticated(
         next();
 
     } catch (err) {
-        return res.status(401).json({ error: "Token inválido ou expirado." });
+        res.status(401).json({ error: "Token inválido ou expirado." });
+        return; // <--- Apenas retorna para encerrar a execução
     };
 }

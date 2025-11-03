@@ -6,7 +6,7 @@ import axios from 'axios';
 
 // --- DEFINIÇÕES DE TIPOS E VARIÁVEIS DE API ---
 
-const API_HOSTS = ["http://192.168.105.237:3333"]; 
+const API_HOSTS = ["http://192.168.3.118:3333"]; 
 
 const API_TIMEOUT_MS = 15000;
 
