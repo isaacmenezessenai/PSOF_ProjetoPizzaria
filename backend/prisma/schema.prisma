@@ -51,7 +51,7 @@ model Product {
   items       Item[]
   favorites   Favorites[]
   ingredients ProductIngredient[]
-  productIngredientLiable ProductIngredientLiable[]
+  productIngredientRemoved ProductIngredientRemoved[]
 
   @@map("products")
 }
@@ -87,7 +87,7 @@ model Item {
 
   itemIngredient ItemIngredient []
   itemExtra itemExtra[]
-  productIngredientLiable ProductIngredientLiable[]
+  productIngredientRemoved ProductIngredientRemoved[]
 
   @@map("items")
 }
@@ -132,7 +132,7 @@ model Ingredients {
   @@map("ingredients")
 }
 
-model ProductIngredientLiable {
+model ProductIngredientRemoved {
 
   id                        String @id @default(uuid())
   product_id                String
@@ -142,7 +142,7 @@ model ProductIngredientLiable {
   update_at                 DateTime? @default(now())
   created_at                DateTime? @default(now())
 
-  @@map("productIngredientLiable")
+  @@map("productIngredientRemoved")
 
   product              Product            @relation(fields: [product_id], references: [id])
   productIngredient    ProductIngredient  @relation(fields: [productIngredient_id], references: [id])
@@ -161,7 +161,7 @@ model ProductIngredient {
   product_id    String
   ingredient_id String
 
-  productIngredientLiable ProductIngredientLiable[]
+  productIngredientRemoved ProductIngredientRemoved[]
 
   @@map("ProductIngredient")
 }
