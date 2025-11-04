@@ -7,11 +7,12 @@ interface ExtraRequest{
 }
 
 class CreateExtraService {
-    async execute({name, price}: ExtraRequest){
+    async execute({name, price, category_id}: ExtraRequest){
         const extra = await prismaClient.extras.create({
             data:{
                 name : name,
-                price: price
+                price: price,
+                category_id: category_id
             }
         })
 

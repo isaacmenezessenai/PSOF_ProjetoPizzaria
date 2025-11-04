@@ -56,6 +56,8 @@ import { GetOrderByTableController } from "./controllers/order/GetOrderByTableCo
 
 import { GetTableByNumberController } from "./controllers/table/GetTableByNumberController";
 
+import { AddRemovedIngredientController } from "./controllers/ingredients/AddRemovedIngredientController"
+
 
 const router = Router();
 
@@ -111,6 +113,7 @@ router.post('/product/ingredient', asyncWrapper(new AddIngredientToProductContro
 router.get('/ingredients/product', asyncWrapper(new ListIngredientsByProductController().handle));
 router.post('/ingredient/type', new AddTypeIngredientController().handle)
 router.get('/ingredient/type', new ListIngredientByTypeController().handle)
+router.post('/item/ingredient/remove', asyncWrapper(new AddRemovedIngredientController().handle))
 
     
 // ROTAS EXTRAS
