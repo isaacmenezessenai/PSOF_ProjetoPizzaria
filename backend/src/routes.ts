@@ -48,6 +48,7 @@ import { ListExtraController } from "./controllers/extras/ListExtraController";
 import { RemoveExtraController } from "./controllers/extras/RemoveExtraController"
 import { AddExtraController } from "./controllers/extras/AddExtraController";
 import { CreateTypeExtraController } from "./controllers/extras/CreateTypeExtraController";
+import { RemoveTypeExtraController } from "./controllers/extras/RemoveTypeExtraController";
 
 import { PaymentController } from "./controllers/payment/PaymentController";
 
@@ -111,13 +112,14 @@ router.get('/ingredients/product', asyncWrapper(new ListIngredientsByProductCont
 router.post('/ingredient/type', new AddTypeIngredientController().handle)
 router.get('/ingredient/type', new ListIngredientByTypeController().handle)
 
-
+    
 // ROTAS EXTRAS
 router.post('/extra', new CreateExtraController().handle)
 router.get('/extra', new ListExtraController().handle)
 router.delete('/extra', new RemoveExtraController().handle)
 router.post('/extra/add', new AddExtraController().handle)
 router.post('/extra/type', new CreateTypeExtraController().handle)
+router.delete('/extra/type', new RemoveTypeExtraController().handle)
 
 // ROTAS PAYMENT
 router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new PaymentController())));
