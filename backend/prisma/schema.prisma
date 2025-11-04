@@ -136,7 +136,6 @@ model ProductIngredientLiable {
   product_id                String
   productIngredient_id      String
   items_id                  String
-  tem                       Boolean
   update_at                 DateTime? @default(now())
   created_at                DateTime? @default(now())
 
