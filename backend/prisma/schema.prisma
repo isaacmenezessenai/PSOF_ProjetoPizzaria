@@ -33,6 +33,7 @@ model Category {
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
   products   Product[]
+  extra      Extras[]
 
   @@map("categories")
 }
@@ -105,19 +106,6 @@ model Favorites {
   @@map("favorites")
 }
 
-model IngredientsType{
-  id               String    @id @default(uuid())
-  type             String
-  ingredient_id    String
-  created_at       DateTime? @default(now())
-  update_at        DateTime? @default(now())
-
-  ingredient Ingredients @relation(fields: [ingredient_id], references: [id])
-
-  @@map("ingredientsType")
-  
-}
-
 model Ingredients {
   id         String    @id @default(uuid())
   name       String
@@ -127,7 +115,6 @@ model Ingredients {
 
   products ProductIngredient[]
   itemIngredient ItemIngredient []
-  IngredientsType IngredientsType []
 
   @@map("ingredients")
 }
@@ -138,7 +125,6 @@ model ProductIngredientRemoved {
   product_id                String
   productIngredient_id      String
   items_id                  String
-  tem                       Boolean
   update_at                 DateTime? @default(now())
   created_at                DateTime? @default(now())
 
@@ -197,14 +183,18 @@ model itemExtra{
 
 model Extras{
 
-  id            String    @id @default(uuid())
+  id            String     @id @default(uuid())
   name          String    
   price         String
+  category_id   String
   update_at     DateTime?   @default(now())
   created_at    DateTime?   @default(now())
 
+  category      Category    @relation(fields: [category_id], references: [id])
+
   @@map("extras")
 
+  
   itemExtra itemExtra[]
 
 }
