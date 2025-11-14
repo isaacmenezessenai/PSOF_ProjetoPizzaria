@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Request, Response } from 'express';
+import { Request, Response,RequestHandler } from 'express';
 import multer from "multer";
 
 // Import UsersClient
@@ -157,7 +157,7 @@ router.post('/session/employee', asyncWrapper(new AuthUserEmployeeController().h
 router.get('/me/employee', asyncWrapper(new DetailUserEmployeeController().handle));
 
 // ROTAS FAVORITE
-router.post('/favorite', asyncWrapper(new AddFavoriteController().handle))
+router.post('/favorite', isAuthenticated, asyncWrapper(new AddFavoriteController().handle));
 router.delete('/favorite', asyncWrapper(new RemoveFavoriteController().handle))
 router.get('/favorites', asyncWrapper(new ListFavoritesController().handle))
 

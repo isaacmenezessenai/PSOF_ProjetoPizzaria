@@ -5,7 +5,7 @@ class AddFavoriteController {
     async handle(req: Request, res: Response) {
         
         const { product_id } = req.body;
-        const user_id = req.user_id; 
+        const user_id = (req as any).user.id;
 
         if (!product_id) {
             return res.status(400).json({ error: "Product ID is required" });
