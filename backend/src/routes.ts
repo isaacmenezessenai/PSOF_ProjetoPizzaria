@@ -156,6 +156,11 @@ router.post('/users/employee', asyncWrapper(new CreateUserEmployeeController().h
 router.post('/session/employee', asyncWrapper(new AuthUserEmployeeController().handle));
 router.get('/me/employee', asyncWrapper(new DetailUserEmployeeController().handle));
 
+// ROTAS USERCLIENT  
+router.post('/users/client', asyncWrapper(new CreateUserClientController().handle));
+router.post('/session/client', asyncWrapper(new AuthUserClientController().handle));
+router.get('/me/client', asyncWrapper(new DetailUserClientController().handle));
+
 // ROTAS FAVORITE
 router.post('/favorite', isAuthenticated, asyncWrapper(new AddFavoriteController().handle));
 router.delete('/favorite', asyncWrapper(new RemoveFavoriteController().handle))
