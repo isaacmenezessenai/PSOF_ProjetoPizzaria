@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+
 export function validarCPF(cpf: string): boolean {
     cpf = cpf.replace(/[^\d]+/g, '');
     if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false;
@@ -32,8 +33,3 @@ export function validarCartao(numeroCartao: string): boolean {
     return (soma % 10) === 0;
 }
 
-export function gerarCodigoPix(prefixo: string = 'PIX-'): string {
-    const codigoAleatorio = crypto.randomBytes(8).toString('hex');
-    const timestamp = Date.now().toString();
-    return `${prefixo}${timestamp}-${codigoAleatorio}`;
-}

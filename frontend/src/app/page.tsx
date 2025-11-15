@@ -22,7 +22,7 @@ export default function Page(){
 
     try{
 
-      const response = await api.post("/session", {
+      const response = await api.post("/session/employee",{
         email,
         password
       })
