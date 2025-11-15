@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict L52UcpvYl55qTWdd1JuDHFcsVA0vuHUdi6rzdYXZB57veGJOxeOagKX88y8KVCI
+\restrict mvqA7grDyccHq3ZSu2V9IIPHdB0FhnyOxFaAn0UBfMMh5Cf7uklfoLlBUxRbhiF
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -18,6 +18,22 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS '';
+
 
 SET default_tablespace = '';
 
@@ -108,13 +124,13 @@ ALTER TABLE public.items OWNER TO postgres;
 
 CREATE TABLE public.orders (
     id text NOT NULL,
-    "table" integer NOT NULL,
     status boolean DEFAULT false NOT NULL,
     draft boolean DEFAULT true NOT NULL,
     name text,
     created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP,
     update_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP,
-    observation text NOT NULL
+    observation text DEFAULT ''::text NOT NULL,
+    table_id text NOT NULL
 );
 
 
@@ -139,6 +155,21 @@ CREATE TABLE public.products (
 ALTER TABLE public.products OWNER TO postgres;
 
 --
+-- Name: table; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."table" (
+    id text NOT NULL,
+    number integer NOT NULL,
+    created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP,
+    update_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP,
+    users_id text NOT NULL
+);
+
+
+ALTER TABLE public."table" OWNER TO postgres;
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -148,8 +179,7 @@ CREATE TABLE public.users (
     email text NOT NULL,
     password text NOT NULL,
     created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP,
-    update_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP,
-    function text NOT NULL
+    update_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -160,10 +190,10 @@ ALTER TABLE public.users OWNER TO postgres;
 --
 
 COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
-26447ec1-a040-4e23-b700-52bf7761408e	ca7feece8ae63d09462eeab7db977e43742ae0fa48f9c398edecdc4c99b5b206	2025-09-02 19:09:53.129636+00	20250513191827_create_table_users	\N	\N	2025-09-02 19:09:53.117257+00	1
-b89a60f9-daa2-4ba2-bba5-0a004f1a5a09	bdafc5de4e12b24a7f82652783ff5acc697149a9fbc071a66c5fb6742204857c	2025-09-02 19:09:53.168859+00	20250513193448_create_models_pizzaria	\N	\N	2025-09-02 19:09:53.130625+00	1
-4ffcc461-7a4f-4a79-aed5-67c1572c0bd4	b043aca3daa4c3fb786e66e7ff89ef3054afebce3de4612405724c466d86399a	2025-09-02 19:11:06.665659+00	20250902191105_migration	\N	\N	2025-09-02 19:11:06.630225+00	1
-bd2dc3b2-05b8-4af6-9c33-337660a6a7c9	23c8cfc8fb7cd55626e743ece5fcc0d8f4a02701f8df8a6dff3c21007088bb65	2025-09-02 23:11:24.73687+00	20250902231123_modificacao_user	\N	\N	2025-09-02 23:11:24.727735+00	1
+8e1a2fb6-6935-4474-8d6a-929f92960915	ca7feece8ae63d09462eeab7db977e43742ae0fa48f9c398edecdc4c99b5b206	2025-09-13 17:34:06.980363+00	20250513191827_create_table_users	\N	\N	2025-09-13 17:34:06.966382+00	1
+a8aef1b1-160b-4ba7-acf9-d1f077008d4d	bdafc5de4e12b24a7f82652783ff5acc697149a9fbc071a66c5fb6742204857c	2025-09-13 17:34:07.024221+00	20250513193448_create_models_pizzaria	\N	\N	2025-09-13 17:34:06.98134+00	1
+7231cd15-38ef-4c07-81fd-bd95db210021	dfaa03826b26db182ea92a96923f5888b47b15d4667e23793d4da784475e7058	2025-09-13 17:34:07.055211+00	20250908141139_atualizacao	\N	\N	2025-09-13 17:34:07.025016+00	1
+80c433b0-3787-4e83-a835-9606b71ab399	edec879fafc2ba72a9e0f83c39d10fdcefa60b9c8c5284aff3144b412b4880fe	2025-09-13 17:34:07.061232+00	20250908190406_users_id	\N	\N	2025-09-13 17:34:07.056037+00	1
 \.
 
 
@@ -203,7 +233,7 @@ COPY public.items (id, amount, created_at, update_at, order_id, product_id) FROM
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.orders (id, "table", status, draft, name, created_at, update_at, observation) FROM stdin;
+COPY public.orders (id, status, draft, name, created_at, update_at, observation, table_id) FROM stdin;
 \.
 
 
@@ -216,10 +246,18 @@ COPY public.products (id, name, price, description, banner, created_at, update_a
 
 
 --
+-- Data for Name: table; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."table" (id, number, created_at, update_at, users_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, email, password, created_at, update_at, function) FROM stdin;
+COPY public.users (id, name, email, password, created_at, update_at) FROM stdin;
 \.
 
 
@@ -280,6 +318,14 @@ ALTER TABLE ONLY public.products
 
 
 --
+-- Name: table table_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."table"
+    ADD CONSTRAINT table_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -328,6 +374,14 @@ ALTER TABLE ONLY public.items
 
 
 --
+-- Name: orders orders_table_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_table_id_fkey FOREIGN KEY (table_id) REFERENCES public."table"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
 -- Name: products products_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -336,8 +390,23 @@ ALTER TABLE ONLY public.products
 
 
 --
+-- Name: table table_users_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."table"
+    ADD CONSTRAINT table_users_id_fkey FOREIGN KEY (users_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
-\unrestrict L52UcpvYl55qTWdd1JuDHFcsVA0vuHUdi6rzdYXZB57veGJOxeOagKX88y8KVCI
+\unrestrict mvqA7grDyccHq3ZSu2V9IIPHdB0FhnyOxFaAn0UBfMMh5Cf7uklfoLlBUxRbhiF
 

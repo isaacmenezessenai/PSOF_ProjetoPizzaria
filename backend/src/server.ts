@@ -4,11 +4,17 @@ import cors from 'cors';
 import path from 'path';
 
 import { router } from './routes'
+import tableRoutes from './routes/table'
+import qrCodeRoutes from './routes/qrcode'
 import fileUpload from 'express-fileupload'
+import { orderRoutes } from "./routes/order";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use("/tables", tableRoutes);
+app.use("/qrcode", qrCodeRoutes);
+app.use("/orders", orderRoutes);
 app.use(fileUpload({
     limits: {fileSize: 50 * 1024 * 1024}
 }))
@@ -23,15 +29,15 @@ app.use(
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if(err instanceof Error){
 
-        res.status(400).json({
+        return res.status(400).json({
             error: err.message
         })
     }
 
-    res.status(500).json({
+    return res.status(500).json({
         status:'error',
         message: 'Internal server error'
     })
 })
 
-app.listen(3333, () => console.log('Servidor online!!!'))
+app.listen(3333, () => console.log('Servidor online!'))

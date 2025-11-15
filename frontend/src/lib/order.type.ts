@@ -1,7 +1,10 @@
 export interface OrderProps{
     id: string;
-    table: number;
+    table_id: string;
     name: string;
     draft: boolean;
     status: boolean;
+    table: {
+        number: number;
+    }
 }

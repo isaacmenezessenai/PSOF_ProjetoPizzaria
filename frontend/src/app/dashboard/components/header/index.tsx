@@ -42,7 +42,7 @@ export function Header(){
 
                 <form action={handleLogout}>
                     <button type='submit'>
-                        <LogOutIcon size={24} color="#FFF"/>
+                        <LogOutIcon size={24} color="#000000"/>
                     </button>
                 </form>
             </nav>

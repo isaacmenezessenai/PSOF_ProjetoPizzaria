@@ -30,7 +30,7 @@ async function  validateToken(token:string) {
     if (!token) return false;
 
     try{
-        await api.get("/me",{
+        await api.get("/me/employee",{
             headers:{
                 Authorization: `Bearer ${token}`
             }

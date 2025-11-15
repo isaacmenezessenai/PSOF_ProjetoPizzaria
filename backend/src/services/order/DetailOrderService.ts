@@ -13,7 +13,15 @@ class DetailOrderService{
             },
             include:{
                 product: true,
-                order: true,
+                order: {
+                    include:{
+                        table: {
+                            select:{
+                                number: true,
+                            }
+                        }
+                    }
+                }
             }
         })
 

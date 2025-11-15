@@ -1,37 +1,64 @@
-# 👨‍💻BRANCH MAIN
+# 👨‍💻BRANCH RELEASE
 ---
-Este documento serve como um guia para a equipe Ártemis, explicando o propósito da branch main e como configurar e rodar o projeto no ambiente de produção.
-A branch main é a nossa branch de produção. Ela representa a versão mais recente e estável do código. O que está na main deve ser sempre um código funcional, testado e pronto para ser executado.
+  Este documento serve como um guia para a equipe Ártemis, explicando o propósito da branch release e como preparar o projeto para uma nova versão.
+  A branch release é criada a partir da branch dev quando um conjunto de funcionalidades está completo, testado e pronto para o lançamento. Ela é usada para testes finais, correções de bugs de última hora e preparação para a implantação em produção.
 
 ### O que fazer nesta branch:
-* Todos os novos recursos e funcionalidades devem ser adicionados aqui.
-* Os commits nesta branch devem vir somente de merges de outras branches (como a dev). Nunca faça commits diretos na main.
-* O código nesta branch pode não estar finalizado ou livre de erros, pois é um ambiente de trabalho em andamento.
+* Não adicione novas funcionalidades nesta branch.
+* Foco em correções de bugs (hotfixes) e ajustes finais para garantir que a versão seja estável.
+* Adicione as notas de lançamento (release notes) que descrevem as mudanças, funcionalidades e correções desta nova versão.
 
 ### Quando fazer um merge:
-* As alterações da branch dev só devem ser mescladas na main quando um conjunto de funcionalidades estiver completo, testado e validado pela equipe.
+* As alterações da dev só devem ser mescladas na branch main quando um conjunto de funcionalidades estiver completo, testado e pronto para o lançamento.
 
-## Guia de Execução do Projeto na Branch Main
+## ♟️Fluxo de Trabalho
 
-Este documento serve como um guia para a equipe Ártemis, explicando como configurar e rodar a aplicação no ambiente main.
----
+    A[Branch Dev] -->|Criação da release| B[Branch Release]
+    B --> C[Testes e Hotfixes]
+    C --> D[Merge na Main]
+    D --> E[Criar Tag da Versão]
+    E --> F[Deploy em Produção]
+    B --> G[Merge de Volta para Dev]
+
+#### 1. Crie a branch release a partir da branch dev.
+```bash
+git checkout -b release/v1.0.0 dev
+```  
+#### 2. Faça os ajustes finais e correções na branch release.
+
+#### 3. Faça o merge para a main quando a versão estiver pronta para ser lançada.
+```bash
+git checkout main
+git merge release/v1.0.0
+```
+
+#### 4. Crie a tag da versão na branch main.
+```bash
+git tag -a v1.0.0 -m "Release da Versão 1.0.0"
+```
+
+#### 5. Envie a tag para o GitHub.
+```bash
+git push origin --tags
+```
+
+#### 6. Faça o merge para a dev para manter o histórico de commits sincronizado.
+```bash
+git checkout dev
+git merge release/v1.0.0
+``` 
 
 ### ⚙️ Backend
 
 #### Instalação das Dependências
-Para começar, abra o terminal na pasta backend e instale todas as dependências necessárias:
+Para começar, abra o terminal na pasta `backend` e instale todas as dependências necessárias:
 ```bash
 npm install
 ```
 #### Configuração do Banco de Dados
-Para criar e aplicar migrações na branch de desenvolvimento, use o arquivo .env com o comando Prisma:
+Para criar e aplicar migrações na branch de desenvolvimento, use o arquivo .env com o comando do Prisma:
 ```bash
 npm run prisma:main
-```
-#### Geração do Prisma Client
-Após rodar a migração, você precisa gerar o Prisma Client para que o código do backend se comunique com o banco de dados.
-```bash
-npm run generate:main
 ```
 
 #### Rodando o Servidor

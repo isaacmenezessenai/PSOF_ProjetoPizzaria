@@ -1,5 +1,6 @@
 import styles from './page.module.scss'
 import logoImg from '../../public/logo.svg'
+import divisoriaImg from '../../public/divider.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { api } from '@/services/api'
@@ -21,7 +22,7 @@ export default function Page(){
 
     try{
 
-      const response = await api.post("/session", {
+      const response = await api.post("/session/employee",{
         email,
         password
       })
@@ -53,10 +54,18 @@ export default function Page(){
 
   return(
     <>
+    <div className={styles.container}>
       <div className={styles.containerCenter}>
+
         <Image 
         src={logoImg}
         alt="Logo da pizzaria"
+        />
+
+        <Image
+        className={styles.divider}
+        src={divisoriaImg}
+        alt='Divisoria'
         />
 
         <section className={styles.login}>
@@ -88,6 +97,7 @@ export default function Page(){
 
         </section>
         
+      </div>
       </div>
     </>
   )
