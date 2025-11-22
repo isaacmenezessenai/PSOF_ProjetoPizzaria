@@ -2,6 +2,10 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import MainTabs from "./MainTabs";
+import Login from "../screens/Login";
+import Cadastro from "../screens/Cadastro";
+import EsqueceuSenha from "../screens/EsqueceuSenha";
+import PedirAjuda from "../screens/PedirAjuda";
 import Favoritos from "../screens/Favoritos";
 import Pedidos from "../screens/Pedidos";
 import Ajuda from "../screens/Ajuda";
@@ -20,7 +24,14 @@ export default function Routes() {
   return (
     <TableProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+          {/* Telas de autenticação */}
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Cadastro" component={Cadastro} />
+          <Stack.Screen name="EsqueceuSenha" component={EsqueceuSenha} />
+          <Stack.Screen name="PedirAjuda" component={PedirAjuda} />
+
+          {/* Tela principal */}
           <Stack.Screen name="Home" component={MainTabs} />
           <Stack.Screen name="Favoritos" component={Favoritos} />
           <Stack.Screen name="Pedidos" component={Pedidos} />
