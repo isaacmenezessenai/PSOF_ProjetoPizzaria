@@ -1,5 +1,3 @@
-// Conteúdo de RemoveItemService.ts
-
 import prismaClient from "../../prisma";
 
 interface ItemRequest{

@@ -11,7 +11,7 @@ class SumOrderController {
             order_id
         })
 
-       res.json(order);
+    res.json(order);
 
     }
 }

@@ -32,6 +32,7 @@ import { ListOrderController } from "./controllers/order/ListOrderController";
 import { DetailOrderController } from "./controllers/order/DetailOrderController";
 import { FinishOrderController } from "./controllers/order/FinishOrderController";
 import { SumOrderController } from "./controllers/order/SumOrderController";
+import { AggregateOrderItemsController } from './controllers/order/AggregateOrderItemsController';
 
 // Import Item
 import { AddItemController } from "./controllers/order/AddItemController";
@@ -68,10 +69,13 @@ import { PaymentController } from "./controllers/payment/PaymentController";
 import { CreateJobRoleController } from "./controllers/JobRole/CreateJobRoleController";
 import { ListJobRoleController } from "./controllers/JobRole/ListJobRoleController";
 
-
+// Import Favorites
 import { AddFavoriteController } from "./controllers/favorites/AddFavoriteController";
 import { RemoveFavoriteController } from "./controllers/favorites/RemoveFavoriteController";
 import { ListFavoritesController } from "./controllers/favorites/ListFavoriteController";
+
+//Import ITem Status Update
+import { UpdateItemStatusController } from "./controllers/order/UpdateItemStatusController";
 
 
 const router = Router();
@@ -105,7 +109,7 @@ router.post('/order', new CreateOrderController().handle)
 router.delete('/order', new RemoveOrderController().handle)
 
 router.post('/order/add', new AddItemController().handle)
-router.delete('/order/remove', new RemoveItemController().handle)
+router.delete('/order/remove', new RemoveItemController().handle.bind(new RemoveItemController()))
 router.put('/order/send', new SendOrderController().handle)
 
 router.get('/orders', new ListOrderController().handle)
@@ -113,6 +117,13 @@ router.get('/order/detail', new DetailOrderController().handle)
 
 router.put('/order/finish', new FinishOrderController().handle)
 router.get('/order/sum', new SumOrderController().handle)
+
+// ROTAS ITENS ORDER
+const aggregateOrderItemsController = new AggregateOrderItemsController();
+router.get('/order/items/aggregate', aggregateOrderItemsController.handle.bind(aggregateOrderItemsController));
+
+const updateItemStatusController = new UpdateItemStatusController();
+router.put('/order/item/status', updateItemStatusController.handle.bind(updateItemStatusController));
 
     // Rota Pedidos Ativos cliente cozinha e garçom
     const getOrderByTableController = new GetOrderByTableController();
