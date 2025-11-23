@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTable } from "../contexts/TableContext";
 import axios from 'axios';
+// Importação de ícones (Padrão Expo/React Native)
+import { Feather } from '@expo/vector-icons'; 
 
 // --- DEFINIÇÕES DE TIPOS E VARIÁVEIS DE API ---
 
-const API_HOSTS = ["http://192.168.3.118:3333"]; 
-
+const API_HOSTS = ["http://192.168.1.100:3333"]; 
 const API_TIMEOUT_MS = 15000;
 
 interface Product {
@@ -33,7 +34,6 @@ async function fetchFromAnyHost(path: string) {
   let lastErr: any = null;
   for (const host of API_HOSTS) {
     try {
-
       const res = await axios.get(`${host}${path}`, { timeout: API_TIMEOUT_MS });
       return res;
     } catch (err) {
@@ -52,7 +52,6 @@ async function getTableIdByNumber(tableNumber: string | number): Promise<string 
   const tableRes = await fetchFromAnyHost(`/table/find?number=${tableNumber}`);
   const tableData = tableRes?.data ?? {};
   const foundId = tableData.id ?? tableData.table?.id;
-
   return foundId ? String(foundId) : null;
 }
 
@@ -60,7 +59,6 @@ async function getOrdersByTableId(tableId: string | number): Promise<any[]> {
   const ordersRes = await fetchFromAnyHost(`/table/${tableId}/orders`);
   return ordersRes?.data ?? [];
 }
-
 
 const isBeingDelivered = (order: Order): boolean => {
   return order.status === true || order.status === 'indo até vc';
@@ -82,9 +80,9 @@ const useActiveOrdersLogic = () => {
   }, [rawOrders, hiddenOrderIds]);
 
   const hasActiveOrders = activeOrders.length > 0;
+  const activeCount = activeOrders.length; // Contagem para o badge
 
   useEffect(() => {
-    // Função para carregar os pedidos UMA VEZ
     async function loadOrders() {
       if (!tableNumber && !tableId) {
         setLoading(false);
@@ -104,7 +102,6 @@ const useActiveOrdersLogic = () => {
         }
 
         const allOrders = await getOrdersByTableId(currentTableId);
-
         let shouldHideOrders: (string | number)[] = [];
 
         const typedOrders: Order[] = (Array.isArray(allOrders) ? allOrders : []).map((order: any) => {
@@ -120,7 +117,6 @@ const useActiveOrdersLogic = () => {
           return typedOrder;
         }) as Order[];
 
-
         if (shouldHideOrders.length > 0) {
           setHiddenOrderIds(prevIds => {
             const newIds = new Set(prevIds);
@@ -128,9 +124,7 @@ const useActiveOrdersLogic = () => {
             return newIds;
           });
         }
-
         setRawOrders(typedOrders);
-
       } catch (err: any) {
         console.error("Erro ao carregar pedidos (execução única):", err);
         setRawOrders([]);
@@ -138,14 +132,11 @@ const useActiveOrdersLogic = () => {
         setLoading(false);
       }
     }
-
     loadOrders();
-
   }, [tableNumber, tableId]); 
 
-  return { loading, hasActiveOrders };
+  return { loading, hasActiveOrders, activeCount };
 };
-
 
 interface PedidoAtivoFABProps {
   onClose?: () => void;
@@ -153,11 +144,9 @@ interface PedidoAtivoFABProps {
 
 const PedidoAtivoFAB: React.FC<PedidoAtivoFABProps> = ({ onClose }) => {
   const navigation = useNavigation();
+  const { hasActiveOrders, loading, activeCount } = useActiveOrdersLogic();
 
-  // 1. Usa o hook interno para obter o estado
-  const { hasActiveOrders, loading } = useActiveOrdersLogic();
-
-  // 2. Condição de renderização: O botão SÓ aparece se NÃO estiver carregando E houver pedidos ativos (não-draft).
+  // Só mostra se tiver pedidos ativos
   if (loading || !hasActiveOrders) {
     return null;
   }
@@ -168,79 +157,50 @@ const PedidoAtivoFAB: React.FC<PedidoAtivoFABProps> = ({ onClose }) => {
 
   return (
     <TouchableOpacity
-      style={styles.floatingButton}
+      style={styles.bellContainer}
       onPress={handlePress}
     >
-      {/* Ícone (vazio no original) */}
-      <View style={styles.iconContainer}>
-        <Text style={styles.initialText}>{'P'}</Text>
+      {/* Ícone de Sino */}
+      <Feather name="bell" size={28} color="#000" />
+
+      {/* Badge com contador */}
+      <View style={styles.badge}>
+        <Text style={styles.badgeText}>
+          {activeCount > 9 ? '9+' : activeCount}
+        </Text>
       </View>
-
-      {/* Texto de alerta */}
-      <Text style={styles.alertText}>Pedidos Ativo</Text>
-
-      {/* Botão de fechar opcional */}
-      {onClose && (
-        <TouchableOpacity style={styles.closeButton} onPress={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}>
-          <Text style={styles.closeText}>X</Text>
-        </TouchableOpacity>
-      )}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  floatingButton: {
-    position: 'absolute',
-    bottom: 80,
-    right: 20,
-    zIndex: 10,
-
-    backgroundColor: '#CC0000',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingRight: 15,
-    borderRadius: 30,
-    height: 50,
-
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  iconContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  // Estilo relativo (não mais absolute) para ficar ao lado da sacola
+  bellContainer: {
+    marginRight: 15, // Espaço entre o sino e a sacola
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
-    marginLeft: 5,
+    width: 40,
+    height: 40,
   },
-  initialText: {
+  badge: {
+    position: 'absolute',
+    top: 2,
+    right: 2,
+    backgroundColor: '#FF3B30', // Vermelho vibrante
+    borderRadius: 9,
+    width: 18,
+    height: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: '#FAF6ED', // Mesma cor do fundo da tela para "recortar" a borda
+  },
+  badgeText: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 10,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
-  alertText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  closeButton: {
-    marginLeft: 10,
-    padding: 5,
-  },
-  closeText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  }
 });
 
 export default PedidoAtivoFAB;

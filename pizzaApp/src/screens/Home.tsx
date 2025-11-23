@@ -8,13 +8,12 @@ import Divider from "../components/divider";
 import MenuCompleto from "../components/dashboard/MenuCompleto";
 import ImageButton from "../components/imageButton";
 import Header from "../components/dashboard/header";
+// Importamos o componente ajustado
 import PedidoAtivoFAB from "../components/PedidoAtivo";
-
 
 export default function Home({ route }: any) {
 
   const { tableId } = useTable();
-
   const [temPedidoAtivo, setTemPedidoAtivo] = useState(false);
 
   useEffect(() => {
@@ -27,7 +26,6 @@ export default function Home({ route }: any) {
       try {
         console.log(tableId);
         const response = await api.get(`/table/order?table_id=${tableId}`);
-
         console.log(response.data);
 
         if (response.data && response.data.length > 0) {
@@ -42,7 +40,6 @@ export default function Home({ route }: any) {
     }
 
     verificarPedidoAtivo();
-
     const interval = setInterval(verificarPedidoAtivo, 15000);
     return () => clearInterval(interval);
   }, [tableId]);
@@ -51,9 +48,17 @@ export default function Home({ route }: any) {
     <View style={styles.fullScreen}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
-          {/* Cabeçalho */}
+          
+          {/* Cabeçalho que rola junto com a tela */}
           <View style={styles.header}>
-            <ImageButton name="bag-handle-outline" size={55} navigateTo="Sacola" />
+            {/* Agrupamos o Sino e a Sacola numa linha */}
+            <View style={styles.headerIconsContainer}>
+              {/* O Sino (só aparece se houver pedido ativo) */}
+              <PedidoAtivoFAB />
+              
+              {/* A Sacola */}
+              <ImageButton name="bag-handle-outline" size={55} navigateTo="Sacola" />
+            </View>
           </View>
 
           <Header />
@@ -96,8 +101,7 @@ export default function Home({ route }: any) {
         </View>
       </ScrollView>
 
-      {/* Botão flutuante de pedido ativo */}
-      <PedidoAtivoFAB />
+      {/* O PedidoAtivoFAB foi removido daqui para não ficar flutuando fixo */}
     </View>
   );
 }
@@ -120,7 +124,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   header: {
-    alignItems: "flex-end",
+    alignItems: "flex-end", // Mantém alinhado à direita
     marginVertical: 10,
+    paddingRight: 10, // Pequeno ajuste para não colar na borda
+  },
+  // Novo estilo para a linha de ícones (Sino + Sacola)
+  headerIconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
