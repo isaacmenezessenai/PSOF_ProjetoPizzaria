@@ -1,9 +1,60 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, ScrollView, Text, Image, TextInput, TouchableOpacity,} from "react-native";
+import {
+  SafeAreaView,
+  View,
+  ScrollView,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+
+// 👉 coloque o IP da sua máquina rodando o backend
+const API_URL = "http://192.168.0.10:3333/login/client";
 
 export default () => {
-  const [textInput1, onChangeTextInput1] = useState("");
-  const [textInput2, onChangeTextInput2] = useState("");
+  const [textInput1, onChangeTextInput1] = useState(""); // email
+  const [textInput2, onChangeTextInput2] = useState(""); // senha
+
+  // =====================
+  // FUNÇÃO DE LOGIN
+  // =====================
+  const handleLogin = async () => {
+    if (!textInput1 || !textInput2) {
+      alert("Preencha o email e a senha.");
+      return;
+    }
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: textInput1,
+          password: textInput2,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || "Erro ao fazer login");
+        return;
+      }
+
+      alert("Login realizado com sucesso!");
+      console.log("Auth data:", data);
+
+      // Se quiser navegar:
+      // navigation.navigate("Home");
+
+    } catch (error) {
+      alert("Erro de conexão com o servidor");
+      console.log(error);
+    }
+  };
 
   return (
     <SafeAreaView
@@ -25,6 +76,7 @@ export default () => {
         }}
       >
 
+        {/* HEADER */}
         <View
           style={{
             flexDirection: "row",
@@ -58,7 +110,7 @@ export default () => {
           </Text>
         </View>
 
-
+        {/* SUBTÍTULO */}
         <View
           style={{
             paddingBottom: 1,
@@ -77,7 +129,7 @@ export default () => {
           </Text>
         </View>
 
-     
+        {/* LOGO */}
         <Image
           source={{
             uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/s94n1t16_expires_30_days.png",
@@ -160,7 +212,7 @@ export default () => {
           </View>
         </View>
 
-
+        {/* BOTÃO DE LOGIN */}
         <TouchableOpacity
           style={{
             alignItems: "center",
@@ -172,7 +224,7 @@ export default () => {
             marginBottom: 18,
             marginHorizontal: 15,
           }}
-          onPress={() => alert("Página Login")}
+          onPress={handleLogin}
         >
           <Text
             style={{
@@ -181,11 +233,11 @@ export default () => {
               fontWeight: "bold",
             }}
           >
-
+            Entrar
           </Text>
         </TouchableOpacity>
 
-
+        {/* DIVISOR */}
         <View
           style={{
             flexDirection: "row",
@@ -199,6 +251,7 @@ export default () => {
           <View style={{ flex: 1, height: 1, backgroundColor: "#000000" }} />
         </View>
 
+        {/* LOGIN COM GOOGLE */}
         <TouchableOpacity
           style={{
             flexDirection: "row",
@@ -225,6 +278,7 @@ export default () => {
           </Text>
         </TouchableOpacity>
 
+        {/* CADASTRO */}
         <View
           style={{
             flexDirection: "row",

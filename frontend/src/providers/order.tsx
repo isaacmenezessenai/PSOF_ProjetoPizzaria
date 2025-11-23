@@ -6,12 +6,17 @@ import { getCookieClient } from "@/lib/cookieClient";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
+// Interface corrigida: Adicionando o campo 'status' no Item
 export interface OrderItemProps{
     id: string;
     amount: number;
     created_at: string;
     order_id: string;
     product_id: string;
+    
+    // <<< CORREÇÃO PRINCIPAL AQUI >>>
+    status: boolean; // O Status do Item individual (Concluído/Pendente)
+    
     product:{
         id:string;
         name:string;
@@ -25,12 +30,11 @@ export interface OrderItemProps{
         table_id:string;
         name:string | null; 
         draft:boolean;
-        status:boolean;
+        status:boolean; // Este é o status da ORDEM (Aberta/Fechada), não do Item
         table:{
-        number: string;
+            number: string;
         }
     };
-    
 }
 
 type OrderContextData = {
@@ -39,6 +43,8 @@ type OrderContextData = {
     onRequestClose: () => void;
     order: OrderItemProps[];
     finishOrder: (order_id: string) => Promise<void>;
+    // <<< NOVO: Função para atualizar o status do item >>>
+    updateItemStatus: (itemId: string) => Promise<void>;
 }
 
 type OrderProviderProps = {
@@ -53,8 +59,6 @@ export function OrderProvider({children}: OrderProviderProps){
     const router = useRouter();
 
     async function onRequestOpen(order_id: string){
-        // console.log(order_id)
-
         const token = getCookieClient();
 
         const response = await api.get("/order/detail", {
@@ -96,6 +100,42 @@ export function OrderProvider({children}: OrderProviderProps){
         router.refresh();
         setIsOpen(false);
     }
+    
+    // <<< NOVA FUNÇÃO: Atualiza o status do item no Backend e no Estado Local >>>
+    async function updateItemStatus(itemId: string) {
+        const token = getCookieClient();
+
+        const data = {
+            item_id: itemId,
+        };
+
+        try {
+            // 1. Chama o endpoint PUT para atualizar no banco de dados
+            const response = await api.put("/order/item/status", data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const updatedItem = response.data as OrderItemProps;
+
+            // 2. Atualiza o estado local 'order'
+            setOrder(prevOrder => 
+                prevOrder.map(item => 
+                    item.id === itemId 
+                        ? { ...item, status: updatedItem.status } // Atualiza apenas o status
+                        : item
+                )
+            );
+            
+            toast.success(`Item "${updatedItem.product.name}" concluído!`);
+            
+        } catch (err) {
+            console.error(err);
+            toast.error("Falha ao concluir o item.");
+        }
+    }
+
 
     return(
         <OrderContext.Provider
@@ -104,7 +144,8 @@ export function OrderProvider({children}: OrderProviderProps){
                 onRequestOpen,
                 onRequestClose,
                 finishOrder,
-                order
+                order,
+                updateItemStatus // Exportando a nova função
             }}
         >
             {children}

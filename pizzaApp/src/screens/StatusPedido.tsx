@@ -10,6 +10,8 @@ import axios from "axios";
 
 type Props = NativeStackScreenProps<RootStackParamList, "StatusPedido">;
 
+// --- INTERFACES ATUALIZADAS ---
+
 interface Product {
   name: string;
   price: string | number | undefined;
@@ -20,7 +22,9 @@ interface Product {
 interface Item {
   product: Product | null | undefined;
   amount: number;
+  status: boolean; // ADICIONADO: Status do item (false = Preparo, true = Entregue)
 }
+
 interface Order {
   id: string | number;
   draft: boolean;
@@ -30,7 +34,7 @@ interface Order {
 }
 
 
-const API_HOSTS = ["http://192.168.3.118:3333"];
+const API_HOSTS = ["http://192.168.15.16:3333"];
 const POLLING_INTERVAL_MS = 3000;
 
 // Paleta de Cores (Pizzaria Artemis)
@@ -41,6 +45,8 @@ const COLORS = {
   WHITE: '#FFFFFF',
   BLACK: '#000000',
   ACCENT: '#FF9898',
+  SUCCESS: '#4CAF50', // Novo: Cor para status Entregue
+  WARNING: '#FFC107', // Novo: Cor para status Preparando
 };
 
 async function fetchFromAnyHost(path: string) {
@@ -88,6 +94,15 @@ const getDisplayStatusText = (order: Order): string => {
   }
   return 'preparando';
 };
+
+// Ativar LayoutAnimation para Android
+if (
+    Platform.OS === "android" &&
+    UIManager.setLayoutAnimationEnabledExperimental
+  ) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 
 // --- COMPONENTE PRINCIPAL ---
 
@@ -335,11 +350,20 @@ export default function StatusPedido({ navigation }: Props) {
                       } else if (typeof rawPrice === 'number') {
                         productPrice = rawPrice;
                       }
+                      
+                      // Lógica do Status do Item (true = Entregue, false = Preparo)
+                      const isDelivered = item.status === true; 
+                      const itemStatusText = isDelivered ? 'ENTREGUE' : 'EM PREPARO';
+                      const itemStyle = isDelivered ? styles.itemDelivered : styles.itemPreparingRow;
+
 
                       return (
-                        <View key={itemIndex} style={{ marginBottom: 5 }}>
+                        <View key={itemIndex} style={[styles.itemRow, itemStyle]}>
                           <Text style={styles.itemText}>
                             {item.amount}x {productName} (R$ {productPrice.toFixed(2)})
+                          </Text>
+                          <Text style={isDelivered ? styles.itemStatusDeliveredText : styles.itemStatusPreparingText}>
+                            {itemStatusText}
                           </Text>
                         </View>
                       );
@@ -414,7 +438,7 @@ const styles = StyleSheet.create({
   },
   // --- ESTILOS PARA TELA DE CONCLUSÃO ---
   completionCard: {
-    backgroundColor: '#ffffffff', 
+    backgroundColor: COLORS.WHITE, 
     padding: 25,
     borderRadius: 15,
     marginHorizontal: 20,
@@ -436,7 +460,7 @@ const styles = StyleSheet.create({
   },
   completionTextSubtitle: {
     fontSize: 16,
-    color: '#424242ff',
+    color: '#424242',
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -494,7 +518,7 @@ const styles = StyleSheet.create({
   },
   
   preparingCard: {
-    backgroundColor:'#ffffffff',
+    backgroundColor:COLORS.WHITE,
     borderColor: COLORS.PRIMARY,
     borderLeftWidth: 5,
   },
@@ -502,7 +526,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     color: COLORS.PRIMARY,
-    backgroundColor: '#ffbbbbff',
+    backgroundColor: COLORS.ACCENT,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 5,
@@ -510,18 +534,18 @@ const styles = StyleSheet.create({
   },
   // Futuro Estilo para pedidos "indo até vc
   goingCard: {
-    backgroundColor: '#1a0f0fff',
-    borderColor: COLORS.PRIMARY,
+    backgroundColor: '#fffbe6',
+    borderColor: COLORS.WARNING,
     borderLeftWidth: 5,
   },
   goingTitle: {
-    color: COLORS.PRIMARY,
+    color: COLORS.WARNING,
   },
   goingBadge: {
     fontSize: 12,
     fontWeight: 'bold',
-    color: COLORS.WHITE,
-    backgroundColor: COLORS.PRIMARY,
+    color: COLORS.SECONDARY,
+    backgroundColor: COLORS.WARNING,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 5,
@@ -576,11 +600,46 @@ const styles = StyleSheet.create({
     color: COLORS.SECONDARY,
     marginBottom: 5,
   },
+  // --- NOVOS ESTILOS PARA STATUS DO ITEM ---
+  itemRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    marginBottom: 5,
+  },
+  itemPreparingRow: {
+    backgroundColor: '#FFF5F5', // Fundo claro para Em Preparo
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.ACCENT,
+  },
+  itemDelivered: {
+    backgroundColor: '#F3FBF5', // Fundo verde claro para Entregue
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.SUCCESS, // Verde para status 'Entregue'
+  },
+  itemStatusPreparingText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: COLORS.PRIMARY,
+    minWidth: 90, // Para alinhar as badges
+    textAlign: 'right',
+  },
+  itemStatusDeliveredText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: COLORS.SUCCESS,
+    minWidth: 90, // Para alinhar as badges
+    textAlign: 'right',
+  },
   itemText: {
     fontSize: 14,
     color: COLORS.SECONDARY,
-    marginBottom: 3,
+    flex: 1, // Para ocupar o espaço restante
   },
+  // --- FIM DOS NOVOS ESTILOS
   totalText: {
     marginTop: 25,
     fontSize: 16,
