@@ -1,5 +1,5 @@
 node_modules
-.env
+pizzariaDev.dump.sql
 .next/
 .next/cache/
 src/generated

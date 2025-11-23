@@ -1,4 +1,4 @@
-# 👨‍💻BRANCH RELEASE
+# 👨‍💻BRANCH MAIN
 ---
   Este documento serve como um guia para a equipe Ártemis, explicando o propósito da branch release e como preparar o projeto para uma nova versão.
   A branch release é criada a partir da branch dev quando um conjunto de funcionalidades está completo, testado e pronto para o lançamento. Ela é usada para testes finais, correções de bugs de última hora e preparação para a implantação em produção.
@@ -93,15 +93,22 @@ https://trello.com/invite/b/6899d2ed03578d24b61cc5cc/ATTI7328772765621f981f9df7b
 ```bash
 https://drive.google.com/drive/folders/1drXdtO_6WGATiyN_OAckakWQ8f8SizQf?usp=sharing
 ```
-
-* GUIA RELEASE
+* DESIGN SPRINTS
 ```bash
-https://g.co/gemini/share/5a5b14256cc2
+https://g.co/gemini/share/7d01f2c32881
+```
+
+* INSTRUÇÕES SUPABASE
+```bash
+https://gemini.google.com/share/239a013e4d29
+```
+
+* SUPABASE LINK PizzariaDEV
+```bash
+https://supabase.com/dashboard/project/xrjnmkgwxfgokuzvbwfd/editor/18360?schema=public
 ```
 
 * GUIA TERMINAL
 ```bash
 https://g.co/gemini/share/bed710356921
 ```
-
-

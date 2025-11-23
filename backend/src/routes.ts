@@ -54,13 +54,17 @@ import uploadConfig from './config/multer'
 import { CreateIngredientController } from "./controllers/ingredients/CreateIngredientControler";
 import { ListIngredientController } from "./controllers/ingredients/ListIngredientController";
 import { ListIngredientsByProductController } from "./controllers/ingredients/ListIngredientsByProductController";
-import { ListExtraIngredientController } from "./controllers/ingredients/ListExtraIngredientController";
-import { SetExtraIngredientController } from "./controllers/ingredients/SetExtraIngredientController";
-import { AddExtraIngredientController } from "./controllers/ingredients/AddExtraIngredinetController";
-import { RemoveExtraIngredientController } from "./controllers/ingredients/RemoveExtraIngredientController";
+import { AddRemovedIngredientController } from "./controllers/ingredients/AddRemovedIngredientController";
 import { AddTypeIngredientController } from "./controllers/ingredients/AddTypeIngredientController";
 import { ListIngredientByTypeController } from "./controllers/ingredients/ListIngredientsByTypeController";
-import { ListNonExtraIngredientController } from "./controllers/ingredients/ListNonExtraIngredientController";
+
+// IMPORTS EXTRA
+import { CreateExtraController } from "./controllers/extras/CreateExtraController";
+import { ListExtraController } from "./controllers/extras/ListExtraController";
+import { RemoveExtraController } from "./controllers/extras/RemoveExtraController"
+import { AddExtraController } from "./controllers/extras/AddExtraController";
+import { CreateTypeExtraController } from "./controllers/extras/CreateTypeExtraController";
+import { RemoveTypeExtraController } from "./controllers/extras/RemoveTypeExtraController";
 
 // Import Payment
 import { PaymentController } from "./controllers/payment/PaymentController";
@@ -145,13 +149,18 @@ router.delete('/product/ingredient/remove', new RemoveIngredientFromProductContr
 router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
 router.post('/product/ingredient', asyncWrapper(new AddIngredientToProductController().handle));//gerente
 router.get('/ingredients/product/:product_id', asyncWrapper(new ListIngredientsByProductController().handle));
-router.get('/ingredients/extra', new ListExtraIngredientController().handle);
-router.put('/ingredient/extra', new SetExtraIngredientController().handle);
-router.post('/ingredient/extra', new AddExtraIngredientController().handle)
-router.delete('/ingredient/extra', new RemoveExtraIngredientController().handle)
 router.post('/ingredient/type', new AddTypeIngredientController().handle)// gerente
 router.get('/ingredient/type', new ListIngredientByTypeController().handle)
-router.get('/ingredients/non-extra', new ListNonExtraIngredientController().handle)
+router.post('/item/ingredient/remove', asyncWrapper(new AddRemovedIngredientController().handle))
+
+    
+// ROTAS EXTRAS
+router.post('/extra', new CreateExtraController().handle)
+router.get('/extra', new ListExtraController().handle)
+router.delete('/extra', new RemoveExtraController().handle)
+router.post('/extra/add', new AddExtraController().handle)
+router.post('/extra/type', new CreateTypeExtraController().handle)
+router.delete('/extra/type', new RemoveTypeExtraController().handle)
 
 // ROTAS PAYMENT
 router.post('/payment', asyncWrapper(new PaymentController().handle.bind(new PaymentController())));
