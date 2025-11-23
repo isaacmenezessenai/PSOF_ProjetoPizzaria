@@ -169,8 +169,8 @@ router.get('/me/employee', asyncWrapper(new DetailUserEmployeeController().handl
 
 // ROTAS FAVORITE
 router.post('/favorite', isAuthenticated, asyncWrapper(new AddFavoriteController().handle));
-router.delete('/favorite', asyncWrapper(new RemoveFavoriteController().handle))
-router.get('/favorites', asyncWrapper(new ListFavoritesController().handle))
+router.delete('/favorite', isAuthenticated, asyncWrapper(new RemoveFavoriteController().handle))
+router.get('/favorites', isAuthenticated, asyncWrapper(new ListFavoritesController().handle))
 
 
 
