@@ -37,6 +37,13 @@ class AuthUserService {
         if (!user) {
             throw new Error("E-mail/CPF ou senha incorretos.");
         }
+        
+        // 🛑 DEBUG 1: O ID ESTÁ CHEGANDO DO BANCO?
+        console.log("-----------------------------------------");
+        console.log("DEBUG 1/3 - AUTH SERVICE: ID LIDO DO BANCO (user.id):");
+        console.log("ID LIDO:", user.id);
+        console.log("-----------------------------------------");
+
 
         // 4. Comparar a senha
         const passwordMatch = await compare(password, user.password)
@@ -48,17 +55,16 @@ class AuthUserService {
         // 5. Gerar o Token JWT
         const token = sign(
             {
+                sub: user.id, 
                 name: user.name,
                 email: user.email,
                 type: 'client' 
             },
             process.env.JWT_SECRET as string, 
             {
-                subject: user.id,
                 expiresIn: '30d'
             }
         )
-
         // 6. Retorno dos dados do usuário e do token
         return {
             id: user.id,

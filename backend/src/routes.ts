@@ -93,7 +93,7 @@ const asyncWrapper = (fn) => (req, res, next) => {
 // ROTAS USERCLIENT  
 router.post('/users/client', asyncWrapper(new CreateUserClientController().handle));
 router.post('/session/client', asyncWrapper(new AuthUserClientController().handle));
-router.get('/me/client', asyncWrapper(new DetailUserClientController().handle));
+
 
 
 
@@ -179,7 +179,8 @@ router.get('/me/employee', asyncWrapper(new DetailUserEmployeeController().handl
 // ROTAS USERCLIENT  
 router.post('/users/client', asyncWrapper(new CreateUserClientController().handle));
 router.post('/session/client', asyncWrapper(new AuthUserClientController().handle));
-router.get('/me/client', asyncWrapper(new DetailUserClientController().handle));
+const detailUserClientController = new DetailUserClientController();
+router.get('/me/client', isAuthenticated, detailUserClientController.handle);
 
 // ROTAS FAVORITE
 router.post('/favorite', isAuthenticated, asyncWrapper(new AddFavoriteController().handle));

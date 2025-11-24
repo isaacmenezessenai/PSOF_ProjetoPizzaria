@@ -2,12 +2,14 @@ import { Request, Response } from "express";
 import { DetailUsersClientService } from "../../services/usersClient/DetailUserClientService"; 
 
 class DetailUserClientController {
-    async handle(req: Request, res: Response) { 
+    // ✅ CORREÇÃO: Adiciona a tipagem 'Promise<void>' e torna a leitura do ID segura.
+    async handle(req: Request, res: Response): Promise<void> { 
 
-        const user_id = req.user_id;
+        const user_id = req.user?.id; // Usando optional chaining (?.)
 
         if (!user_id) {
-            return res.status(401).json({ error: "Token de autenticação ausente ou inválido." });
+            res.status(401).json({ error: "Token de autenticação ausente ou inválido." });
+            return; // Garante que o método retorna Promise<void>
         }
 
         const detailUserService = new DetailUsersClientService();
@@ -16,15 +18,18 @@ class DetailUserClientController {
             const user = await detailUserService.execute(user_id);
 
             if (!user) {
-                return res.status(404).json({ error: "Usuário não encontrado." });
+                res.status(404).json({ error: "Usuário não encontrado." });
+                return;
             }
 
-            return res.json(user);
+            res.json(user);
+            return;
 
         } catch (err) {
 
             const errorMessage = err instanceof Error ? err.message : "Erro ao buscar detalhes do usuário.";
-            return res.status(400).json({ error: errorMessage });
+            res.status(400).json({ error: errorMessage });
+            return;
         }
     }
 }
