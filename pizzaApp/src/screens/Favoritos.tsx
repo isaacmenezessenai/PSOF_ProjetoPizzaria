@@ -3,15 +3,13 @@ import {
   SafeAreaView, View, FlatList, Image, Text, 
   TouchableOpacity, StyleSheet, ActivityIndicator, RefreshControl 
 } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native"; 
 import { Ionicons } from "@expo/vector-icons";
 import BackButton from "../components/backButton";
-import { api } from "../services/api"; // Certifique-se que o caminho está correto
+import { api } from "../services/api";
 
-// Tipo para o item que vem da API de Favoritos
-// O backend retorna um objeto que contém o relacionamento "product"
 type FavoriteItem = {
-  id: string; // ID da tabela de Favoritos (usado para remover)
+  id: string; 
   product: {
     id: string;
     name: string;
@@ -22,10 +20,10 @@ type FavoriteItem = {
 }
 
 export default function Favoritos() {
+  const navigation = useNavigation<any>(); 
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Carrega os favoritos da API
   async function loadFavorites() {
     setLoading(true);
     try {
@@ -38,30 +36,26 @@ export default function Favoritos() {
     }
   }
 
-  // Recarrega a lista toda vez que a tela ganha foco
   useFocusEffect(
     useCallback(() => {
       loadFavorites();
     }, [])
   );
 
-  // Remove o favorito
   async function handleRemoveFavorite(favoriteId: string) {
     try {
-      // Atualiza a UI imediatamente (Optimistic Update)
       setFavorites((oldList) => oldList.filter((item) => item.id !== favoriteId));
-
-      // Chama a API para deletar
-      // Nota: Seu backend espera { favorites_id: ... } no corpo da requisição DELETE
       await api.delete('/favorite', { 
         data: { favorites_id: favoriteId } 
       });
-
     } catch (error) {
       console.log("Erro ao remover favorito:", error);
-      // Se der erro, recarrega a lista original
       loadFavorites();
     }
+  }
+
+  function handleNavigateToDetails(product: any) {
+    navigation.navigate("Detalhes", { product: product });
   }
 
   const renderItem = ({ item }: { item: FavoriteItem }) => (
@@ -78,14 +72,14 @@ export default function Favoritos() {
       </View>
 
       <View style={styles.rightColumn}>
-        {/* Ao clicar na estrela na tela de favoritos, remove o item */}
         <TouchableOpacity onPress={() => handleRemoveFavorite(item.id)}>
              <Ionicons name="star" size={30} color="#FFD700" />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.orderButton}
-          onPress={() => console.log("Navegar para detalhes:", item.product.id)}>
+          onPress={() => handleNavigateToDetails(item.product)} 
+        >
           <Text style={styles.orderButtonText}>Ver</Text>
         </TouchableOpacity>
       </View>
@@ -99,7 +93,6 @@ export default function Favoritos() {
         <Text style={styles.title}>Meus Favoritos</Text>
       </View>
 
-      {/* Linha ondulada decorativa - mantida do seu design original */}
       <Image
         source={{ uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/OWXwBblV3x/pe6tkxf0_expires_30_days.png" }}
         resizeMode={"stretch"}
