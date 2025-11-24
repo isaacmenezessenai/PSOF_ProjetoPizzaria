@@ -8,36 +8,34 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  StyleSheet, // Importado para definir estilos
+  StyleSheet,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native"; // 👈 NOVO: Importe o hook de navegação
+import { useNavigation } from "@react-navigation/native"; 
+import AsyncStorage from "@react-native-async-storage/async-storage"; 
 
 // 👉 coloque o IP da sua máquina rodando o backend
 const API_URL = "http://192.168.15.16:3333/session/client";
 
-// O componente agora se torna a página principal de Login
 export default function Login() {
-  // ✅ NOVO: Obtém o objeto de navegação através do hook
   const navigation: any = useNavigation();
 
-  // Mantendo os nomes originais para não mudar a estrutura do componente
   const [textInput1, onChangeTextInput1] = useState(""); // email
   const [textInput2, onChangeTextInput2] = useState(""); // senha
-  const [loading, setLoading] = useState(false); // Estado para carregamento
-  const [message, setMessage] = useState(""); // Estado para feedback
+  const [loading, setLoading] = useState(false); 
+  const [message, setMessage] = useState(""); 
 
   // =====================
   // FUNÇÃO DE LOGIN
   // =====================
   const handleLogin = async () => {
-    setMessage(""); // Limpa a mensagem anterior
+    setMessage("");
 
     if (!textInput1 || !textInput2) {
       setMessage("Preencha o email e a senha.");
       return;
     }
 
-    setLoading(true); // Inicia o carregamento
+    setLoading(true);
 
     try {
       const response = await fetch(API_URL, {
@@ -46,7 +44,6 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // O backend espera 'email' e 'password'
           email: textInput1,
           password: textInput2,
         }),
@@ -55,40 +52,52 @@ export default function Login() {
       const data = await response.json();
 
       if (!response.ok) {
-        // Erro de autenticação (401) ou de validação (400)
         const errorMessage = data.error || "Erro desconhecido ao fazer login.";
         setMessage(errorMessage);
         console.log("Login failed data:", data);
         return;
       }
+      
+      // ==============================================================
+      // 🚀 AÇÃO PRINCIPAL: SALVAR TOKEN E DADOS DO USUÁRIO
+      // ==============================================================
+      const { token, id, name, email, cpf, dataNascimento } = data;
 
-      // Sucesso
+      // 1. Salva o Token JWT
+      await AsyncStorage.setItem('@ArtemisPizzaria:token', token);
+      
+      // 2. Salva os dados do usuário (em formato JSON stringificado)
+      await AsyncStorage.setItem('@ArtemisPizzaria:user', JSON.stringify({ 
+          id, 
+          name, 
+          email, 
+          cpf, 
+          dataNascimento 
+      }));
+      // ==============================================================
+
       setMessage("Login realizado com sucesso!");
       console.log("Auth data:", data);
       
-      // 🚀 AÇÃO PRINCIPAL: REDIRECIONAR PARA A PÁGINA 'Home'
-      // navigation.replace('Home') remove a tela de Login do histórico
+      // Redireciona para Home
       navigation.replace("Home"); 
 
     } catch (error) {
-      // Erro de rede/conexão
       setMessage("Erro de conexão com o servidor. Verifique o IP e sua rede.");
       console.log("Connection error:", error);
     } finally {
-      setLoading(false); // Finaliza o carregamento
+      setLoading(false); 
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-        {/* A View interna é necessária para que o botão convidado use position: 'absolute' */}
         <View style={{ flex: 1 }}>
             <ScrollView
                 style={styles.scrollView}
-                // Ajusta o padding inferior para o conteúdo não ser escondido pelo botão convidado
                 contentContainerStyle={{ paddingBottom: 100 }} 
             >
-
+                {/* O restante do seu componente de UI permanece inalterado */}
                 {/* HEADER */}
                 <View
                     style={{
@@ -273,6 +282,7 @@ export default function Login() {
                     )}
                 </TouchableOpacity>
 
+                {/* DIVISOR (REMOVIDO JUNTO COM O BOTÃO GOOGLE) */}
                 {/* CADASTRO */}
                 <View
                     style={{
@@ -294,7 +304,7 @@ export default function Login() {
                 </View>
             </ScrollView>
 
-            {/* ✅ NOVO: BOTÃO ENTRAR COMO CONVIDADO (posição absoluta) */}
+            {/* BOTÃO ENTRAR COMO CONVIDADO */}
             <TouchableOpacity 
                 style={styles.guestButton} 
                 onPress={() => navigation.replace('Home')}
