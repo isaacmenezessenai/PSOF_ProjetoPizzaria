@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { Request, Response,RequestHandler } from 'express';
+import { Request, Response,RequestHandler, NextFunction } from 'express';
 import multer from "multer";
 
 // Import UsersClient
 import { CreateUserClientController } from "./controllers/UsersClient/CreateUserClientController";
 import { AuthUserClientController } from "./controllers/UsersClient/AuthUserClientController";
 import { DetailUserClientController } from "./controllers/UsersClient/DetailUserClientController";
+import { LogoutUserClientController } from './controllers/UsersClient/LogoutUserClientController';
 
 // Import UsersEmployee
 import { CreateUserEmployeeController } from "./controllers/UsersEmployee/CreateUserEmployeeController";
@@ -178,6 +179,10 @@ router.get('/me/employee', asyncWrapper(new DetailUserEmployeeController().handl
 
 // ROTAS USERCLIENT  
 router.post('/users/client', asyncWrapper(new CreateUserClientController().handle));
+
+const logoutUserClientController = new LogoutUserClientController();
+router.post('/logout/client', isAuthenticated, asyncWrapper(logoutUserClientController.handle));
+
 router.post('/session/client', asyncWrapper(new AuthUserClientController().handle));
 const detailUserClientController = new DetailUserClientController();
 router.get('/me/client', isAuthenticated, detailUserClientController.handle);
