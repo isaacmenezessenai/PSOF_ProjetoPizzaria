@@ -20,12 +20,11 @@ class ListIngredientsByProductService {
                 product_id: productId,
             },
             select: {
-                amount: true,
+                id: true,
                 ingredient: {
                     select: {
                         id: true,
                         name: true,
-                        price:true,
                         banner:true
                     }
                 }

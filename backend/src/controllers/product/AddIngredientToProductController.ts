@@ -4,14 +4,14 @@ import { AddIngredientToProductService } from "../../services/product/AddIngredi
 class AddIngredientToProductController {
     async handle(req: Request, res: Response) {
         try {
-            const { ingredient_id, product_id, amount } = req.body;
+            const { ingredient_id, product_id } = req.body;
 
             const service = new AddIngredientToProductService();
 
             const result = await service.execute({
                 ingredient_id,
                 product_id,
-                amount: Number(amount)
+
             });
 
             return res.json(result);

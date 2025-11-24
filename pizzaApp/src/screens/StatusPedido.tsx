@@ -30,7 +30,7 @@ interface Order {
 }
 
 
-const API_HOSTS = ["http://192.168.3.118:3333"];
+const API_HOSTS = ["http://192.168.1.103:3333"];
 const POLLING_INTERVAL_MS = 3000;
 
 // Paleta de Cores (Pizzaria Artemis)

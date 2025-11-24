@@ -40,7 +40,7 @@ export default function Card({ data, onPress }: CardProps) {
   useEffect(() => {
     async function fetchNonExtraIngredients() {
       try {
-        const response = await api.get('/ingredients/non-extra');
+        const response = await api.get('/ingredients');
         setNonExtraIngredients(response.data);
       } catch (error) {
         console.error('Erro ao buscar ingredientes não extras:', error);
