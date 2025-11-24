@@ -50,6 +50,7 @@ import { GetTableByNumberController } from "./controllers/table/GetTableByNumber
 // Import Autenticação
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import uploadConfig from './config/multer'
+import {ResetPasswordController} from "./controllers/UsersClient/ResetPasswordController";
 
 // Import Ingredientes
 import { CreateIngredientController } from "./controllers/ingredients/CreateIngredientControler";
@@ -179,6 +180,11 @@ router.get('/me/employee', asyncWrapper(new DetailUserEmployeeController().handl
 
 // ROTAS USERCLIENT  
 router.post('/users/client', asyncWrapper(new CreateUserClientController().handle));
+
+const resetPasswordController = new ResetPasswordController();
+
+// Rota simples e direta
+router.post('/password/reset', asyncWrapper(resetPasswordController.handle));
 
 const logoutUserClientController = new LogoutUserClientController();
 router.post('/logout/client', isAuthenticated, asyncWrapper(logoutUserClientController.handle));

@@ -70,11 +70,11 @@ export default function Home({ route }: any) {
               image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/o13ayzza_expires_30_days.png"
               navigateTo="Favoritos"
             />
-            <Chip
+            {/*<Chip
               title="Meus Pedidos"
               image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/ou3wlbab_expires_30_days.png"
               navigateTo="Pedidos"
-            />
+            />*/}
             <Chip
               title="Chamar Ajuda"
               image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0ao7ngym_expires_30_days.png"
