@@ -9,34 +9,33 @@ datasource db {
 }
 
 model UsersClient {
-  id         String      @id @default(uuid()) 
-  name       String
-  email      String
-  cpf        String      @unique
-  dataNascimento  DateTime @db.Date
-  password   String
-  created_at DateTime?   @default(now())
-  update_at  DateTime?   @default(now())
-  favorites  Favorites[]
-  Orders Order[]
-
+  id             String      @id @default(uuid())
+  name           String
+  email          String
+  cpf            String      @unique
+  dataNascimento DateTime    @db.Date
+  password       String
+  created_at     DateTime?   @default(now())
+  update_at      DateTime?   @default(now())
+  favorites      Favorites[]
+  Orders         Order[]
 
   @@map("usersClient")
 }
 
 model UsersEmployee {
-  id         String      @id @default(uuid()) 
-  name       String
-  email      String
-  cpf        String      @unique
-  dataNascimento  DateTime @db.Date
-  password   String
-  created_at DateTime?   @default(now())
-  update_at  DateTime?   @default(now())
-  table      Table[]
+  id             String    @id @default(uuid())
+  name           String
+  email          String
+  cpf            String    @unique
+  dataNascimento DateTime  @db.Date
+  password       String
+  created_at     DateTime? @default(now())
+  update_at      DateTime? @default(now())
+  table          Table[]
   jobRoleId      String
-  
-  jobRole      JobRole   @relation(fields: [jobRoleId], references: [id])
+
+  jobRole JobRole @relation(fields: [jobRoleId], references: [id])
 
   @@map("usersEmployee")
 }
@@ -53,38 +52,38 @@ model Category {
 }
 
 model Product {
-  id          String    @id @default(uuid())
-  name        String
-  price       String
-  description String
-  banner      String
-  created_at  DateTime? @default(now())
-  update_at   DateTime? @default(now())
-  category    Category            @relation(fields: [category_id], references: [id])
-  category_id String
-  items       Item[]
-  favorites   Favorites[]
-  ingredients ProductIngredient[]
+  id                       String                     @id @default(uuid())
+  name                     String
+  price                    String
+  description              String
+  banner                   String
+  created_at               DateTime?                  @default(now())
+  update_at                DateTime?                  @default(now())
+  category                 Category                   @relation(fields: [category_id], references: [id])
+  category_id              String
+  items                    Item[]
+  favorites                Favorites[]
+  ingredients              ProductIngredient[]
   productIngredientRemoved ProductIngredientRemoved[]
 
   @@map("products")
 }
 
 model Order {
-  id          String    @id @default(uuid())
-  status      Boolean   @default(false)
-  draft       Boolean   @default(true)
-  name        String?
-  created_at  DateTime? @default(now())
-  updated_at  DateTime? @default(now())
-  observation String    @default("")
+  id             String    @id @default(uuid())
+  status         Boolean   @default(false)
+  draft          Boolean   @default(true)
+  name           String?
+  created_at     DateTime? @default(now())
+  updated_at     DateTime? @default(now())
+  observation    String    @default("")
   usersClient_id String?
-  table    Table  @relation(fields: [table_id], references: [id])
-  table_id String
-  
-  UsersClient   UsersClient? @relation(fields: [usersClient_id], references: [id])
-  
-  items    Item[]
+  table          Table     @relation(fields: [table_id], references: [id])
+  table_id       String
+
+  UsersClient UsersClient? @relation(fields: [usersClient_id], references: [id])
+
+  items Item[]
 
   payments Payment[]
 
@@ -92,17 +91,17 @@ model Order {
 }
 
 model Item {
-  id         String    @id @default(uuid())
-  amount     Int
-  created_at DateTime? @default(now())
-  update_at  DateTime? @default(now())
-  status     Boolean   @default(false)
-  order      Order   @relation(fields: [order_id], references: [id])
-  product    Product @relation(fields: [product_id], references: [id])
-  order_id   String
-  product_id String
-  itemIngredient ItemIngredient[]
-  itemExtra itemExtra[]
+  id                       String                     @id @default(uuid())
+  amount                   Int
+  created_at               DateTime?                  @default(now())
+  update_at                DateTime?                  @default(now())
+  status                   Boolean                    @default(false)
+  order                    Order                      @relation(fields: [order_id], references: [id])
+  product                  Product                    @relation(fields: [product_id], references: [id])
+  order_id                 String
+  product_id               String
+  itemIngredient           ItemIngredient[]
+  itemExtra                itemExtra[]
   productIngredientRemoved ProductIngredientRemoved[]
 
   @@map("items")
@@ -113,8 +112,8 @@ model Favorites {
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
-  product    Product @relation(fields: [product_id], references: [id])
-  users      UsersClient    @relation(fields: [users_id], references: [id])
+  product    Product     @relation(fields: [product_id], references: [id])
+  users      UsersClient @relation(fields: [users_id], references: [id])
   product_id String
   users_id   String
 
@@ -128,27 +127,25 @@ model Ingredients {
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
-  products ProductIngredient[]
-  itemIngredient ItemIngredient []
+  products       ProductIngredient[]
+  itemIngredient ItemIngredient[]
 
   @@map("ingredients")
 }
 
 model ProductIngredientRemoved {
+  id                   String    @id @default(uuid())
+  product_id           String
+  productIngredient_id String
+  items_id             String
+  update_at            DateTime? @default(now())
+  created_at           DateTime? @default(now())
 
-  id                        String @id @default(uuid())
-  product_id                String
-  productIngredient_id      String
-  items_id                  String
-  update_at                 DateTime? @default(now())
-  created_at                DateTime? @default(now())
+  product           Product           @relation(fields: [product_id], references: [id])
+  productIngredient ProductIngredient @relation(fields: [productIngredient_id], references: [id])
+  items             Item              @relation(fields: [items_id], references: [id])
 
   @@map("productIngredientRemoved")
-
-  product              Product            @relation(fields: [product_id], references: [id])
-  productIngredient    ProductIngredient  @relation(fields: [productIngredient_id], references: [id])
-  items                Item               @relation(fields: [items_id], references: [id])
-
 }
 
 model ProductIngredient {
@@ -156,8 +153,8 @@ model ProductIngredient {
   created_at   DateTime?   @default(now())
   update_at    DateTime?   @default(now())
 
-  product      Product     @relation(fields: [product_id], references: [id])
-  ingredient   Ingredients @relation(fields: [ingredient_id], references: [id])
+  product       Product     @relation(fields: [product_id], references: [id])
+  ingredient    Ingredients @relation(fields: [ingredient_id], references: [id])
   product_id    String
   ingredient_id String
 
@@ -167,50 +164,45 @@ model ProductIngredient {
 }
 
 model ItemIngredient {
-  id            String      @id @default(uuid())
+  id            String    @id @default(uuid())
   item_id       String
   ingredient_id String
   amount        Int
-  created_at    DateTime?   @default(now())
-  update_at     DateTime?   @default(now())
+  created_at    DateTime? @default(now())
+  update_at     DateTime? @default(now())
 
-  item         Item     @relation(fields: [item_id], references: [id])
-  ingredient   Ingredients @relation(fields: [ingredient_id], references: [id])
+  item       Item        @relation(fields: [item_id], references: [id])
+  ingredient Ingredients @relation(fields: [ingredient_id], references: [id])
 
   @@map("itemIngredient")
 }
 
-model itemExtra{
+model itemExtra {
+  id         String    @id @default(uuid())
+  item_id    String
+  extra_id   String
+  update_at  DateTime? @default(now())
+  created_at DateTime? @default(now())
 
-  id            String      @id @default(uuid())
-  item_id       String
-  extra_id      String
-  update_at     DateTime?   @default(now())
-  created_at    DateTime?   @default(now())
-  
-  item          Item          @relation(fields: [item_id], references: [id])
-  extra         Extras        @relation(fields: [extra_id], references: [id])
+  item  Item   @relation(fields: [item_id], references: [id])
+  extra Extras @relation(fields: [extra_id], references: [id])
 
   @@map("itemExtra")
-
 }
 
-model Extras{
+model Extras {
+  id          String    @id @default(uuid())
+  name        String
+  price       String
+  category_id String
+  update_at   DateTime? @default(now())
+  created_at  DateTime? @default(now())
 
-  id            String     @id @default(uuid())
-  name          String    
-  price         String
-  category_id   String
-  update_at     DateTime?   @default(now())
-  created_at    DateTime?   @default(now())
+  category Category @relation(fields: [category_id], references: [id])
 
-  category      Category    @relation(fields: [category_id], references: [id])
-
-  @@map("extras")
-
-  
   itemExtra itemExtra[]
 
+  @@map("extras")
 }
 
 model Table {
@@ -219,7 +211,7 @@ model Table {
   created_at DateTime? @default(now())
   update_at  DateTime? @default(now())
 
-  users    UsersEmployee?   @relation(fields: [users_id], references: [id])
+  users    UsersEmployee? @relation(fields: [users_id], references: [id])
   users_id String?
   order    Order[]
 
@@ -231,9 +223,9 @@ model Payment {
   orderId       String
   paymentType   Int
   amount        Decimal
-  transactionId String? @unique
+  transactionId String?   @unique
   pixCode       String?
-  status        Boolean  @default(false)
+  status        Boolean   @default(false)
   created_at    DateTime? @default(now())
   updated_at    DateTime? @default(now())
 
@@ -243,12 +235,12 @@ model Payment {
 }
 
 model JobRole {
-  id            String   @id @default(uuid())
-  role_name     String   @db.Text
-  access_level  Int
-  created_at    DateTime @default(now())
-  update_at     DateTime @default(now()) @updatedAt
-  employees     UsersEmployee[] 
+  id           String          @id @default(uuid())
+  role_name    String          @db.Text
+  access_level Int
+  created_at   DateTime        @default(now())
+  update_at    DateTime        @default(now()) @updatedAt
+  employees    UsersEmployee[]
 
   @@map("jobRole")
 }

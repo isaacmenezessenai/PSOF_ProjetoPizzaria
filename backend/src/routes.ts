@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { Request, Response,RequestHandler } from 'express';
+import { Request, Response,RequestHandler, NextFunction } from 'express';
 import multer from "multer";
 
 // Import UsersClient
 import { CreateUserClientController } from "./controllers/UsersClient/CreateUserClientController";
 import { AuthUserClientController } from "./controllers/UsersClient/AuthUserClientController";
 import { DetailUserClientController } from "./controllers/UsersClient/DetailUserClientController";
+import { LogoutUserClientController } from './controllers/UsersClient/LogoutUserClientController';
 
 // Import UsersEmployee
 import { CreateUserEmployeeController } from "./controllers/UsersEmployee/CreateUserEmployeeController";
@@ -32,6 +33,7 @@ import { ListOrderController } from "./controllers/order/ListOrderController";
 import { DetailOrderController } from "./controllers/order/DetailOrderController";
 import { FinishOrderController } from "./controllers/order/FinishOrderController";
 import { SumOrderController } from "./controllers/order/SumOrderController";
+import { AggregateOrderItemsController } from './controllers/order/AggregateOrderItemsController';
 
 // Import Item
 import { AddItemController } from "./controllers/order/AddItemController";
@@ -53,7 +55,7 @@ import uploadConfig from './config/multer'
 import { CreateIngredientController } from "./controllers/ingredients/CreateIngredientControler";
 import { ListIngredientController } from "./controllers/ingredients/ListIngredientController";
 import { ListIngredientsByProductController } from "./controllers/ingredients/ListIngredientsByProductController";
-import { SumOrderController } from "./controllers/order/SumOrderController";
+import { AddRemovedIngredientController } from "./controllers/ingredients/AddRemovedIngredientController";
 import { AddTypeIngredientController } from "./controllers/ingredients/AddTypeIngredientController";
 import { ListIngredientByTypeController } from "./controllers/ingredients/ListIngredientsByTypeController";
 
@@ -73,12 +75,13 @@ import { PaymentController } from "./controllers/payment/PaymentController";
 import { CreateJobRoleController } from "./controllers/JobRole/CreateJobRoleController";
 import { ListJobRoleController } from "./controllers/JobRole/ListJobRoleController";
 
-
+// Import Favorites
 import { AddFavoriteController } from "./controllers/favorites/AddFavoriteController";
 import { RemoveFavoriteController } from "./controllers/favorites/RemoveFavoriteController";
 import { ListFavoritesController } from "./controllers/favorites/ListFavoriteController";
 
-import { AddRemovedIngredientController } from "./controllers/ingredients/AddRemovedIngredientController"
+//Import ITem Status Update
+import { UpdateItemStatusController } from "./controllers/order/UpdateItemStatusController";
 
 
 const router = Router();
@@ -92,7 +95,7 @@ const asyncWrapper = (fn) => (req, res, next) => {
 // ROTAS USERCLIENT  
 router.post('/users/client', asyncWrapper(new CreateUserClientController().handle));
 router.post('/session/client', asyncWrapper(new AuthUserClientController().handle));
-router.get('/me/client', asyncWrapper(new DetailUserClientController().handle));
+
 
 
 
@@ -112,7 +115,7 @@ router.post('/order', new CreateOrderController().handle)
 router.delete('/order', new RemoveOrderController().handle)
 
 router.post('/order/add', new AddItemController().handle)
-router.delete('/order/remove', new RemoveItemController().handle)
+router.delete('/order/remove', new RemoveItemController().handle.bind(new RemoveItemController()))
 router.put('/order/send', new SendOrderController().handle)
 
 router.get('/orders', new ListOrderController().handle)
@@ -120,6 +123,13 @@ router.get('/order/detail', new DetailOrderController().handle)
 
 router.put('/order/finish', new FinishOrderController().handle)
 router.get('/order/sum', new SumOrderController().handle)
+
+// ROTAS ITENS ORDER
+const aggregateOrderItemsController = new AggregateOrderItemsController();
+router.get('/order/items/aggregate', aggregateOrderItemsController.handle.bind(aggregateOrderItemsController));
+
+const updateItemStatusController = new UpdateItemStatusController();
+router.put('/order/item/status', updateItemStatusController.handle.bind(updateItemStatusController));
 
     // Rota Pedidos Ativos cliente cozinha e garçom
     const getOrderByTableController = new GetOrderByTableController();
@@ -169,10 +179,20 @@ router.post('/users/employee', asyncWrapper(new CreateUserEmployeeController().h
 router.post('/session/employee', asyncWrapper(new AuthUserEmployeeController().handle));
 router.get('/me/employee', asyncWrapper(new DetailUserEmployeeController().handle));
 
+// ROTAS USERCLIENT  
+router.post('/users/client', asyncWrapper(new CreateUserClientController().handle));
+
+const logoutUserClientController = new LogoutUserClientController();
+router.post('/logout/client', isAuthenticated, asyncWrapper(logoutUserClientController.handle));
+
+router.post('/session/client', asyncWrapper(new AuthUserClientController().handle));
+const detailUserClientController = new DetailUserClientController();
+router.get('/me/client', isAuthenticated, detailUserClientController.handle);
+
 // ROTAS FAVORITE
 router.post('/favorite', isAuthenticated, asyncWrapper(new AddFavoriteController().handle));
-router.delete('/favorite', asyncWrapper(new RemoveFavoriteController().handle))
-router.get('/favorites', asyncWrapper(new ListFavoritesController().handle))
+router.delete('/favorite', isAuthenticated, asyncWrapper(new RemoveFavoriteController().handle))
+router.get('/favorites', isAuthenticated, asyncWrapper(new ListFavoritesController().handle))
 
 
 

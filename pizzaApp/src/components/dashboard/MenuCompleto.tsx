@@ -1,26 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { api } from "../../services/api"
-import Card from "../dashboard/card";
+import React, { useState, useEffect, useCallback } from "react";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import { useFocusEffect } from "@react-navigation/native"; 
+import { api } from "../../services/api";
+
+// Importa o Card que acabamos de editar (que está na mesma pasta)
+import Card, { ProductProps } from "./card"; 
 
 type Category = {
     id: string;
     name: string;
 };
 
-export interface ProductProps {
-    id: string;
-    name: string;
-    price: string;
-    description: string;
-    banner: string;
-}
+// Tipo do favorito vindo da API
+type FavoriteItem = {
+    id: string; 
+    product: {
+        id: string;
+    };
+};
 
 export default function MenuCompleto() {
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    
+    // Estados
+    const [products, setProducts] = useState<ProductProps[]>([]);
+    const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
+    const [loadingProducts, setLoadingProducts] = useState(false);
 
+    // 1. Carregar Categorias
     useEffect(() => {
         async function fetchCategories() {
             try {
@@ -28,70 +37,93 @@ export default function MenuCompleto() {
                 const data = response.data;
 
                 if (!data || data.length === 0) {
-                    Alert.alert("Aviso", "Nenhuma categoria encontrada.");
                     return;
                 }
-
                 setCategories(data);
-
                 setSelectedCategory(data[0].id);
             } catch (error) {
                 console.error("Erro ao buscar categorias:", error);
-                Alert.alert("Erro", "Não foi possível carregar as categorias.");
             }
         }
         fetchCategories();
     }, []);
 
-    const [products, setProducts] = useState<ProductProps[]>([]);
-    const [loadingProducts, setLoadingProducts] = useState(true);
+    // 2. Carregar Favoritos (Sempre que focar na tela)
+    useFocusEffect(
+        useCallback(() => {
+            loadFavorites();
+        }, [])
+    );
 
-
-    useEffect(() => {
-        if (!selectedCategory) {
-            return;
+    async function loadFavorites() {
+        try {
+            const response = await api.get("/favorites");
+            setFavorites(response.data);
+        } catch (error) {
+            console.log("Erro ao carregar favoritos:", error);
         }
+    }
 
-        async function fetchProductsByCategory() {
+    // 3. Carregar Produtos da Categoria
+    useEffect(() => {
+        if (!selectedCategory) return;
+
+        async function fetchProducts() {
             setLoadingProducts(true);
             try {
-                const response = await api.get('/category/product', {
-                    params: {
-                        category_id: selectedCategory
-                    }
+                const response = await api.get("/category/product", {
+                    params: { category_id: selectedCategory }
                 });
-                const productsData = response.data;
-
-                const productsWithIngredients = await Promise.all(
-                    productsData.map(async (product: any) => {
-                        try {
-                            const ingRes = await api.get(`/products/${product.id}/ingredients`);
-                            return { ...product, ingredients: ingRes.data };
-                        } catch {
-                            return { ...product, ingredients: [] };
-                        }
-                    })
-                );
-                setProducts(productsWithIngredients);
+                setProducts(response.data);
             } catch (error) {
                 console.error("Erro ao buscar produtos:", error);
-                setProducts([]);
             } finally {
                 setLoadingProducts(false);
             }
         }
-
-        fetchProductsByCategory();
+        fetchProducts();
     }, [selectedCategory]);
 
+    // 4. Lógica Toggle Favorito
+    async function handleToggleFavorite(product: ProductProps) {
+        const favoriteEntry = favorites.find(fav => fav.product.id === product.id);
+
+        if (favoriteEntry) {
+            // REMOVER
+            try {
+                setFavorites(old => old.filter(fav => fav.id !== favoriteEntry.id));
+                await api.delete('/favorite', { data: { favorites_id: favoriteEntry.id } });
+            } catch (err) {
+                console.log("Erro ao remover favorito", err);
+                loadFavorites(); 
+            }
+        } else {
+            // ADICIONAR
+            try {
+                // UI Otimista temporária (opcional, mas ajuda na percepção de velocidade)
+                const tempId = "temp_" + Math.random();
+                setFavorites(old => [...old, { id: tempId, product: { id: product.id } }]);
+
+                const response = await api.post('/favorite', { product_id: product.id });
+                
+                // Atualiza com o dado real do backend
+                setFavorites(old => old.map(fav => fav.id === tempId ? response.data : fav));
+            } catch (err) {
+                console.log("Erro ao adicionar favorito", err);
+                loadFavorites(); // Recarrega para corrigir estado
+            }
+        }
+    }
+
     return (
-        <View>
+        <View style={{ flex: 1 }}>
+            {/* Navegação de Categorias */}
             <View style={styles.categoryNavContainer}>
                 <FlatList
                     data={categories}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item) => String(item.id)}
+                    keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             style={styles.categoryButton}
@@ -100,25 +132,35 @@ export default function MenuCompleto() {
                             <Text
                                 style={[
                                     styles.categoryText,
-                                    item.id === selectedCategory && styles.categoryTextActive,
+                                    selectedCategory === item.id && styles.categoryTextActive,
                                 ]}
                             >
                                 {item.name}
                             </Text>
-                            {item.id === selectedCategory && <View style={styles.textUnderline} />}
+                            {selectedCategory === item.id && <View style={styles.textUnderline} />}
                         </TouchableOpacity>
-
                     )}
                 />
             </View>
 
+            {/* Lista de Produtos */}
             <View style={styles.productListContainer}>
                 {loadingProducts ? (
-                    <Text style={styles.infoText}>Carregando produtos...</Text>
+                    <ActivityIndicator size="large" color="#9A1105" style={{ marginTop: 20 }} />
                 ) : (
-                    products.map(product => (
-                        <Card key={product.id} data={product} />
-                    ))
+                    products.map(product => {
+                        // Verifica se é favorito
+                        const isFav = favorites.some(fav => fav.product.id === product.id);
+
+                        return (
+                            <Card 
+                                key={product.id} 
+                                data={product} // <--- AQUI MANTEMOS 'data' pois o Card espera 'data'
+                                isFavorite={isFav}
+                                onToggleFavorite={() => handleToggleFavorite(product)}
+                            />
+                        );
+                    })
                 )}
                 {!loadingProducts && products.length === 0 && (
                     <Text style={styles.infoText}>Nenhum produto encontrado nesta categoria.</Text>
@@ -140,7 +182,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     categoryText: {
-        fontFamily: "NeueHaas",
+        // fontFamily: "NeueHaas",
         fontSize: 16,
         color: "#444",
     },
@@ -157,11 +199,11 @@ const styles = StyleSheet.create({
     },
     productListContainer: {
         marginTop: 20,
+        paddingBottom: 20,
     },
     infoText: {
         textAlign: 'center',
-        marginVertical: 20,
-        fontSize: 16,
         color: '#666',
-    },
+        marginTop: 20
+    }
 });

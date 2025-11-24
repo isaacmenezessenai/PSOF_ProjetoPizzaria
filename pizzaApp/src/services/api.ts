@@ -1,5 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // 
 
+// 1. Criação da Instância Axios
 const api = axios.create({
     baseURL: "http://192.168.1.103:3333",
 })

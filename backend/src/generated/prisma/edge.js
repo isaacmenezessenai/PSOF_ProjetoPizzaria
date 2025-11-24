@@ -287,7 +287,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\arthu\\Documents\\VSCode\\Pizzaria_TCC\\backend\\src\\generated\\prisma",
+      "value": "C:\\Users\\enzog\\Music\\TCC\\backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -301,11 +301,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\arthu\\Documents\\VSCode\\Pizzaria_TCC\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\enzog\\Music\\TCC\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
+    "rootEnvPath": "../../../.env",
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
