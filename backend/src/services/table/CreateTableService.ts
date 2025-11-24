@@ -2,7 +2,7 @@ import prismaClient from "../../prisma";
 
 interface TableRequest {
     number: number
-    users_id?: string
+    users_id: string
 }
 
 class CreateTableService{

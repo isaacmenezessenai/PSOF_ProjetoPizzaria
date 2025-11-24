@@ -67,6 +67,7 @@ import { RemoveExtraController } from "./controllers/extras/RemoveExtraControlle
 import { AddExtraController } from "./controllers/extras/AddExtraController";
 import { CreateTypeExtraController } from "./controllers/extras/CreateTypeExtraController";
 import { RemoveTypeExtraController } from "./controllers/extras/RemoveTypeExtraController";
+import { ListExtrasByCategoryController } from "./controllers/extras/ListExtrasByCategoryController";
 
 // Import Payment
 import { PaymentController } from "./controllers/payment/PaymentController";
@@ -150,7 +151,7 @@ router.post('/ingredient', asyncWrapper(new CreateIngredientController().handle)
 router.delete('/product/ingredient/remove', new RemoveIngredientFromProductController().handle)//gerente
 router.get('/ingredients', asyncWrapper(new ListIngredientController().handle));
 router.post('/product/ingredient', asyncWrapper(new AddIngredientToProductController().handle));//gerente
-router.get('/ingredients/product/:product_id', asyncWrapper(new ListIngredientsByProductController().handle));
+router.get('/ingredients/product', asyncWrapper(new ListIngredientsByProductController().handle));
 router.post('/ingredient/type', new AddTypeIngredientController().handle)// gerente
 router.get('/ingredient/type', new ListIngredientByTypeController().handle)
 router.post('/item/ingredient/remove', asyncWrapper(new AddRemovedIngredientController().handle))
@@ -159,6 +160,7 @@ router.post('/item/ingredient/remove', asyncWrapper(new AddRemovedIngredientCont
 // ROTAS EXTRAS
 router.post('/extra', new CreateExtraController().handle)
 router.get('/extra', new ListExtraController().handle)
+router.get('/extra/category', new ListExtrasByCategoryController().handle)
 router.delete('/extra', new RemoveExtraController().handle)
 router.post('/extra/add', new AddExtraController().handle)
 router.post('/extra/type', new CreateTypeExtraController().handle)

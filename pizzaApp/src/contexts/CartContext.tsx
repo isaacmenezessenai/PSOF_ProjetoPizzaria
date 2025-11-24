@@ -6,6 +6,7 @@ export interface CartItem {
   quantity: number;
   customizations?: any;
   extras?: SelectedExtra[];
+  removedIngredients?: string[];
 }
 
 interface CartContextType {
