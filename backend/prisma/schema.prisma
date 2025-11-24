@@ -149,10 +149,9 @@ model ProductIngredientRemoved {
 }
 
 model ProductIngredient {
-  id         String    @id @default(uuid())
-  amount     Int
-  created_at DateTime? @default(now())
-  update_at  DateTime? @default(now())
+  id           String      @id @default(uuid())
+  created_at   DateTime?   @default(now())
+  update_at    DateTime?   @default(now())
 
   product       Product     @relation(fields: [product_id], references: [id])
   ingredient    Ingredients @relation(fields: [ingredient_id], references: [id])

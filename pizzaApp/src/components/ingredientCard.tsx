@@ -12,16 +12,16 @@ export type SelectedExtra = {
   id: string;
   name: string;
   price: string;
-  amount: number;
 };
 
 interface Props {
   api: AxiosInstance;
   onChange: (extras: SelectedExtra[]) => void;
   initialExtras?: SelectedExtra[];
+  categoryId?: string | null;
 }
 
-export function ExtraIngredientsSelector({ api, onChange, initialExtras = [] }: Props) {
+export function ExtraIngredientsSelector({ api, onChange, initialExtras = [], categoryId }: Props) {
   const [availableExtras, setAvailableExtras] = useState<ExtraIngredient[]>([]);
   const [selectedExtras, setSelectedExtras] = useState<SelectedExtra[]>(initialExtras);
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,9 @@ export function ExtraIngredientsSelector({ api, onChange, initialExtras = [] }: 
         setLoading(true);
         setError(null);
         // Rota definida em routes.ts
-        const response = await api.get("/ingredients/extra"); 
+        const response = categoryId
+          ? await api.get('/extra/category', { params: { category_id: categoryId } })
+          : await api.get("/extra"); 
         setAvailableExtras(response.data);
       } catch (err) {
         console.error("Erro ao buscar extras", err);
@@ -43,36 +45,24 @@ export function ExtraIngredientsSelector({ api, onChange, initialExtras = [] }: 
       }
     }
     fetchExtras();
-  }, [api]);
+  }, [api, categoryId]);
 
   useEffect(() => {
     onChange(selectedExtras);
   }, [selectedExtras, onChange]);
 
-  const handleChangeAmount = (extra: ExtraIngredient, newAmount: number) => {
+  const handleToggleExtra = (extra: ExtraIngredient) => {
     setSelectedExtras((prevExtras) => {
-      if (newAmount <= 0) {
+      const exists = prevExtras.find((e) => e.id === extra.id);
+      if (exists) {
         return prevExtras.filter((e) => e.id !== extra.id);
       }
-
-      const existingExtra = prevExtras.find((e) => e.id === extra.id);
-
-      if (existingExtra) {
-        return prevExtras.map((e) =>
-          e.id === extra.id ? { ...e, amount: newAmount } : e
-        );
-      } else {
-        return [
-          ...prevExtras,
-          { id: extra.id, name: extra.name, price: extra.price, amount: newAmount },
-        ];
-      }
+      return [...prevExtras, { id: extra.id, name: extra.name, price: extra.price }];
     });
   };
 
   const renderExtraItem = ({ item }: { item: ExtraIngredient }) => {
-    const currentAmount =
-      selectedExtras.find((e) => e.id === item.id)?.amount || 0;
+    const isSelected = !!selectedExtras.find((e) => e.id === item.id);
 
     return (
       <View style={styles.extraItemContainer}>
@@ -82,21 +72,12 @@ export function ExtraIngredientsSelector({ api, onChange, initialExtras = [] }: 
             + R$ {parseFloat(item.price).toFixed(2)}
           </Text>
         </View>
-        <View style={styles.qtyBox}>
-          <TouchableOpacity
-            style={styles.qtyButton}
-            onPress={() => handleChangeAmount(item, currentAmount - 1)}
-          >
-            <Text style={styles.qtyButtonText}>-</Text>
-          </TouchableOpacity>
-          <Text style={styles.qtyText}>{currentAmount}</Text>
-          <TouchableOpacity
-            style={styles.qtyButton}
-            onPress={() => handleChangeAmount(item, currentAmount + 1)}
-          >
-            <Text style={styles.qtyButtonText}>+</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={[styles.checkbox, isSelected && styles.checkboxSelected]}
+          onPress={() => handleToggleExtra(item)}
+        >
+          <Text style={[styles.checkboxText, isSelected && styles.checkboxTextSelected]}>{isSelected ? '✓' : ''}</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -171,6 +152,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginHorizontal: 8,
+  },
+  checkbox: {
+    width: 36,
+    height: 36,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  checkboxSelected: {
+    backgroundColor: '#9A1105',
+    borderColor: '#9A1105',
+  },
+  checkboxText: {
+    color: '#000',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  checkboxTextSelected: {
+    color: '#fff',
   },
   errorText: {
     textAlign: 'center',

@@ -46,7 +46,7 @@ export default function Card({ data, onPress, isFavorite, onToggleFavorite }: Ca
     // Mantive sua lógica de ingredientes original
     async function fetchNonExtraIngredients() {
       try {
-        const response = await api.get('/ingredients/non-extra');
+        const response = await api.get('/ingredients');
         setNonExtraIngredients(response.data);
       } catch (error) {
         console.error('Erro ao buscar ingredientes não extras:', error);

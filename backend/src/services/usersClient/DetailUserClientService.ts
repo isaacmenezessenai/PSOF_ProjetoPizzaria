@@ -4,7 +4,9 @@ class DetailUsersClientService {
     async execute(user_id: string) {
 
         // 1. O modelo alvo deve ser 'usersClient'
-        const user = await prismaClient.usersClient.findFirst({
+        // ✅ CORREÇÃO: Trocamos findFirst por findUnique, que é o método correto
+        // para buscar um registro pela sua chave primária (ID), garantindo maior robustez.
+        const user = await prismaClient.usersClient.findUnique({
             where: {
                 id: user_id
             },

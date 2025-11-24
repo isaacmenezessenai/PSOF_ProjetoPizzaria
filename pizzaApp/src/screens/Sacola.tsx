@@ -31,7 +31,7 @@ export default function Sacola() {
   const total = items.reduce((acc, item) => {
     const extrasPrice = item.extras?.reduce((extraAcc, extra) => {
     const price = parseFloat(extra.price) || 0;
-    return extraAcc + (price * extra.amount);
+    return extraAcc + price;
   }, 0) || 0;
     const itemPrice = parseFloat(item.product.price) + extrasPrice;
     return acc + (itemPrice * item.quantity);
@@ -78,13 +78,47 @@ export default function Sacola() {
       }
 
       if (!order.items || order.items.length === 0) {
-        for (const it of itemsPayload) {
+        for (let i = 0; i < itemsPayload.length; i++) {
+          const it = itemsPayload[i];
           try {
-            await api.post("/order/add", {
+            const addRes = await api.post("/order/add", {
               order_id: orderId,
               product_id: it.product_id,
               amount: it.amount,
             });
+
+            // obtém o item criado e seu id
+            const createdItem = addRes.data ?? null;
+            const itemId = createdItem?.id ?? createdItem;
+            console.log('Created item from /order/add:', createdItem, 'resolved itemId=', itemId);
+
+            // adiciona extras associados ao item criado (uma chamada por extra selecionado)
+            const cartItem = items[i];
+            if (cartItem?.extras && Array.isArray(cartItem.extras)) {
+              for (const extra of cartItem.extras) {
+                try {
+                  await api.post("/extra/add", {
+                    item_id: itemId,
+                    extra_id: extra.id,
+                  });
+                } catch (err) {
+                  console.warn("Não foi possível adicionar extra via /extra/add:", err);
+                }
+              }
+            }
+            // adiciona ingredientes removidos na tabela productIngredientRemoved
+            if (cartItem?.removedIngredients && Array.isArray(cartItem.removedIngredients)) {
+              for (const prodIngredientId of cartItem.removedIngredients) {
+                try {
+                  const payload = { items_id: String(itemId), productIngredient_id: String(prodIngredientId) };
+                  console.log('Registering removed ingredient:', payload);
+                  const remRes = await api.post('/item/ingredient/remove', payload);
+                  console.log('Removed ingredient response:', remRes.data);
+                } catch (err) {
+                  console.warn('Não foi possível registrar ingrediente removido:', err);
+                }
+              }
+            }
           } catch (err) {
             console.warn("Não foi possível adicionar item via /order/add:", err);
           }

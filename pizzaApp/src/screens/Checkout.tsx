@@ -58,7 +58,7 @@ export default function Checkout({ route, navigation }: Props) {
    const total = items.reduce((acc, item) => {
     const extrasPrice = item.extras?.reduce((extraAcc, extra) => {
     const price = parseFloat(extra.price) || 0;
-    return extraAcc + (price * extra.amount);
+    return extraAcc + price;
   }, 0) || 0;
     const itemPrice = parseFloat(item.product.price) + extrasPrice;
     return acc + (itemPrice * item.quantity);

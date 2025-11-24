@@ -29,8 +29,9 @@ export default function DetalhesProduto() {
   const { setItems, items, setPendingProduct } = useCart();
   const { product, index } = route.params as { product: ProductProps; index?: number };
 
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [ingredients, setIngredients] = useState<any[]>([]);
   const [loadingIngredients, setLoadingIngredients] = useState(true);
+  const [removedIngredients, setRemovedIngredients] = useState<string[]>([]);
 
   const itemInCart = typeof index === "number" && items[index] ? items[index] : undefined;
 
@@ -38,27 +39,60 @@ export default function DetalhesProduto() {
   const [selectedExtras, setSelectedExtras] = useState<SelectedExtra[]>(
     itemInCart?.extras || []
   );
+  // initialize removedIngredients when editing an existing cart item
+  useEffect(() => {
+    if (itemInCart?.removedIngredients && Array.isArray(itemInCart.removedIngredients)) {
+      setRemovedIngredients(itemInCart.removedIngredients.map(String));
+    }
+  }, [itemInCart]);
   
 
   useEffect(() => {
     async function fetchIngredients() {
       try {
         setLoadingIngredients(true);
-        const response = await api.get('/ingredients/non-extra');
-        setIngredients(response.data);
+        // backend expects product_id as a query parameter
+        const response = await api.get('/ingredients/product', { params: { product_id: product.id } });
+        console.log('GET /ingredients/product response:', response.data);
+
+        // Normalize result into an array of items.
+        let items: any[] = [];
+        if (Array.isArray(response.data)) {
+          items = response.data;
+        } else if (response.data) {
+          items = response.data.ingredients || response.data.data || response.data.items || [];
+          if (!items.length && (response.data.id || response.data.name)) {
+            items = [response.data];
+          }
+        }
+
+        // If no items found, try fallback global endpoint
+        if (!items || items.length === 0) {
+          try {
+            const fb = await api.get('/ingredients');
+            console.log('Fallback GET /ingredients response:', fb.data);
+            items = Array.isArray(fb.data) ? fb.data : fb.data?.ingredients || fb.data?.data || [];
+          } catch (fbErr) {
+            console.warn('Fallback ingredients fetch failed', fbErr);
+            items = [];
+          }
+        }
+
+        setIngredients(items || []);
       } catch (err) {
+        console.warn('Error fetching product ingredients:', err);
         setIngredients([]);
       } finally {
         setLoadingIngredients(false);
       }
     }
     fetchIngredients();
-  }, []);
+  }, [product.id]);
 
   const total = useMemo(() => {
     const extrasPrice = selectedExtras.reduce((sum, extra) => {
       const price = parseFloat(extra.price) || 0;
-      return sum + price * extra.amount;
+      return sum + price;
     }, 0);
 
     const productPrice = parseFloat(product.price.replace(",", ".")) || 0;
@@ -78,8 +112,9 @@ export default function DetalhesProduto() {
       return;
     }
     
-    // Cria o objeto do novo item com os extras
-    const newItem = { product, quantity, extras: selectedExtras };
+    // Cria o objeto do novo item com os extras e ingredientes removidos
+    const newItem = { product, quantity, extras: selectedExtras, removedIngredients };
+    console.log('Adding to cart:', { productId: product.id, quantity, extras: selectedExtras, removedIngredients });
 
     if (typeof index === "number" && items[index]) {
       // Se está editando, substitui o item na posição 'index'
@@ -109,20 +144,51 @@ export default function DetalhesProduto() {
             <Image source={{ uri: product.banner }} style={styles.image} />
             <Divider />
             <Text style={styles.title}>{product.name}</Text>
+            <Text style={styles.description}>{product.description}</Text>
             {loadingIngredients ? (
               <ActivityIndicator size="small" color="#BCA85C" style={{ marginVertical: 4 }} />
             ) : ingredients.length > 0 ? (
-              <Text style={styles.ingredients} numberOfLines={2}>
-                {ingredients.map((ing) => ing.name).join(", ")}
-              </Text>
+              <>
+                <Text style={styles.sectionTitle}>Ingredientes</Text>
+                {ingredients.map((pi) => {
+                  const rawId = pi.id ?? pi.ingredient?.id ?? pi._id ?? pi.productIngredient_id ?? pi.productIngredientId;
+                  const prodIngId = String(rawId ?? '');
+                  const ing = pi.ingredient || pi;
+                  // selected by default (not removed)
+                  const isSelected = !removedIngredients.includes(prodIngId);
+                  return (
+                    <View key={prodIngId} style={styles.extraItemContainer}>
+                      <View>
+                        <Text style={styles.extraName}>{ing.name}</Text>
+                        {ing.price ? (
+                          <Text style={styles.extraPrice}>+ R$ {parseFloat(String(ing.price)).toFixed(2)}</Text>
+                        ) : null}
+                      </View>
+                        <TouchableOpacity
+                        style={[styles.checkbox, isSelected && styles.checkboxSelected]}
+                        onPress={() => {
+                          // toggle: if currently selected, mark as removed; otherwise un-remove
+                              if (isSelected) {
+                                setRemovedIngredients((prev) => [...prev, prodIngId]);
+                              } else {
+                                setRemovedIngredients((prev) => prev.filter((p) => p !== prodIngId));
+                              }
+                        }}
+                      >
+                        <Text style={[styles.checkboxText, isSelected && styles.checkboxTextSelected]}>{isSelected ? '✓' : ''}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  );
+                })}
+              </>
             ) : null}
-            <Text style={styles.description}>{product.description}</Text>
 
             {/* --- 6. RENDERIZAÇÃO DO COMPONENTE DE ADICIONAIS --- */}
             <ExtraIngredientsSelector
               api={api}
-              onChange={setSelectedExtras} 
-              initialExtras={selectedExtras} 
+              onChange={setSelectedExtras}
+              initialExtras={selectedExtras}
+              categoryId={(product as any).category_id || (product as any).category?.id || (product as any).categoryId}
             />
           </View>
         </ScrollView>
@@ -241,6 +307,55 @@ export default function DetalhesProduto() {
       color: "#ffffffff",
       fontSize: 16,
       fontWeight: "bold",
+    },
+
+    sectionTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#333',
+      marginBottom: 8,
+      textAlign: 'center',
+      width: '100%',
+      fontFamily: 'NeueHaas'
+    },
+    extraItemContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#f0f0f0',
+      width: '100%',
+    },
+    extraName: {
+      fontSize: 16,
+      color: '#444',
+    },
+    extraPrice: {
+      fontSize: 14,
+      color: '#888',
+    },
+    checkbox: {
+      width: 36,
+      height: 36,
+      borderRadius: 6,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#fff',
+    },
+    checkboxSelected: {
+      backgroundColor: '#9A1105',
+      borderColor: '#9A1105',
+    },
+    checkboxText: {
+      color: '#000',
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    checkboxTextSelected: {
+      color: '#fff',
     },
 
   });
