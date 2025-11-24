@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'; //
 
 // 1. Criação da Instância Axios
 const api = axios.create({
-    baseURL: 'http://192.168.15.16:3333', 
+    baseURL: 'http://192.168.1.100:3333', 
     timeout: 10000, 
 });
 

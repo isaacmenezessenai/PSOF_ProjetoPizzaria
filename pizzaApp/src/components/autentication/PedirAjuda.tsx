@@ -1,115 +1,65 @@
-import React from "react";
-import { SafeAreaView, View, ScrollView, Text, Image, TouchableOpacity, } from "react-native";
-export default () => {
-	return (
-		<SafeAreaView 
-			style={{
-				flex: 1,
-				backgroundColor: "#FFFFFF",
-			}}>
-			<ScrollView  
-				style={{
-					flex: 1,
-					backgroundColor: "#FFFFFF",
-					borderColor: "#000000",
-					borderRadius: 19,
-					borderWidth: 2,
-					shadowColor: "#000000",
-					shadowOpacity: 1.0,
-					shadowOffset: {
-					    width: 3,
-					    height: 4
-					},
-				}}>
-				<View 
-					style={{
-						flexDirection: "row",
-						justifyContent: "space-between",
-						marginTop: 20,
-						marginBottom: 21,
-						marginHorizontal: 26,
-					}}>
-					<Text 
-						style={{
-							color: "#10191F",
-							fontSize: 32,
-							fontWeight: "bold",
-							marginRight: 4,
-							flex: 1,
-						}}>
-						{"Chamar Ajuda"}
-					</Text>
-					<Text 
-						style={{
-							color: "#1A1F3F",
-							fontSize: 24,
-							textAlign: "right",
-							flex: 1,
-						}}>
-						{"X"}
-					</Text>
-				</View>
-				<Image
-					source = {{uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/6oz44nr2_expires_30_days.png"}} 
-					resizeMode = {"stretch"}
-					style={{
-						borderRadius: 19,
-						height: 25,
-						marginBottom: 13,
-					}}
-				/>
-				<View 
-					style={{
-						marginBottom: 61,
-						marginHorizontal: 47,
-					}}>
-					<Text 
-						style={{
-							color: "#000000",
-							fontSize: 24,
-							textAlign: "center",
-							marginHorizontal: 2,
-						}}>
-						{"Está com alguma dúvida ou teve um problema? Clique no botão para pedir ajuda ao garçom."}
-					</Text>
-				</View>
-				<View 
-					style={{
-						marginBottom: 268,
-						marginHorizontal: 47,
-					}}>
-					<TouchableOpacity 
-						style={{
-							flexDirection: "row",
-							justifyContent: "center",
-							alignItems: "center",
-							backgroundColor: "#9A1105",
-							borderColor: "#FFFFFF",
-							borderRadius: 24,
-							borderWidth: 1,
-							paddingVertical: 1,
-						}} onPress={()=>alert('Sua ajuda foi solicitada ao servidor!')}>
-						<Image
-							source = {{uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/rmcpnr6i_expires_30_days.png"}} 
-							resizeMode = {"stretch"}
-							style={{
-								borderRadius: 24,
-								width: 36,
-								height: 49,
-								marginRight: 10,
-							}}
-						/>
-						<Text 
-							style={{
-								color: "#FFFFFF",
-								fontSize: 20,
-								fontWeight: "bold",
-							}}>
-							{"Chamar Ajuda"}
-						</Text>
-					</TouchableOpacity>
-				</View>
-			</ScrollView>
-		</SafeAreaView>
-	)
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+
+// 1. Criamos a interface para definir o que esse componente aceita
+interface Props {
+  onRequestHelp: () => void; // Aceita uma função sem retorno
+  loading?: boolean;         // Aceita um booleano opcional para loading
 }
+
+// 2. Recebemos as props aqui nos parênteses { onRequestHelp, loading }
+export default function AuthAjuda({ onRequestHelp, loading }: Props) {
+  return (
+    <View style={styles.container}>
+      {/* Aqui vai o seu layout atual (logo, textos, etc) */}
+      <Text style={styles.title}>Precisa de algo?</Text>
+      <Text style={styles.subtitle}>Chame o garçom com um toque.</Text>
+
+      {/* 3. No botão principal, ligamos a função */}
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={onRequestHelp} // <--- AQUI ESTÁ A MÁGICA
+        disabled={loading}      // Desabilita se estiver carregando
+      >
+        {loading ? (
+          <ActivityIndicator size={24} color="#FFF" />
+        ) : (
+          <Text style={styles.buttonText}>CHAMAR GARÇOM</Text>
+        )}
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+// Mantenha seus estilos (exemplo genérico abaixo, use o seu original)
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginBottom: 8
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#DDD',
+    marginBottom: 24
+  },
+  button: {
+    backgroundColor: '#FF3F4B',
+    width: '100%',
+    height: 50,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 18
+  }
+});

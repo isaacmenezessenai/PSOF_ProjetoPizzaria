@@ -1,4 +1,4 @@
-import express, {Request, Response, NextFunction } from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import 'express-async-errors';
 import cors from 'cors';
 import path from 'path';
@@ -16,7 +16,7 @@ app.use("/tables", tableRoutes);
 app.use("/qrcode", qrCodeRoutes);
 app.use("/orders", orderRoutes);
 app.use(fileUpload({
-    limits: {fileSize: 50 * 1024 * 1024}
+    limits: { fileSize: 50 * 1024 * 1024 }
 }))
 app.use(router)
 
@@ -26,18 +26,23 @@ app.use(
     express.static(path.resolve(__dirname, '..', 'tmp'))
 )
 
+// --- CORREÇÃO AQUI ---
+// O tipo de retorno deve ser void. Removemos a palavra 'return' antes dos res.status
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    if(err instanceof Error){
-
-        return res.status(400).json({
+    if (err instanceof Error) {
+        // Remova o 'return' daqui
+        res.status(400).json({
             error: err.message
         })
+        return; // Adicione apenas um return vazio para parar a execução
     }
 
-    return res.status(500).json({
-        status:'error',
+    // Remova o 'return' daqui também
+    res.status(500).json({
+        status: 'error',
         message: 'Internal server error'
     })
+    return; 
 })
 
 app.listen(3333, () => console.log('Servidor online!'))

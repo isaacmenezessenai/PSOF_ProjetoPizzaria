@@ -81,6 +81,10 @@ import { ListFavoritesController } from "./controllers/favorites/ListFavoriteCon
 //Import ITem Status Update
 import { UpdateItemStatusController } from "./controllers/order/UpdateItemStatusController";
 
+// Import Help
+import { CreateHelpController } from "./controllers/help/CreateHelpController";
+import { ListHelpController } from "./controllers/help/ListHelpController";
+import { FinishHelpController } from "./controllers/help/FinishHelpController";
 
 const router = Router();
 
@@ -95,15 +99,12 @@ router.post('/users/client', asyncWrapper(new CreateUserClientController().handl
 router.post('/session/client', asyncWrapper(new AuthUserClientController().handle));
 
 
-
-
 // ROTAS CATEGORY Gerente
 router.post('/category', new CreateCategoryController().handle)
 
 router.get('/category', new ListCategoryController().handle.bind(new ListCategoryController()))
 
 // ROTAS PRODUCT 
-
 router.post('/product', new CreateProductController().handle)//gerente
 router.get('/category/product', new ListByCategoryController().handle)//garçom e cliente
 router.get('/details/product', new DetailsProductController().handle)
@@ -122,6 +123,11 @@ router.get('/order/detail', new DetailOrderController().handle)
 router.put('/order/finish', new FinishOrderController().handle)
 router.get('/order/sum', new SumOrderController().handle)
 
+// --- ROTAS DE AJUDA ---
+router.post('/order/help', new CreateHelpController().handle);
+router.get('/order/help', new ListHelpController().handle);
+router.put('/order/help/finish', new FinishHelpController().handle);
+
 // ROTAS ITENS ORDER
 const aggregateOrderItemsController = new AggregateOrderItemsController();
 router.get('/order/items/aggregate', aggregateOrderItemsController.handle.bind(aggregateOrderItemsController));
@@ -129,14 +135,14 @@ router.get('/order/items/aggregate', aggregateOrderItemsController.handle.bind(a
 const updateItemStatusController = new UpdateItemStatusController();
 router.put('/order/item/status', updateItemStatusController.handle.bind(updateItemStatusController));
 
-    // Rota Pedidos Ativos cliente cozinha e garçom
-    const getOrderByTableController = new GetOrderByTableController();
-    router.get(
-        "/table/:table_id/orders",
-        getOrderByTableController.handle.bind(getOrderByTableController)
-    );
-    const getTableByNumberController = new GetTableByNumberController()
-    router.get("/table/number/:number", getTableByNumberController.handle.bind(getTableByNumberController));
+// Rota Pedidos Ativos cliente cozinha e garçom
+const getOrderByTableController = new GetOrderByTableController();
+router.get(
+    "/table/:table_id/orders",
+    getOrderByTableController.handle.bind(getOrderByTableController)
+);
+const getTableByNumberController = new GetTableByNumberController()
+router.get("/table/number/:number", getTableByNumberController.handle.bind(getTableByNumberController));
 
 // ROTAS TABLE
 router.get('/table/detail', new DetailTableController().handle)
@@ -186,6 +192,3 @@ router.get('/me/client', isAuthenticated, detailUserClientController.handle);
 router.post('/favorite', isAuthenticated, asyncWrapper(new AddFavoriteController().handle));
 router.delete('/favorite', isAuthenticated, asyncWrapper(new RemoveFavoriteController().handle))
 router.get('/favorites', isAuthenticated, asyncWrapper(new ListFavoritesController().handle))
-
-
-
