@@ -68,14 +68,7 @@ export default function DetalhesProduto() {
 
         // If no items found, try fallback global endpoint
         if (!items || items.length === 0) {
-          try {
-            const fb = await api.get('/ingredients');
-            console.log('Fallback GET /ingredients response:', fb.data);
-            items = Array.isArray(fb.data) ? fb.data : fb.data?.ingredients || fb.data?.data || [];
-          } catch (fbErr) {
-            console.warn('Fallback ingredients fetch failed', fbErr);
-            items = [];
-          }
+          console.log('Sem ingredientes')
         }
 
         setIngredients(items || []);
