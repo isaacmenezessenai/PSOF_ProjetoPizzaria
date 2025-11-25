@@ -5,10 +5,8 @@ import {
     Text, 
     StyleSheet, 
     ActivityIndicator, 
+    TouchableOpacity, // 👈 NOVO: Importe TouchableOpacity para o clique
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { MaterialIcons } from "@expo/vector-icons";
 import BackButton from "../components/backButton";
 import { api } from "../services/api"; 
 import ProtectedScreen from "../components/ProtectedScreen";
@@ -25,41 +23,55 @@ interface UserDetail {
 }
 
 export default function ConfiguracoesScreen() {
-    const { user: authUser, isAuthenticated } = useAuth();
-    const navigation = useNavigation<any>();
     const [user, setUser] = useState<UserDetail | null>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    // 🟢 NOVO ESTADO: Controla se a senha (mockada) está "visível"
+    const [showPassword, setShowPassword] = useState(false); 
 
-    // Função para mascarar email
-    const maskEmail = (email: string) => {
-        if (!email) return '';
-        const [localPart, domain] = email.split('@');
-        const masked = localPart.substring(0, 2) + '*'.repeat(Math.max(0, localPart.length - 2)) + '@' + domain;
-        return masked;
-    };
-
+    // ===================================
+    // FUNÇÃO PARA CARREGAR DADOS DO USUÁRIO
+    // ===================================
     async function loadUserDetails() {
         setLoading(true);
+        setError(null);
+
         try {
+            // Se o seu endpoint real é /client/detail, mude a URL aqui.
+            // Mantendo /me/client como você digitou por último.
             const response = await api.get("/me/client"); 
-            setUser(response.data);
+            
+            const userData: UserDetail = response.data;
+
+            setUser(userData);
+
         } catch (err: any) {
             console.error("Erro ao carregar detalhes do usuário:", err);
+            
+            if (err.response && err.response.status === 401) {
+                
+                await AsyncStorage.clear(); 
+                setError("Sessão expirada. Faça login novamente.");
+            } else {
+                // Aqui é onde recebemos o 404/400 mesmo após a correção no backend
+                setError("Não foi possível carregar os dados do usuário.");
+            }
         } finally {
             setLoading(false);
         }
     }
 
-    useFocusEffect(
-        useCallback(() => {
-            if (isAuthenticated) {
-                loadUserDetails();
-            } else {
-                setLoading(false);
-            }
-        }, [isAuthenticated])
-    );
+    // 🟢 NOVA FUNÇÃO: Alterna a visualização mockada da senha
+    const togglePasswordVisibility = () => {
+        // Na vida real, você navegaria para uma tela de Mudança de Senha aqui.
+        setShowPassword(!showPassword);
+    };
 
+    useEffect(() => {
+        loadUserDetails();
+    }, []);
+
+    // ... (Blocos de Loading, Error e !user são mantidos)
     if (loading) {
         return (
             <View style={styles.loadingContainer}>
@@ -67,27 +79,50 @@ export default function ConfiguracoesScreen() {
             </View>
         );
     }
-    const content = (
+
+    if (error) {
+        return (
+            <View style={styles.loadingContainer}>
+                <Text style={styles.errorText}> 🚨 {error}</Text>
+                {/* Você pode adicionar um botão para tentar novamente aqui */}
+            </View>
+        );
+    }
+
+    if (!user) {
+        return (
+            <View style={styles.loadingContainer}>
+                <Text style={styles.errorText}>Usuário não logado ou não encontrado.</Text>
+            </View>
+        );
+    }
+    
+    return (
         <SafeAreaView style={styles.safeArea}>
-            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+            <ScrollView style={styles.scrollView}>
                 <View style={styles.mainContent}>
                     <BackButton />
-                    
-                    {/* Header com Avatar e Boas-vindas */}
-                    <View style={styles.profileHeader}>
-                        <View style={styles.avatarContainer}>
-                            <MaterialIcons name="person" size={50} color="#FF6B35" />
-                        </View>
-                        <Text style={styles.welcomeText}>Bem-vindo,</Text>
-                        <Text style={styles.userName}>{user?.name || authUser.name}</Text>
+                    <View style={styles.headerTitleContainer}>
+                        <Text style={styles.headerTitle}>
+                            Configurações
+                        </Text>
                     </View>
 
-                    {/* Card de Informações */}
-                    <View style={styles.infoCard}>
-                        {/* Nome */}
-                        <View style={styles.infoItem}>
-                            <Text style={styles.infoLabel}>Nome Completo</Text>
-                            <Text style={styles.infoValue}>{user?.name || authUser.name}</Text>
+                    <Image
+                        source={{
+                            uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/nz917ssq_expires_30_days.png",
+                        }}
+                        resizeMode={"stretch"}
+                        style={styles.wavyLine}
+                    />
+
+                    <View style={styles.infoContainer}>
+                        {/* NOME */}
+                        <View style={styles.infoRow}>
+                            <Text style={styles.infoLabel}>Nome</Text>
+                            <Text style={styles.infoValue}>
+                                {user.name} 
+                            </Text>
                         </View>
 
                         <View style={styles.divider} />
@@ -95,7 +130,9 @@ export default function ConfiguracoesScreen() {
                         {/* Email com Mascaramento */}
                         <View style={styles.infoItem}>
                             <Text style={styles.infoLabel}>Email</Text>
-                            <Text style={styles.infoValue}>{maskEmail(user?.email || authUser.email)}</Text>
+                            <Text style={styles.infoValue}>
+                                {user.email}
+                            </Text>
                         </View>
 
                         <View style={styles.divider} />
@@ -103,7 +140,9 @@ export default function ConfiguracoesScreen() {
                         {/* CPF */}
                         <View style={styles.infoItem}>
                             <Text style={styles.infoLabel}>CPF</Text>
-                            <Text style={styles.infoValue}>{user?.cpf || '••••••••••••'}</Text>
+                            <Text style={styles.infoValue}>
+                                {user.cpf}
+                            </Text>
                         </View>
 
                         <View style={styles.divider} />
@@ -112,9 +151,11 @@ export default function ConfiguracoesScreen() {
                         <View style={styles.infoItem}>
                             <Text style={styles.infoLabel}>Data de Nascimento</Text>
                             <Text style={styles.infoValue}>
-                                {user?.dataNascimento ? user.dataNascimento.split('T')[0] : '••/••/••••'}
+                                {/* Formatação simples da data: YYYY-MM-DD */}
+                                {user.dataNascimento?.split('T')[0] || "N/A"} 
                             </Text>
                         </View>
+                        
                     </View>
                 </View>
             </ScrollView>
@@ -189,13 +230,18 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     infoValue: {
-        fontSize: 16,
-        color: '#1a1a1a',
-        fontWeight: '500',
+        color: "#000",
+        fontSize: 18,
     },
-    divider: {
-        height: 1,
-        backgroundColor: '#f0f0f0',
+    // 🟢 ESTILOS AJUSTADOS PARA A LINHA DA SENHA SER CLICÁVEL
+    passwordRow: {
+        flexDirection: "row",
+        alignItems: "center"
+    },
+    editIcon: {
+        width: 20,
+        height: 20,
+        marginLeft: 10 // Adicionado margem para separar do texto
     },
     loadingContainer: {
         flex: 1,
@@ -203,4 +249,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: "#FAF6ED"
     },
+    loadingText: {
+        marginTop: 10,
+        fontSize: 16,
+        color: "#9A1105"
+    },
+    errorText: {
+        marginTop: 10,
+        fontSize: 16,
+        color: "#D32F2F",
+        textAlign: 'center',
+        fontWeight: 'bold'
+    }
 });
