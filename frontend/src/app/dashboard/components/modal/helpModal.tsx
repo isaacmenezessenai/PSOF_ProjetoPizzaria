@@ -40,29 +40,27 @@ export function HelpModal() {
                 </button>
 
                 <div style={{ marginTop: '2rem' }}>
-                    <h2 style={{ marginBottom: '1rem', color: '#333' }}>Solicitações de Ajuda</h2>
+                    <h2 style={{ marginBottom: '1rem', color: '#101026' }}>Solicitações de Ajuda</h2>
                     
                     {notifications.length === 0 ? (
-                        <span style={{ display: 'block', textAlign: 'center', color: '#666' }}>
-                            Nenhuma solicitação pendente.
-                        </span>
+                        <span style={{ color: '#101026' }}>Nenhuma solicitação no momento.</span>
                     ) : (
-                        notifications.map(item => (
-                            <section key={item.id} style={{ 
+                        /* AQUI ESTÁ A CORREÇÃO: Usamos (table: any) para o TypeScript aceitar o .number */
+                        notifications.map((table: any) => (
+                            <section key={table.id} style={{ 
                                 display: 'flex', 
                                 justifyContent: 'space-between', 
                                 alignItems: 'center', 
-                                padding: '1rem', 
-                                borderBottom: '1px solid #eee',
-                                marginBottom: '0.5rem',
+                                marginBottom: '1rem',
+                                padding: '1rem',
                                 backgroundColor: '#f9f9f9',
                                 borderRadius: '4px'
                             }}>
                                 <span style={{ fontSize: '1.2rem', color: '#101026' }}>
-                                    Mesa 777 solicitou presença.
+                                    Mesa {table.number} solicitou presença.
                                 </span>
                                 <button 
-                                    onClick={() => finishHelpRequest(item.id)}
+                                    onClick={() => finishHelpRequest(table.id)}
                                     style={{ 
                                         backgroundColor: '#3fffa3', 
                                         border: 0, 

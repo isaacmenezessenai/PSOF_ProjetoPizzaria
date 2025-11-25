@@ -10,24 +10,33 @@ import {
   Alert, 
   ActivityIndicator 
 } from "react-native";
+
 import BackButton from "../components/backButton";
-import { api } from "../services/api"; // Certifique-se que o caminho está correto
+import { api } from "../services/api"; 
+// 1. Importamos o contexto da mesa
+import { useTable } from "../contexts/TableContext"; 
 
 export default () => {
   const screenWidth = Dimensions.get("window").width;
-  const [loading, setLoading] = useState(false); // Estado para evitar cliques duplos
+  const [loading, setLoading] = useState(false); 
+  
+  // 2. Usamos o hook useTable para pegar o número da mesa que já está salvo na memória
+  const { tableNumber } = useTable();
 
-  // Função que chama o Backend
   async function handleCallWaiter() {
     try {
         setLoading(true);
         
-        // TODO: Recuperar mesa do AsyncStorage se necessário
-        const tableNumber = 777; 
+        // 3. Verificamos se o número existe no contexto
+        if (!tableNumber) {
+            Alert.alert("Atenção", "Número da mesa não identificado. Por favor, leia o QR Code novamente.");
+            setLoading(false);
+            return;
+        }
 
-        // Envia para a rota que criamos no backend
+        // 4. Enviamos para o backend convertendo para número (pois no contexto geralmente é string)
         await api.post('/order/help', { 
-            table: tableNumber 
+            table: Number(tableNumber) 
         });
         
         Alert.alert("Sucesso", "O garçom foi notificado e já vem à sua mesa!");
@@ -48,56 +57,59 @@ export default () => {
       }}
     >
       <ScrollView
-        style={{
-          flex: 1,
-          backgroundColor: "#FFFFFF",
-          borderColor: "#000000",
-          borderRadius: 19,
-          borderWidth: 2,
-          shadowColor: "#000000",
-          shadowOpacity: 1.0,
-          shadowOffset: { width: 3, height: 4 },
+        contentContainerStyle={{
+          flexGrow: 1,
+          alignItems: "center",
+          paddingBottom: 20,
         }}
       >
-        {/* Cabeçalho */}
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 24,
-            marginHorizontal: 24,
-          }}
-        >
+        
+        <View style={{ width: "100%", alignItems: "flex-start", padding: 20 }}>
           <BackButton />
-
-          <Text
-            style={{
-              color: "#10191F",
-              fontSize: 30,
-              fontWeight: "bold",
-              textAlign: "right",
-              flex: 1,
-            }}
-          >
-            Chamar{"\n"}Ajuda
-          </Text>
         </View>
 
-        {/* Botão "Chamar Ajuda" */}
-        <View
+        <Image
+          source={{
+            uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/8ez15g89_expires_30_days.png",
+          }}
+          resizeMode="contain"
           style={{
-            alignItems: "center",
-            marginTop: 100, // Ajustei margins para centralizar melhor visualmente
-            marginBottom: 120,
+            width: screenWidth * 0.6,
+            height: screenWidth * 0.6,
+            marginBottom: 30,
+          }}
+        />
+
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "#101026",
+            marginBottom: 10,
+            textAlign: "center",
           }}
         >
+          Precisa de ajuda?
+        </Text>
+
+        <Text
+          style={{
+            fontSize: 16,
+            color: "#666666",
+            textAlign: "center",
+            paddingHorizontal: 40,
+            marginBottom: 40,
+          }}
+        >
+          Toque no botão abaixo para chamar o garçom até a sua mesa.
+        </Text>
+
+        <View style={{ width: "100%", paddingHorizontal: 30 }}>
           <TouchableOpacity
-            disabled={loading} // Desabilita o botão enquanto carrega
             style={{
               flexDirection: "row",
-              justifyContent: "center",
               alignItems: "center",
+              justifyContent: "center",
               backgroundColor: "#9A1105",
               borderRadius: 24,
               paddingVertical: 14,
@@ -107,9 +119,10 @@ export default () => {
               shadowOpacity: 0.3,
               shadowRadius: 4,
               elevation: 5,
-              opacity: loading ? 0.7 : 1, // Feedback visual de desabilitado
+              opacity: loading ? 0.7 : 1, 
             }}
-            onPress={handleCallWaiter} // Chama a função real
+            onPress={handleCallWaiter} 
+            disabled={loading} 
           >
             {loading ? (
                 <ActivityIndicator color="#FFF" size="small" />
