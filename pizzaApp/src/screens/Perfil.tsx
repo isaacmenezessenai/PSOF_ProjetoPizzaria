@@ -7,54 +7,41 @@ import {
     Text, 
     StyleSheet, 
     ActivityIndicator, 
-    TouchableOpacity, // 👈 NOVO: Importe TouchableOpacity para o clique
+    TouchableOpacity, 
+    Alert // 👈 Importe Alert para confirmação (opcional)
 } from "react-native";
+import { useNavigation, CommonActions } from "@react-navigation/native"; // 👈 Importe hooks de navegação
 import BackButton from "../components/backButton";
 import { api } from "../services/api"; 
 import AsyncStorage from "@react-native-async-storage/async-storage"; 
 
-// Tipo para os dados do usuário que virão do endpoint /client/detail
 interface UserDetail {
     id: string;
     name: string;
     email: string;
     cpf: string;
     dataNascimento: string; 
-    // Outros campos que seu backend retornar, como created_at, favorites, etc.
 }
 
 export default function ConfiguracoesScreen() {
+    const navigation = useNavigation(); // 👈 Inicializa a navegação
     const [user, setUser] = useState<UserDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    // 🟢 NOVO ESTADO: Controla se a senha (mockada) está "visível"
     const [showPassword, setShowPassword] = useState(false); 
 
-    // ===================================
-    // FUNÇÃO PARA CARREGAR DADOS DO USUÁRIO
-    // ===================================
     async function loadUserDetails() {
         setLoading(true);
         setError(null);
-
         try {
-            // Se o seu endpoint real é /client/detail, mude a URL aqui.
-            // Mantendo /me/client como você digitou por último.
             const response = await api.get("/me/client"); 
-            
             const userData: UserDetail = response.data;
-
             setUser(userData);
-
         } catch (err: any) {
-            console.error("Erro ao carregar detalhes do usuário:", err);
-            
+            console.error("Erro ao carregar detalhes:", err);
             if (err.response && err.response.status === 401) {
-                
-                await AsyncStorage.clear(); 
-                setError("Sessão expirada. Faça login novamente.");
+                handleLogout(); // 👈 Se der 401, faz logout automático
             } else {
-                // Aqui é onde recebemos o 404/400 mesmo após a correção no backend
                 setError("Não foi possível carregar os dados do usuário.");
             }
         } finally {
@@ -62,17 +49,41 @@ export default function ConfiguracoesScreen() {
         }
     }
 
-    // 🟢 NOVA FUNÇÃO: Alterna a visualização mockada da senha
-    const togglePasswordVisibility = () => {
-        // Na vida real, você navegaria para uma tela de Mudança de Senha aqui.
-        setShowPassword(!showPassword);
+    // 🟢 NOVA FUNÇÃO: Lógica de Logout
+    async function handleLogout() {
+        try {
+            // 1. Limpa os dados locais (Token, dados do user, etc)
+            await AsyncStorage.clear(); 
+
+            // 2. Redireciona para a tela de Login e "mata" o histórico para não poder voltar
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'Login' }], // ⚠️ IMPORTANTE: Verifique se sua rota chama 'Login' ou 'SignIn'
+                })
+            );
+        } catch (error) {
+            console.error("Erro ao sair:", error);
+            Alert.alert("Erro", "Não foi possível fazer logout.");
+        }
+    }
+
+    // Função auxiliar para confirmar antes de sair (UX melhor)
+    const confirmLogout = () => {
+        Alert.alert(
+            "Sair da conta",
+            "Tem certeza que deseja sair?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                { text: "Sair", style: "destructive", onPress: handleLogout }
+            ]
+        );
     };
 
     useEffect(() => {
         loadUserDetails();
     }, []);
 
-    // ... (Blocos de Loading, Error e !user são mantidos)
     if (loading) {
         return (
             <View style={styles.loadingContainer}>
@@ -86,7 +97,9 @@ export default function ConfiguracoesScreen() {
         return (
             <View style={styles.loadingContainer}>
                 <Text style={styles.errorText}> 🚨 {error}</Text>
-                {/* Você pode adicionar um botão para tentar novamente aqui */}
+                <TouchableOpacity onPress={handleLogout} style={styles.errorButton}>
+                    <Text style={styles.errorButtonText}>Voltar para Login</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -94,26 +107,25 @@ export default function ConfiguracoesScreen() {
     if (!user) {
         return (
             <View style={styles.loadingContainer}>
-                <Text style={styles.errorText}>Usuário não logado ou não encontrado.</Text>
+                <Text style={styles.errorText}>Usuário não encontrado.</Text>
+                <TouchableOpacity onPress={handleLogout}>
+                     <Text style={{color: '#9A1105', marginTop: 20}}>Fazer Login</Text>
+                </TouchableOpacity>
             </View>
         );
     }
     
     return (
         <SafeAreaView style={styles.safeArea}>
-            <ScrollView style={styles.scrollView}>
+            <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: 40 }}>
                 <View style={styles.mainContent}>
                     <BackButton />
                     <View style={styles.headerTitleContainer}>
-                        <Text style={styles.headerTitle}>
-                            Configurações
-                        </Text>
+                        <Text style={styles.headerTitle}>Configurações</Text>
                     </View>
 
                     <Image
-                        source={{
-                            uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/nz917ssq_expires_30_days.png",
-                        }}
+                        source={{ uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/nz917ssq_expires_30_days.png" }}
                         resizeMode={"stretch"}
                         style={styles.wavyLine}
                     />
@@ -122,37 +134,37 @@ export default function ConfiguracoesScreen() {
                         {/* NOME */}
                         <View style={styles.infoRow}>
                             <Text style={styles.infoLabel}>Nome</Text>
-                            <Text style={styles.infoValue}>
-                                {user.name} 
-                            </Text>
+                            <Text style={styles.infoValue}>{user.name}</Text>
                         </View>
 
                         {/* EMAIL */}
                         <View style={[styles.infoRow, { marginBottom: 0 }]}>
                             <Text style={styles.infoLabel}>Email</Text>
-                            <Text style={styles.infoValue}>
-                                {user.email}
-                            </Text>
+                            <Text style={styles.infoValue}>{user.email}</Text>
                         </View>
                     
                         {/* CPF */}
                         <View style={styles.infoRow}>
                             <Text style={styles.infoLabel}>CPF</Text>
-                            <Text style={styles.infoValue}>
-                                {user.cpf}
-                            </Text>
+                            <Text style={styles.infoValue}>{user.cpf}</Text>
                         </View>
                     
                         {/* NASCIMENTO */}
                         <View style={styles.infoRow}>
                             <Text style={styles.infoLabel}>Nascimento</Text>
                             <Text style={styles.infoValue}>
-                                {/* Formatação simples da data: YYYY-MM-DD */}
                                 {user.dataNascimento?.split('T')[0] || "N/A"} 
                             </Text>
                         </View>
-                        
                     </View>
+
+                    {/* 🟢 BOTÃO DE LOGOUT ADICIONADO AQUI */}
+                    <View style={styles.logoutContainer}>
+                        <TouchableOpacity style={styles.logoutButton} onPress={confirmLogout}>
+                            <Text style={styles.logoutText}>Sair da conta</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -212,16 +224,6 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 18,
     },
-    // 🟢 ESTILOS AJUSTADOS PARA A LINHA DA SENHA SER CLICÁVEL
-    passwordRow: {
-        flexDirection: "row",
-        alignItems: "center"
-    },
-    editIcon: {
-        width: 20,
-        height: 20,
-        marginLeft: 10 // Adicionado margem para separar do texto
-    },
     loadingContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -239,5 +241,36 @@ const styles = StyleSheet.create({
         color: "#D32F2F",
         textAlign: 'center',
         fontWeight: 'bold'
+    },
+    errorButton: {
+        marginTop: 15,
+        padding: 10,
+        backgroundColor: '#D32F2F',
+        borderRadius: 8
+    },
+    errorButtonText: {
+        color: '#FFF',
+        fontWeight: 'bold'
+    },
+    // 🟢 ESTILOS DO LOGOUT
+    logoutContainer: {
+        marginTop: 40,
+        paddingHorizontal: 13,
+        alignItems: 'center',
+    },
+    logoutButton: {
+        width: '100%',
+        backgroundColor: '#FDEcea', // Um fundo vermelho bem claro
+        paddingVertical: 15,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: '#9A1105',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    logoutText: {
+        color: '#9A1105', // Usando a cor temática vermelha do seu app
+        fontSize: 18,
+        fontWeight: 'bold',
     }
 });
