@@ -7,6 +7,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import BackButton from "../components/backButton";
 import { api } from "../services/api";
+import ProtectedScreen from "../components/ProtectedScreen";
 
 type FavoriteItem = {
   id: string; 
@@ -86,7 +87,7 @@ export default function Favoritos() {
     </View>
   );
 
-  return (
+  const content = (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         <BackButton />
@@ -119,6 +120,8 @@ export default function Favoritos() {
       )}
     </SafeAreaView>
   );
+
+  return <ProtectedScreen featureName="Favoritos">{content}</ProtectedScreen>;
 };
 
 const styles = StyleSheet.create({

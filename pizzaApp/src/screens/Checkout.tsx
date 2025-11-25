@@ -24,7 +24,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Checkout">;
 
-// Cores do design
 const ACCENT = "#c98917";
 const BG = "#f6efe7";
 const CARD_BG = "#fff";
@@ -36,9 +35,6 @@ const PAYMENT_METHODS = [
   { key: "pix", label: "Pix" },
   { key: "cash", label: "Dinheiro" },
 ];
-
-
-
 
 export default function Checkout({ route, navigation }: Props) {
   const { orderId } = route.params;

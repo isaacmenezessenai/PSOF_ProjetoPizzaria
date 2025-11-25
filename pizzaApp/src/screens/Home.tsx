@@ -67,22 +67,17 @@ export default function Home({ route }: any) {
           <View style={styles.list}>
             <Chip
               title="Favoritos"
-              image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/o13ayzza_expires_30_days.png"
+              image={require("../../assets/img/myorders.png")}
               navigateTo="Favoritos"
             />
-            {/*<Chip
-              title="Meus Pedidos"
-              image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/ou3wlbab_expires_30_days.png"
-              navigateTo="Pedidos"
-            />*/}
             <Chip
               title="Chamar Ajuda"
-              image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0ao7ngym_expires_30_days.png"
+              image={require("../../assets/img/bell.png")}
               navigateTo="Ajuda"
             />
             <Chip
               title="Perfil"
-              image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0x1aba14_expires_30_days.png"
+              image={require("../../assets/img/profile.png")}
               navigateTo="Perfil"
             />
           </View>

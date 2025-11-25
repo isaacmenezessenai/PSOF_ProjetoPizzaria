@@ -3,7 +3,7 @@ import { useFocusEffect, useRoute, useNavigation } from "@react-navigation/nativ
 import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ProductProps, Ingredient } from "../components/dashboard/card";
+import { ProductProps } from "../components/dashboard/card";
 import { useTable } from "../contexts/TableContext";
 import { useCart } from "../contexts/CartContext";
 import Divider from "../components/divider";
@@ -39,7 +39,6 @@ export default function DetalhesProduto() {
   const [selectedExtras, setSelectedExtras] = useState<SelectedExtra[]>(
     itemInCart?.extras || []
   );
-  // initialize removedIngredients when editing an existing cart item
   useEffect(() => {
     if (itemInCart?.removedIngredients && Array.isArray(itemInCart.removedIngredients)) {
       setRemovedIngredients(itemInCart.removedIngredients.map(String));
