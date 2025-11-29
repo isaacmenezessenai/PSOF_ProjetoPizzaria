@@ -14,7 +14,7 @@ export type StackParamsList ={
     FinishOrder: {
         number: number | string;
         order_id: string;
-    };``
+    };
 }
 
 const Stack = createNativeStackNavigator<StackParamsList>()
