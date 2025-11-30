@@ -9,9 +9,14 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     StyleSheet,
+    KeyboardAvoidingView,
+    Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Divider from "../components/divider";
 
 // 👉 coloque o IP da sua máquina rodando o backend
 const API_URL = "http://192.168.1.105:3333/session/client";
@@ -19,10 +24,11 @@ const API_URL = "http://192.168.1.105:3333/session/client";
 export default function Login() {
     const navigation: any = useNavigation();
 
-    const [textInput1, onChangeTextInput1] = useState(""); // email
-    const [textInput2, onChangeTextInput2] = useState(""); // senha
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
+    const [hidePassword, setHidePassword] = useState(true);
 
     // =====================
     // FUNÇÃO DE LOGIN
@@ -30,7 +36,7 @@ export default function Login() {
     const handleLogin = async () => {
         setMessage("");
 
-        if (!textInput1 || !textInput2) {
+        if (!email || !senha) {
             setMessage("Preencha o email e a senha.");
             return;
         }
@@ -44,8 +50,8 @@ export default function Login() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    email: textInput1,
-                    password: textInput2,
+                    email: email,
+                    password: senha,
                 }),
             });
 
@@ -58,7 +64,7 @@ export default function Login() {
                 return;
             }
 
-            const { token, id, name, email, cpf, dataNascimento } = data;
+            const { token, id, name, cpf, dataNascimento } = data;
 
             // 1. Salva o Token JWT
             await AsyncStorage.setItem('@ArtemisPizzaria:token', token);
@@ -71,7 +77,6 @@ export default function Login() {
                 cpf,
                 dataNascimento
             }));
-            
 
             setMessage("Login realizado com sucesso!");
             console.log("Auth data:", data);
@@ -89,259 +94,246 @@ export default function Login() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ flex: 1 }}>
-                <ScrollView
-                    style={styles.scrollView}
-                    contentContainerStyle={{ paddingBottom: 100 }}
+            <KeyboardAvoidingView 
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1 }}
+            >
+                <ScrollView 
+                    contentContainerStyle={styles.scrollContent}
+                    showsVerticalScrollIndicator={false}
                 >
-                    {/* O restante do seu componente de UI permanece inalterado */}
-                    {/* HEADER */}
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            paddingHorizontal: 29,
-                            marginTop: 15,
-                            marginBottom: 13,
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: "#1A1F3F",
-                                fontSize: 36,
-                                fontWeight: "bold",
-                                marginRight: 4,
-                                flex: 1,
-                            }}
+                    
+                    {/* CARD PRINCIPAL */}
+                    <View style={styles.card}>
+                        <LinearGradient
+                            colors={['#FFFFFF', '#FFF3E0']}
+                            style={styles.gradient}
                         >
-                            {"Login"}
-                        </Text>
-                        <Text
-                            style={{
-                                color: "#1A1F3F",
-                                fontSize: 24,
-                                textAlign: "right",
-                                flex: 1,
-                            }}
-                        >
-                        </Text>
-                    </View>
+                            {/* HEADER */}
+                            <Text style={styles.headerTitle}>Login</Text>
+                            <Text style={styles.subTitle}>Bem-vindo à Artemis Pizzaria</Text>
 
-                    {/* SUBTÍTULO */}
-                    <View
-                        style={{
-                            paddingBottom: 1,
-                            marginBottom: 13,
-                            marginHorizontal: 42,
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: "#1A1F3F",
-                                fontSize: 16,
-                                textAlign: "center",
-                            }}
-                        >
-                            {"Bem-vindo á Artemis Pizzaria"}
-                        </Text>
-                    </View>
-
-                    {/* LOGO */}
-                    <Image
-                        source={{
-                            uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/s94n1t16_expires_30_days.png",
-                        }}
-                        resizeMode={"stretch"}
-                        style={{
-                            borderRadius: 19,
-                            height: 38,
-                            marginBottom: 13,
-                        }}
-                    />
-
-                    {/* CAMPOS */}
-                    <View
-                        style={{
-                            paddingBottom: 12,
-                            marginBottom: 13,
-                            marginHorizontal: 15,
-                        }}
-                    >
-                        <TextInput
-                            placeholder={"Email"}
-                            value={textInput1}
-                            onChangeText={onChangeTextInput1}
-                            style={{
-                                color: "#10191F",
-                                fontSize: 16,
-                                marginBottom: 8,
-                                backgroundColor: "#FFFFFF",
-                                borderColor: "#A5A5A5",
-                                borderRadius: 14,
-                                borderWidth: 1,
-                                paddingVertical: 8,
-                                paddingLeft: 20,
-                                paddingRight: 40,
-                                shadowColor: "#00000040",
-                                shadowOpacity: 0.3,
-                                shadowOffset: { width: 1, height: 1 },
-                                shadowRadius: 4,
-                                elevation: 4,
-                            }}
-                            autoCapitalize="none"
-                            keyboardType="email-address"
-                        />
-
-                        <View style={{ borderRadius: 20 }}>
-                            <TextInput
-                                placeholder={"Senha"}
-                                value={textInput2}
-                                secureTextEntry
-                                onChangeText={onChangeTextInput2}
-                                style={{
-                                    color: "#10191F",
-                                    fontSize: 16,
-                                    marginBottom: 15,
-                                    backgroundColor: "#FFFFFF",
-                                    borderColor: "#A5A5A5",
-                                    borderRadius: 14,
-                                    borderWidth: 1,
-                                    paddingVertical: 7,
-                                    paddingLeft: 20,
-                                    paddingRight: 40,
-                                    shadowColor: "#00000040",
-                                    shadowOpacity: 0.3,
-                                    shadowOffset: { width: 1, height: 1 },
-                                    shadowRadius: 4,
-                                    elevation: 4,
+                            {/* LOGO */}
+                            <Image
+                                source={{
+                                    uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/s94n1t16_expires_30_days.png",
                                 }}
+                                resizeMode={"contain"}
+                                style={styles.logo}
                             />
-                            <TouchableOpacity
-                                style={{
-                                    borderColor: "#1A1F3F",
-                                    borderRadius: 13,
-                                    marginLeft: 235,
-                                }}
-                                onPress={() => navigation.navigate('EsqueceuSenha')
-                                }
-                            >
-                                <Text style={{ color: "#1A1F3F", fontSize: 13 }}>
-                                    Esqueceu a senha?
+
+                            <View style={styles.divider}>
+                                <Divider/>
+                            </View>
+
+                            {/* CAMPOS */}
+                            <View style={styles.inputsContainer}>
+                                <View style={styles.inputWrapper}>
+                                    <MaterialCommunityIcons name="email-outline" size={24} color="#9A1105" style={styles.icon} />
+                                    <TextInput
+                                        placeholder="Email"
+                                        value={email}
+                                        onChangeText={setEmail}
+                                        style={styles.input}
+                                        autoCapitalize="none"
+                                        keyboardType="email-address"
+                                        placeholderTextColor="#A5A5A5"
+                                    />
+                                </View>
+
+                                <View style={styles.inputWrapper}>
+                                    <MaterialCommunityIcons name="lock-outline" size={24} color="#9A1105" style={styles.icon} />
+                                    <TextInput
+                                        placeholder="Senha"
+                                        value={senha}
+                                        secureTextEntry={hidePassword}
+                                        onChangeText={setSenha}
+                                        style={styles.input}
+                                        placeholderTextColor="#A5A5A5"
+                                    />
+                                    <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
+                                        <MaterialCommunityIcons 
+                                            name={hidePassword ? "eye-off-outline" : "eye-outline"} 
+                                            size={24} 
+                                            color="#A5A5A5" 
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+
+                                <TouchableOpacity 
+                                    style={styles.forgotPasswordButton} 
+                                    onPress={() => navigation.navigate('EsqueceuSenha')}
+                                >
+                                    <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            {/* FEEDBACK DE MENSAGEM */}
+                            {message ? (
+                                <Text style={[styles.messageText, { 
+                                    color: message.includes("sucesso") ? "green" : "#D32F2F" 
+                                }]}>
+                                    {message}
                                 </Text>
+                            ) : null}
+
+                            {/* BOTÃO DE LOGIN */}
+                            <TouchableOpacity
+                                style={[styles.loginButton, { opacity: loading ? 0.6 : 1 }]}
+                                onPress={handleLogin}
+                                disabled={loading}
+                            >
+                                {loading ? (
+                                    <ActivityIndicator color="#FFFFFF" size="small" />
+                                ) : (
+                                    <Text style={styles.loginButtonText}>Entrar</Text>
+                                )}
                             </TouchableOpacity>
-                        </View>
+
+                            {/* CADASTRO */}
+                            <View style={styles.registerContainer}>
+                                <Text style={{ color: "#000" }}>{"Não tem uma conta? "}</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
+                                    <Text style={styles.registerText}>Cadastre-se</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </LinearGradient>
                     </View>
 
-                    {/* FEEDBACK DE MENSAGEM */}
-                    {message ? (
-                        <Text
-                            style={{
-                                textAlign: "center",
-                                marginHorizontal: 15,
-                                marginBottom: 10,
-                                color: message.includes("sucesso") ? "green" : "red",
-                                fontWeight: "bold",
-                                fontSize: 14
-                            }}
-                        >
-                            {message}
-                        </Text>
-                    ) : null}
-
-                    {/* BOTÃO DE LOGIN */}
+                    {/* BOTÃO ENTRAR COMO CONVIDADO */}
                     <TouchableOpacity
-                        style={{
-                            alignItems: "center",
-                            backgroundColor: "#9A1105",
-                            borderColor: "#FFFFFF",
-                            borderRadius: 24,
-                            borderWidth: 1,
-                            paddingVertical: 8,
-                            marginBottom: 30,
-                            marginHorizontal: 15,
-                            opacity: loading ? 0.6 : 1,
-                        }}
-                        onPress={handleLogin}
-                        disabled={loading}
+                        style={styles.guestButton}
+                        onPress={() => navigation.replace('Home')}
                     >
-                        {loading ? (
-                            <ActivityIndicator color="#FFFFFF" size="small" />
-                        ) : (
-                            <Text
-                                style={{
-                                    color: "#FFFFFF",
-                                    fontSize: 16,
-                                    fontWeight: "bold",
-                                }}
-                            >
-                                Entrar
-                            </Text>
-                        )}
+                        <Text style={styles.guestText}>Entrar como convidado</Text>
                     </TouchableOpacity>
 
-                    {/* CADASTRO */}
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            marginBottom: 30,
-                        }}
-                    >
-                        <Text style={{ color: "#000000", fontSize: 14 }}>
-                            {"Não tem uma conta? "}
-                        </Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
-                            <Text
-                                style={{ fontWeight: "bold", color: "#1A1F3F", fontSize: 14 }}
-                            >
-                                Cadastre-se
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
                 </ScrollView>
-
-                {/* BOTÃO ENTRAR COMO CONVIDADO */}
-                <TouchableOpacity
-                    style={styles.guestButton}
-                    onPress={() => navigation.replace('Home')}
-                >
-                    <Text style={styles.guestText}>Entrar como convidado</Text>
-                </TouchableOpacity>
-
-            </View>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    divider: {
+        marginTop: -65,
+    },
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "#F2F2F2",
     },
-    scrollView: {
-        flex: 1,
-        backgroundColor: "#FFFFFF",
-        borderColor: "#000000",
-        borderRadius: 19,
-        borderWidth: 2,
-        shadowColor: "#000000",
-        shadowOpacity: 1.0,
-        shadowOffset: { width: 3, height: 4 },
+    scrollContent: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        paddingVertical: 40,
+        paddingHorizontal: 20,
     },
-    guestButton: {
-        position: 'absolute',
-        left: 20,
-        right: 20,
-        bottom: 28,
-        backgroundColor: '#1A1F3F',
+    card: {
+        width: '100%',
+        backgroundColor: "#FFFFFF",
+        borderRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation: 8,
+        overflow: 'hidden',
+        marginBottom: 20,
+        borderWidth: 1,
+        borderColor: '#000',
+    },
+    gradient: {
+        paddingVertical: 25,
+        paddingHorizontal: 15,
+    },
+    headerTitle: {
+        color: "#1A1F3F",
+        fontSize: 32,
+        fontWeight: "bold",
+        textAlign: 'center',
+        marginTop: 10,
+    },
+    subTitle: {
+        color: "#1A1F3F",
+        fontSize: 14,
+        textAlign: "center",
+        marginBottom: 20,
+    },
+    logo: {
+        height: 40,
+        marginBottom: 25,
+        alignSelf: 'center',
+        width: '60%',
+    },
+    inputsContainer: {
+        paddingHorizontal: 10,
+    },
+    inputWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: "#FFFFFF",
+        borderColor: "#E0E0E0",
+        borderRadius: 14,
+        borderWidth: 1,
+        paddingHorizontal: 15,
+        paddingVertical: 8,
+        marginBottom: 12,
+    },
+    icon: { 
+        marginRight: 10 
+    },
+    input: { 
+        flex: 1, 
+        color: "#10191F", 
+        fontSize: 16 
+    },
+    forgotPasswordButton: { 
+        alignSelf: 'flex-end', 
+        marginBottom: 15 
+    },
+    forgotPasswordText: { 
+        color: "#1A1F3F", 
+        fontSize: 12, 
+        fontWeight: "600" 
+    },
+    messageText: { 
+        textAlign: "center", 
+        marginBottom: 10, 
+        fontSize: 13, 
+        fontWeight: 'bold' 
+    },
+    loginButton: {
+        alignItems: "center",
+        backgroundColor: "#9A1105",
+        borderRadius: 24,
         paddingVertical: 12,
-        borderRadius: 12,
+        marginBottom: 20,
+        marginHorizontal: 10,
+    },
+    loginButtonText: { 
+        color: "#FFFFFF", 
+        fontSize: 16, 
+        fontWeight: "bold" 
+    },
+    registerContainer: { 
+        flexDirection: "row", 
+        justifyContent: "center", 
+        marginBottom: 10 
+    },
+    registerText: { 
+        fontWeight: "bold", 
+        color: "#1A1F3F" 
+    },
+    
+    // Botão Convidado (Discreto, fora do card)
+    guestButton: {
+        paddingVertical: 10,
         alignItems: 'center',
     },
     guestText: {
-        color: '#FFFFFF',
+        color: '#1A1F3F',
         fontWeight: '600',
-        fontSize: 16,
+        fontSize: 14,
+        textDecorationLine: 'underline'
     },
 });

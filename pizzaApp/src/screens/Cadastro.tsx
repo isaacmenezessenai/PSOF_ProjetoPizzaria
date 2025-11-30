@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  SafeAreaView,
   View,
   ScrollView,
   Text,
@@ -9,27 +8,52 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Divider from "../components/divider";
 
 // 👉 coloque o IP da sua máquina rodando o backend
-// Assumindo que o endpoint de criação é /users/client
 const API_URL = "http://192.168.1.105:3333/users/client";
 
 export default function Cadastro() {
   const navigation: any = useNavigation();
 
-  // Estados para os campos de entrada
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [cpf, setCpf] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
+  
+  // Lógica da Data
+  const [dataNascimento, setDataNascimento] = useState(""); // String formatada para enviar pra API
+  const [date, setDate] = useState(new Date()); // Objeto Date para o Picker
+  const [showPicker, setShowPicker] = useState(false);
 
-  // Estados de controle
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [hidePassword, setHidePassword] = useState(true);
+
+  // Função disparada ao escolher uma data
+  const onChangeDate = (event: any, selectedDate?: Date) => {
+    if (Platform.OS === 'android') {
+      setShowPicker(false);
+    }
+    
+    if (selectedDate) {
+      setDate(selectedDate);
+      // Formata a data para DD/MM/AAAA
+      const dia = selectedDate.getDate().toString().padStart(2, '0');
+      const mes = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+      const ano = selectedDate.getFullYear();
+      setDataNascimento(`${dia}/${mes}/${ano}`);
+    }
+  };
 
   // =====================
   // FUNÇÃO DE CADASTRO
@@ -83,12 +107,11 @@ export default function Cadastro() {
 
       // Sucesso
       setMessage("Cadastro realizado com sucesso! Redirecionando para o Login...");
-
-      // ✅ AÇÃO SOLICITADA: Redirecionar para a tela de Login
-      navigation.navigate("Login");
+      
+      // Redirecionar para a tela de Login
+      setTimeout(() => navigation.navigate("Login"), 1500);
 
     } catch (error) {
-      // Erro de rede/conexão
       setMessage("Erro de conexão com o servidor. Verifique o IP e sua rede.");
       console.log("Connection error:", error);
     } finally {
@@ -98,223 +121,331 @@ export default function Cadastro() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1 }}>
-        <ScrollView
-          style={styles.scrollViewStyle}
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === "ios" ? "padding" : "height"} 
+        style={{ flex: 1 }}
+      >
+        <ScrollView 
+          contentContainerStyle={styles.scrollContent} 
+          showsVerticalScrollIndicator={false}
         >
-          {/* Header */}
-          <View style={styles.header}>
-            <Text style={styles.title}>Cadastre-se</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            </TouchableOpacity>
-          </View>
-
-          {/* Subtítulo */}
-          <View style={{ marginBottom: 10, marginHorizontal: 42 }}>
-            <Text style={styles.subtitle}>
-              Bem-vindo á <Text style={{ fontWeight: "bold" }}>Artemis Pizzaria</Text>
-            </Text>
-          </View>
-
-          <Image
-            source={{
-              uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/s94n1t16_expires_30_days.png",
-            }}
-            resizeMode={"stretch"}
-            style={{
-              borderRadius: 19,
-              height: 38,
-              marginBottom: 13,
-            }}
-          />
-
-          {/* Inputs */}
-          <View style={{ marginHorizontal: 20 }}>
-            <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.input} />
-            <TextInput
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="CPF (apenas números)"
-              value={cpf}
-              onChangeText={setCpf}
-              keyboardType="numeric"
-              maxLength={11}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Data Nasc. (DD/MM/AAAA)"
-              value={dataNascimento}
-              onChangeText={setDataNascimento}
-              keyboardType="numbers-and-punctuation"
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Senha"
-              value={senha}
-              onChangeText={setSenha}
-              secureTextEntry
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Confirmar Senha"
-              value={confirmarSenha}
-              onChangeText={setConfirmarSenha}
-              secureTextEntry
-              style={styles.input}
-            />
-          </View>
-
-          {/* Feedback de Mensagem */}
-          {message ? (
-            <Text
-              style={{
-                textAlign: "center",
-                marginHorizontal: 15,
-                marginBottom: 10,
-                color: message.includes("sucesso") ? "green" : "red",
-                fontWeight: "bold",
-                fontSize: 14
-              }}
+          
+          {/* CARD PRINCIPAL */}
+          <View style={styles.card}>
+            <LinearGradient
+              colors={['#FFFFFF', '#FFF3E0']}
+              style={styles.gradient}
             >
-              {message}
-            </Text>
-          ) : null}
+              {/* HEADER */}
+              <Text style={styles.title}>Cadastre-se</Text>
+              <Text style={styles.subtitle}>
+                Bem-vindo à <Text style={{ fontWeight: "bold" }}>Artemis Pizzaria</Text>
+              </Text>
 
-          {/* Botão Cadastro */}
-          <TouchableOpacity
-            style={[styles.btnCadastro, { opacity: loading ? 0.6 : 1 }]}
-            onPress={handleRegister}
-            disabled={loading}
+              {/* LOGO */}
+              <Image
+                source={{
+                  uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/7AMENvnOxd/s94n1t16_expires_30_days.png",
+                }}
+                resizeMode={"contain"}
+                style={styles.logo}
+              />
+
+              <View>
+                <Divider/>
+              </View>
+
+              {/* INPUTS */}
+              <View style={styles.inputsContainer}>
+                
+                {/* Nome */}
+                <View style={styles.inputWrapper}>
+                  <MaterialCommunityIcons 
+                    name="account-outline" 
+                    size={20} 
+                    color="#9A1105" 
+                    style={styles.icon} 
+                  />
+                  <TextInput 
+                    placeholder="Nome" 
+                    value={nome} 
+                    onChangeText={setNome} 
+                    style={styles.input} 
+                    placeholderTextColor="#A5A5A5"
+                  />
+                </View>
+
+                {/* Email */}
+                <View style={styles.inputWrapper}>
+                  <MaterialCommunityIcons 
+                    name="email-outline" 
+                    size={20} 
+                    color="#9A1105" 
+                    style={styles.icon} 
+                  />
+                  <TextInput 
+                    placeholder="Email" 
+                    value={email} 
+                    onChangeText={setEmail} 
+                    keyboardType="email-address" 
+                    autoCapitalize="none" 
+                    style={styles.input} 
+                    placeholderTextColor="#A5A5A5"
+                  />
+                </View>
+
+                {/* CPF */}
+                <View style={styles.inputWrapper}>
+                  <MaterialCommunityIcons 
+                    name="card-account-details-outline" 
+                    size={20} 
+                    color="#9A1105" 
+                    style={styles.icon} 
+                  />
+                  <TextInput 
+                    placeholder="CPF (apenas números)" 
+                    value={cpf} 
+                    onChangeText={setCpf} 
+                    keyboardType="numeric" 
+                    maxLength={11} 
+                    style={styles.input} 
+                    placeholderTextColor="#A5A5A5"
+                  />
+                </View>
+
+                {/* CAMPO DE DATA DE NASCIMENTO (PICKER) */}
+                <TouchableOpacity 
+                  onPress={() => setShowPicker(true)} 
+                  style={styles.inputWrapper}
+                >
+                  <MaterialCommunityIcons 
+                    name="calendar-range" 
+                    size={20} 
+                    color="#9A1105" 
+                    style={styles.icon} 
+                  />
+                  <Text 
+                    style={[
+                      styles.input, 
+                      { 
+                        color: dataNascimento ? "#10191F" : "#A5A5A5", 
+                        paddingTop: 3 
+                      }
+                    ]}
+                  >
+                    {dataNascimento || "Data de Nascimento"}
+                  </Text>
+                </TouchableOpacity>
+
+                {/* Componente DateTimePicker */}
+                {showPicker && (
+                  <DateTimePicker
+                    value={date}
+                    mode="date"
+                    display="default" 
+                    onChange={onChangeDate}
+                    maximumDate={new Date()}
+                  />
+                )}
+
+                {/* Senha */}
+                <View style={styles.inputWrapper}>
+                  <MaterialCommunityIcons 
+                    name="lock-outline" 
+                    size={20} 
+                    color="#9A1105" 
+                    style={styles.icon} 
+                  />
+                  <TextInput 
+                    placeholder="Senha" 
+                    value={senha} 
+                    onChangeText={setSenha} 
+                    secureTextEntry={hidePassword} 
+                    style={styles.input} 
+                    placeholderTextColor="#A5A5A5"
+                  />
+                  <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
+                    <MaterialCommunityIcons 
+                      name={hidePassword ? "eye-off-outline" : "eye-outline"} 
+                      size={20} 
+                      color="#A5A5A5" 
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                {/* Confirmar Senha */}
+                <View style={styles.inputWrapper}>
+                  <MaterialCommunityIcons 
+                    name="lock-check-outline" 
+                    size={20} 
+                    color="#9A1105" 
+                    style={styles.icon} 
+                  />
+                  <TextInput 
+                    placeholder="Confirmar Senha" 
+                    value={confirmarSenha} 
+                    onChangeText={setConfirmarSenha} 
+                    secureTextEntry={hidePassword} 
+                    style={styles.input} 
+                    placeholderTextColor="#A5A5A5"
+                  />
+                </View>
+              </View>
+
+              {/* FEEDBACK DE MENSAGEM */}
+              {message ? (
+                <Text 
+                  style={[
+                    styles.msg, 
+                    { color: message.includes("sucesso") ? "green" : "#D32F2F" }
+                  ]}
+                >
+                  {message}
+                </Text>
+              ) : null}
+
+              {/* BOTÃO CADASTRO */}
+              <TouchableOpacity
+                style={[styles.btnCadastro, { opacity: loading ? 0.6 : 1 }]}
+                onPress={handleRegister}
+                disabled={loading}
+              >
+                {loading ? (
+                  <ActivityIndicator color="#FFFFFF" size="small" />
+                ) : (
+                  <Text style={styles.textCadastro}>Finalizar Cadastro</Text>
+                )}
+              </TouchableOpacity>
+
+              {/* LOGIN */}
+              <View style={styles.loginContainer}>
+                <Text style={{ fontSize: 13 }}>Já tem uma conta? </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                  <Text style={styles.loginLink}>Faça Login</Text>
+                </TouchableOpacity>
+              </View>
+
+            </LinearGradient>
+          </View>
+
+          {/* BOTÃO ENTRAR COMO CONVIDADO */}
+          <TouchableOpacity 
+            style={styles.guestButton} 
+            onPress={() => navigation.replace('Home')}
           >
-            {loading ? (
-              <ActivityIndicator color="#FFFFFF" size="small" />
-            ) : (
-              <Text style={styles.textCadastro}>Cadastrar</Text>
-            )}
+            <Text style={styles.guestText}>Entrar como convidado</Text>
           </TouchableOpacity>
 
-          {/* ✅ REMOVIDO: DIVISOR E BOTÃO DO GOOGLE */}
-
-          {/* Login */}
-          <View style={styles.loginContainer}>
-            <Text style={{ color: "#000", fontSize: 13 }}>Já tem uma conta? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.loginLink}>Faça Login</Text>
-            </TouchableOpacity>
-          </View>
         </ScrollView>
-
-        {/* Botão Entrar como Convidado */}
-        <TouchableOpacity style={styles.guestButton} onPress={() => navigation.replace('Home')}>
-          <Text style={styles.guestText}>Entrar como convidado</Text>
-        </TouchableOpacity>
-
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FDF6EC",
+  container: { 
+    flex: 1, 
+    backgroundColor: "#F2F2F2" 
   },
-  scrollViewStyle: {
-    flex: 1,
+  scrollContent: { 
+    flexGrow: 1, 
+    justifyContent: 'center', 
+    padding: 20 
+  },
+  card: {
+    width: '100%',
     backgroundColor: "#FFFFFF",
-    borderColor: "#000000",
-    borderRadius: 19,
-    borderWidth: 2,
-    shadowColor: "#000000",
-    shadowOpacity: 1.0,
-    shadowOffset: { width: 3, height: 4 },
-    margin: 10,
+    borderRadius: 20,
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    overflow: 'hidden',
+    marginBottom: 20,
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 15,
-    marginBottom: 13,
-    marginHorizontal: 29,
+  gradient: { 
+    padding: 20 
   },
-  title: {
-    color: "#1A1F3F",
-    fontSize: 30,
+  title: { 
+    color: "#1A1F3F", 
+    fontSize: 26, 
     fontWeight: "bold",
-    flex: 1,
+    textAlign: 'center',
+    marginBottom: 5,
   },
-  close: {
-    color: "#1A1F3F",
-    fontSize: 24,
-    textAlign: "right",
-    flex: 1,
+  subtitle: { 
+    color: "#1A1F3F", 
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 15,
   },
-  subtitle: {
-    color: "#1A1F3F",
-    fontSize: 15,
-    textAlign: "center",
+  logo: {
+    height: 40,
+    marginBottom: 20,
+    alignSelf: 'center',
+    width: '60%',
   },
-  input: {
-    color: "#10191F",
-    fontSize: 15,
-    backgroundColor: "#FFFFFF",
-    borderColor: "#A5A5A5",
-    borderRadius: 14,
+  inputsContainer: { 
+    marginBottom: 10,
+    marginTop: 15,
+  },
+  inputWrapper: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+    backgroundColor: "#FFFFFF", 
+    borderColor: "#E0E0E0",
+    borderRadius: 12, 
     borderWidth: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginBottom: 12,
-    elevation: 2,
+    paddingHorizontal: 15, 
+    paddingVertical: 12,
+    marginBottom: 10,
+  },
+  icon: { 
+    marginRight: 10 
+  },
+  input: { 
+    flex: 1, 
+    color: "#10191F", 
+    fontSize: 15 
+  },
+  msg: { 
+    textAlign: "center", 
+    marginBottom: 10, 
+    fontWeight: "bold", 
+    fontSize: 13 
   },
   btnCadastro: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "center", 
     backgroundColor: "#9A1105",
-    borderRadius: 30,
+    borderRadius: 30, 
     paddingVertical: 12,
-    marginHorizontal: 20,
-    marginTop: 10,
-    marginBottom: 30, // Mantido para dar espaço antes do link de login
+    marginHorizontal: 10, 
+    marginBottom: 15,
   },
-  textCadastro: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
+  textCadastro: { 
+    color: "#fff", 
+    fontSize: 16, 
+    fontWeight: "bold" 
   },
-  // Estilos do Google/Divider removidos
-  loginContainer: {
-    flexDirection: "row",
+  loginContainer: { 
+    flexDirection: "row", 
     justifyContent: "center",
-    marginTop: 5,
-    marginBottom: 30,
+    marginBottom: 5,
   },
-  loginLink: {
-    fontWeight: "bold",
-    color: "#1A1F3F",
-    fontSize: 13,
-    textDecorationLine: "underline",
+  loginLink: { 
+    fontWeight: "bold", 
+    color: "#1A1F3F", 
+    textDecorationLine: "underline" 
   },
   guestButton: {
-    position: 'absolute',
-    left: 20,
-    right: 20,
-    bottom: 28,
-    backgroundColor: '#1A1F3F',
-    paddingVertical: 12,
-    borderRadius: 12,
+    paddingVertical: 10,
     alignItems: 'center',
   },
   guestText: {
-    color: '#FFFFFF',
+    color: '#1A1F3F',
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 14,
+    textDecorationLine: 'underline'
   },
 });
