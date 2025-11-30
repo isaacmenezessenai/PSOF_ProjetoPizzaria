@@ -11,7 +11,7 @@ type ChipProps = {
 export default function Chip({ title, image, navigateTo }: ChipProps) {
   const { width } = useWindowDimensions();
   const navigation = useNavigation();
-  const CHIP_WIDTH = (width - 75) / 4;
+  const CHIP_WIDTH = (width - 75) / 3;
 
   return (
     <TouchableOpacity
@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
   elevation: 2,
 },
   image: {
-    width: 45,
-    height: 45,
+    width: 65,
+    height: 65,
     marginBottom: 8,
   },
   text: {

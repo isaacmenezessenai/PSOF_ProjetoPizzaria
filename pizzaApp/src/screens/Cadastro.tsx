@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 
 // 👉 coloque o IP da sua máquina rodando o backend
 // Assumindo que o endpoint de criação é /users/client
-const API_URL = "http://192.168.1.100:3333/users/client";
+const API_URL = "http://192.168.1.105:3333/users/client";
 
 export default function Cadastro() {
   const navigation: any = useNavigation();

@@ -67,7 +67,7 @@ export default function Home({ route }: any) {
           <View style={styles.list}>
             <Chip
               title="Favoritos"
-              image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/o13ayzza_expires_30_days.png"
+              image="https://res.cloudinary.com/dzsoh6zq7/image/upload/v1764462780/myorders_ikt8xx.png"
               navigateTo="Favoritos"
             />
             {/*<Chip
@@ -77,12 +77,12 @@ export default function Home({ route }: any) {
             />*/}
             <Chip
               title="Chamar Ajuda"
-              image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0ao7ngym_expires_30_days.png"
+              image="https://res.cloudinary.com/dzsoh6zq7/image/upload/v1764462824/bell_fljq4r.png"
               navigateTo="Ajuda"
             />
             <Chip
               title="Perfil"
-              image="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/hG9ovLsZ0q/0x1aba14_expires_30_days.png"
+              image="https://res.cloudinary.com/dzsoh6zq7/image/upload/v1764463228/profile_eecapi.png"
               navigateTo="Perfil"
             />
           </View>
