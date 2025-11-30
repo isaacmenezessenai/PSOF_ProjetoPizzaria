@@ -19,7 +19,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Divider from "../components/divider";
 
 // 👉 coloque o IP da sua máquina rodando o backend
-const API_URL = "http://192.168.1.105:3333/session/client";
+const API_URL = "http://192.168.1.109:3333/session/client";
 
 export default function Login() {
     const navigation: any = useNavigation();

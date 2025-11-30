@@ -10,7 +10,7 @@ export default function Header() {
             <View>
                 <Image
                     source={require("../../../assets/img/header.png")}
-                    style={{ width: 250, height: 100, resizeMode: "contain" }}
+                    style={{ width: 250, height: 100*1.25, resizeMode: "contain" }}
                 />
             </View>
             {tableNumber && (

@@ -19,7 +19,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Divider from "../components/divider";
 
 // 👉 coloque o IP da sua máquina rodando o backend
-const API_URL = "http://192.168.1.105:3333/users/client";
+const API_URL = "http://192.168.1.109:3333/users/client";
 
 export default function Cadastro() {
   const navigation: any = useNavigation();
@@ -216,7 +216,7 @@ export default function Cadastro() {
                 {/* CAMPO DE DATA DE NASCIMENTO (PICKER) */}
                 <TouchableOpacity 
                   onPress={() => setShowPicker(true)} 
-                  style={styles.inputWrapper}
+                  style={styles.inputWrapperDate}
                 >
                   <MaterialCommunityIcons 
                     name="calendar-range" 
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     color: "#1A1F3F", 
     fontSize: 14,
     textAlign: 'center',
-    marginBottom: 15,
+    marginBottom: -45,
   },
   logo: {
     height: 40,
@@ -399,6 +399,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 15, 
     paddingVertical: 12,
+    marginBottom: 10,
+  },
+  inputWrapperDate: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+    backgroundColor: "#FFFFFF", 
+    borderColor: "#E0E0E0",
+    borderRadius: 12, 
+    borderWidth: 1,
+    paddingHorizontal: 15, 
+    paddingVertical: 20,
     marginBottom: 10,
   },
   icon: { 
