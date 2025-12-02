@@ -2,16 +2,31 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProductProps } from "../dashboard/card";
+import { SelectedExtra } from "../ingredientCard";
 
 type CardProps = {
     product: ProductProps;
-    quantity: number;
+    quantity: number
+    extras?: SelectedExtra[];
+    removedIngredients?: string[];
     onEdit: () => void;
     onRemove: () => void;
     onChangeQty: (delta: number) => void;
 };
 
-export default function Card({ product, quantity, onEdit, onRemove, onChangeQty }: CardProps) {
+export default function Card({ product, quantity, extras, removedIngredients, onEdit, onRemove, onChangeQty }: CardProps) {
+
+    const extrasText = extras && extras.length > 0 
+        ? extras.map(e => {
+            const price = e.price ? ` (R$ ${Number(e.price).toFixed(2).replace('.', ',')})` : '';
+            return `${e.name}${price}`;
+        }).join(", ")
+        : null;
+
+    const removedText = removedIngredients && removedIngredients.length > 0
+        ? removedIngredients.join(", ")
+        : null;
+
     return (
         <View style={styles.cardContainer}>
             <Image source={{ uri: product.banner }} style={styles.image} />
@@ -25,6 +40,14 @@ export default function Card({ product, quantity, onEdit, onRemove, onChangeQty 
                         currency: "BRL",
                     }).format(Number(product.price))}
                 </Text>
+
+                {extrasText && (
+                    <Text style={styles.modificationText} numberOfLines={2} ellipsizeMode="tail">
+                        <Text style={{ fontWeight: "bold", color: "#27ae60" }}> Extras: </Text>
+                        {extrasText}
+                    </Text>
+                )}
+
                 <TouchableOpacity style={styles.editButton} onPress={onEdit}>
                     <Text style={{ fontWeight: "bold" }}>Editar</Text>
                     <Ionicons name="arrow-forward" size={20} color="black" />
@@ -76,6 +99,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginVertical: 4,
         paddingBottom: 10
+    },
+    modificationText: {
+        fontSize: 11,
+        marginVertical: 2,
+        color: "#555"
     },
     editButton: {
         flexDirection: "row",

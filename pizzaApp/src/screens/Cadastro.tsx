@@ -19,7 +19,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Divider from "../components/divider";
 
 // 👉 coloque o IP da sua máquina rodando o backend
-const API_URL = "http://192.168.1.109:3333/users/client";
+const API_URL = "http://10.180.125.21:3333/users/client";
 
 export default function Cadastro() {
   const navigation: any = useNavigation();

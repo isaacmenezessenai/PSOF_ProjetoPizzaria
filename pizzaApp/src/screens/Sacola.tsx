@@ -203,6 +203,8 @@ export default function Sacola() {
           <Card
             product={item.product}
             quantity={item.quantity}
+            extras={item.extras}
+            removedIngredients={item.removedIngredients}
             onEdit={() => handleEdit(item, index)}
             onRemove={() => handleRemove(index)}
             onChangeQty={(delta) => handleChangeQty(index, delta)}

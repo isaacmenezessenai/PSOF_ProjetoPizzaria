@@ -40,6 +40,7 @@ import { AddItemController } from "./controllers/order/AddItemController";
 import { RemoveItemController } from "./controllers/order/RemoveItemController";
 import { SendOrderController } from "./controllers/order/SendOrderController";
 import { ListItemExtraController } from "./controllers/order/ListItemExtraController";
+import { ListRemovedIngredientsController } from "./controllers/order/ListRemovedIngredientsController";
 
 // Import Table
 import { DetailTableController } from "./controllers/table/DetailTableController";
@@ -134,6 +135,7 @@ router.put('/order/help/finish', new FinishHelpController().handle);
 
 // ROTAS ITENS ORDER
 router.get('/order/item/extras', new ListItemExtraController().handle);
+router.get('/order/item/removed-ingredients', new ListRemovedIngredientsController().handle);
 
 const aggregateOrderItemsController = new AggregateOrderItemsController();
 router.get('/order/items/aggregate', aggregateOrderItemsController.handle.bind(aggregateOrderItemsController));

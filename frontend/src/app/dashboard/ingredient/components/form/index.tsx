@@ -111,10 +111,7 @@ export function Form() {
                     required
                     className={styles.input}
                 />
-
-                <label htmlFor="isExtra">
-                    <input type="checkbox" name="extra"  id= "extra"/> O ingrediente é extra?
-                </label>
+                
                 <Button name="Cadastrar ingrediente" />
 
             </form>

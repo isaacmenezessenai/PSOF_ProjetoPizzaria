@@ -14,12 +14,10 @@ class DetailsProductService {
                 category: true,
                 ingredients: {
                     select: {
-                        amount: true,
                         ingredient: {
                             select: {
                                 id: true,
                                 name: true,
-                                price: true,
                                 banner: true
                             }
                         }

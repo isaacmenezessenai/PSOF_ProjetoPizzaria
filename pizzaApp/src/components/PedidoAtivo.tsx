@@ -8,7 +8,7 @@ import { Feather } from '@expo/vector-icons';
 
 // --- DEFINIÇÕES DE TIPOS E VARIÁVEIS DE API ---
 
-const API_HOSTS = ["http://192.168.1.109:3333"]; 
+const API_HOSTS = ["http://10.180.125.21:3333"]; 
 
 const API_TIMEOUT_MS = 15000;
 
