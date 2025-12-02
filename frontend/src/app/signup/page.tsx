@@ -91,18 +91,13 @@ export default async function Signup() {
     return (
         <>
             <div className={styles.container}>
-                <div className={styles.containerCenter}>
+                <div className={styles.containerCenterSignUp}>
                     <Image
                         src={logoImg}
                         alt="Logo da pizzaria"
                     />
 
-                    <Image
-                        src={divisoriaImg}
-                        alt="Divisória"
-                    />
-
-                    <section className={styles.login}>
+                    <section className={styles.signUp}>
                         <form action={handleRegister}>
                             {/* Inputs existentes */}
                             <input
